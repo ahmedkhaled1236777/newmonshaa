@@ -20,7 +20,7 @@ class tenantrepoimplementation extends tenantrepo {
         return right(response.data["message"]);
       }
       if (response.statusCode == 200 && response.data["code"] == 422) {
-        return left(requestfailure(error_message: response.data["message"][0]));
+        return left(requestfailure(error_message: response.data["data"][0]));
       } else {
         return left(requestfailure(error_message: response.data["message"]));
       }
@@ -48,7 +48,7 @@ class tenantrepoimplementation extends tenantrepo {
         return left(requestfailure(error_message: response.data["data"][0]));
       } else
         return left(
-            requestfailure(error_message: response.data["data"]["message"]));
+            requestfailure(error_message: response.data["message"]));
     } catch (e) {
       if (e is DioException)
         return left(requestfailure.fromdioexception(e));
@@ -69,7 +69,7 @@ class tenantrepoimplementation extends tenantrepo {
         return left(requestfailure(error_message: response.data["data"][0]));
       } else
         return left(
-            requestfailure(error_message: response.data["data"]["message"]));
+            requestfailure(error_message: response.data["message"]));
     } catch (e) {
       if (e is DioException) {
         return left(requestfailure.fromdioexception(e));
@@ -95,7 +95,7 @@ class tenantrepoimplementation extends tenantrepo {
         return left(requestfailure(error_message: response.data["data"][0]));
       } else
         return left(
-            requestfailure(error_message: response.data["data"]["message"]));
+            requestfailure(error_message: response.data["message"]));
     } catch (e) {
       if (e is DioException) {
         return left(requestfailure.fromdioexception(e));

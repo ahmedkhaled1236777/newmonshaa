@@ -60,7 +60,7 @@ Future<Uint8List> generateEMSPDF(
                         textAlign: pw.TextAlign.center),
                   ),
                   pw.SizedBox(height: 30),
-                  pw.Text(' ${data.transactionDate} إنه في يوم ',
+                  pw.Text('إنه في يوم ${data.transactionDate} ',
                       style: pw.TextStyle(font: font, fontSize: 9),
                       textDirection: pw.TextDirection.rtl),
                   pw.SizedBox(height: 15),
@@ -74,47 +74,38 @@ Future<Uint8List> generateEMSPDF(
                       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                       children: [
                         pw.Column(children: [
-                          pw.Text('المستاجر',
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
-                          pw.Text(data.tenantName!,
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
-                        ]),
-                        pw.Column(children: [
-                          pw.Text('الصارف(الموظف)',
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
-                          pw.Text(data.user!.name!,
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
-                        ]),
-                        pw.Column(children: [
                           pw.Text('المالك',
                               style: pw.TextStyle(
                                   font: font,
                                   fontSize: 11,
                                   fontWeight: pw.FontWeight.bold),
                               textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
                           pw.Text(data.owner!.name!,
                               style: pw.TextStyle(
                                   font: font,
                                   fontSize: 11,
                                   fontWeight: pw.FontWeight.bold),
                               textDirection: pw.TextDirection.rtl),
-                        ])
+                        ]),
+                        pw.Column(children: [
+                          pw.Text('المستلم (الموظف)',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
+                        ]),
+                        pw.Column(children: [
+                          pw.Text('المستاجر',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
+                        ]),
                       ]),
                 ]));
       }));

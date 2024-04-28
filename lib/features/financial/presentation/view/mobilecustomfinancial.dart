@@ -1,11 +1,15 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
+import 'package:ghhg/features/financial/presentation/view/catch_print.dart';
 import 'package:ghhg/features/financial/presentation/view/customtablefinancialsitem.dart';
+import 'package:ghhg/features/financial/presentation/view/showfinancial.dart';
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_cubit.dart';
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_state.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
@@ -17,7 +21,6 @@ import '../../data/model/financialmodel/receipt.dart';
 
 class customtableallmobilefinancials extends StatefulWidget {
   ScrollController scrollController = ScrollController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   customtableallmobilefinancials();
 
@@ -38,29 +41,19 @@ class _customtableallmobilefinancialsState
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               title: Text(
                 'سند قبض',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize:
-                        Appsizes.mappBarsize),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -87,130 +80,160 @@ class _customtableallmobilefinancialsState
                                 .toList()),
                       ),
                       Expanded(
-                          child: SingleChildScrollView(
-                              controller: widget.scrollController,
-                              child: ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return customtablefinancialsitem(
-                                        textStyle: Appstyles.gettabletextstyle(
-                                            context: context),
-                                        cashnumber:
-                                            (BlocProvider.of<financialCubit>(
-                                                            context)
-                                                        .myreciepts
-                                                        .length -
-                                                    index)
-                                                .toString(),
-                                        date: BlocProvider.of<financialCubit>(
-                                                context)
-                                            .myreciepts[index]
-                                            .transactionDate!,
-                                        tenantname:
-                                            BlocProvider.of<financialCubit>(
-                                                    context)
-                                                .myreciepts[index]
-                                                .tenantName!,
-                                        amountofmoney:
-                                            BlocProvider.of<financialCubit>(
-                                                    context)
-                                                .myreciepts[index]
-                                                .totalAmount
-                                                .toString(),
-                                        print: IconButton(
-                                            onPressed: () {},
-                                            icon: Icon(
-                                              Icons.print,
-                                              size: MediaQuery.of(context)
-                                                          .size
-                                                          .width <
-                                                      600
-                                                  ? 20.sp
-                                                  : 22,
-                                            )),
-                                        delete: IconButton(
-                                            onPressed: () {
-                                              awsomdialogerror(
-                                                mywidget: BlocConsumer<
-                                                    financialCubit,
-                                                    financialState>(
-                                                  listener: (context, state) {
-                                                    if (state
-                                                        is deletefinancialsuccess) {
-                                                      Navigator.pop(context);
-
-                                                      showsnack(
-                                                          comment: state
-                                                              .succes_message,
-                                                          context: context);
-                                                    }
-                                                    if (state
-                                                        is deletefinancialfailure) {
-                                                      Navigator.pop(context);
-
-                                                      showsnack(
-                                                          comment: state
-                                                              .errormessage,
-                                                          context: context);
-                                                    }
-                                                  },
-                                                  builder: (context, state) {
-                                                    return ElevatedButton(
-                                                        style:
-                                                            const ButtonStyle(
-                                                          backgroundColor:
-                                                              MaterialStatePropertyAll(
-                                                                  Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          37,
-                                                                          163,
-                                                                          42)),
-                                                        ),
-                                                        onPressed: () async {
-                                                          await BlocProvider.of<
-                                                                      financialCubit>(
-                                                                  context)
-                                                              .deletefinancial(
-                                                                  token:
-                                                                      generaltoken,
-                                                                  financialid: BlocProvider.of<
-                                                                              financialCubit>(
-                                                                          context)
-                                                                      .myreciepts[
-                                                                          index]
-                                                                      .id!
-                                                                      .toInt());
-                                                        },
-                                                        child: const Text(
-                                                          "تاكيد",
-                                                          style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  Colors.white),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ));
-                                                  },
-                                                ),
+                          child: BlocProvider.of<financialCubit>(context)
+                                  .myreciepts
+                                  .isEmpty
+                              ? nodata()
+                              : SingleChildScrollView(
+                                  controller: widget.scrollController,
+                                  child: ListView.separated(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return InkWell(
+                                          onTap: () {
+                                            showDialog(
                                                 context: context,
-                                                tittle:
-                                                    "هل تريد حذف سند القبض ؟",
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete_outline_outlined,
-                                              color: Colors.red,
-                                              size: 24,
-                                            )));
-                                  },
-                                  separatorBuilder: (context, index) =>
-                                      const Divider(),
-                                  itemCount:
-                                      BlocProvider.of<financialCubit>(context)
-                                          .myreciepts
-                                          .length)))
+                                                builder: ((context) {
+                                                  return showfinancial(
+                                                    myreciept: BlocProvider.of<
+                                                                financialCubit>(
+                                                            context)
+                                                        .myreciepts[index],
+                                                  );
+                                                }));
+                                          },
+                                          child: customtablefinancialsitem(
+                                              textStyle:
+                                                  Appstyles.gettabletextstyle(
+                                                      context: context),
+                                              cashnumber:
+                                                  (BlocProvider.of<financialCubit>(context)
+                                                              .myreciepts
+                                                              .length -
+                                                          index)
+                                                      .toString(),
+                                              date: BlocProvider.of<
+                                                      financialCubit>(context)
+                                                  .myreciepts[index]
+                                                  .transactionDate!,
+                                              tenantname: BlocProvider.of<
+                                                      financialCubit>(context)
+                                                  .myreciepts[index]
+                                                  .tenantName!,
+                                              amountofmoney: BlocProvider.of<
+                                                      financialCubit>(context)
+                                                  .myreciepts[index]
+                                                  .totalAmount
+                                                  .toString(),
+                                              print: IconButton(
+                                                  onPressed: () {
+                                                    navigateto(
+                                                        navigationscreen: PdfViewCatch(
+                                                            data: BlocProvider
+                                                                    .of<financialCubit>(
+                                                                        context)
+                                                                .myreciepts[index]),
+                                                        context: context);
+                                                  },
+                                                  icon: Icon(
+                                                    Icons.print,
+                                                    size: MediaQuery.of(context)
+                                                                .size
+                                                                .width <
+                                                            600
+                                                        ? 20.sp
+                                                        : 22,
+                                                  )),
+                                              delete: IconButton(
+                                                  onPressed: () {
+                                                    awsomdialogerror(
+                                                      mywidget: BlocConsumer<
+                                                          financialCubit,
+                                                          financialState>(
+                                                        listener:
+                                                            (context, state) {
+                                                          if (state
+                                                              is deletefinancialsuccess) {
+                                                            Navigator.pop(
+                                                                context);
+
+                                                            showsnack(
+                                                                comment: state
+                                                                    .succes_message,
+                                                                context:
+                                                                    context);
+                                                          }
+                                                          if (state
+                                                              is deletefinancialfailure) {
+                                                            Navigator.pop(
+                                                                context);
+
+                                                            showsnack(
+                                                                comment: state
+                                                                    .errormessage,
+                                                                context:
+                                                                    context);
+                                                          }
+                                                        },
+                                                        builder:
+                                                            (context, state) {
+                                                          return ElevatedButton(
+                                                              style:
+                                                                  const ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStatePropertyAll(
+                                                                        Color.fromARGB(
+                                                                            255,
+                                                                            37,
+                                                                            163,
+                                                                            42)),
+                                                              ),
+                                                              onPressed:
+                                                                  () async {
+                                                                await BlocProvider.of<financialCubit>(context).deletefinancial(
+                                                                    token:
+                                                                        generaltoken,
+                                                                    financialid: BlocProvider.of<financialCubit>(
+                                                                            context)
+                                                                        .myreciepts[
+                                                                            index]
+                                                                        .id!
+                                                                        .toInt());
+                                                              },
+                                                              child: const Text(
+                                                                "تاكيد",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .white),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                              ));
+                                                        },
+                                                      ),
+                                                      context: context,
+                                                      tittle:
+                                                          "هل تريد حذف سند القبض ؟",
+                                                    );
+                                                  },
+                                                  icon: const Icon(
+                                                    Icons
+                                                        .delete_outline_outlined,
+                                                    color: Colors.red,
+                                                    size: 24,
+                                                  ))),
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          const Divider(),
+                                      itemCount:
+                                          BlocProvider.of<financialCubit>(
+                                                  context)
+                                              .myreciepts
+                                              .length)))
                     ])),
           ),
         );

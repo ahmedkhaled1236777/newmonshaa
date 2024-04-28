@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/tenantcontractsreports/presentation/view/contractcontentreport.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +28,8 @@ class _contractsatsearchreportState extends State<contractsatsearchreport> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                       onPressed: () {
+                        BlocProvider.of<DateCubit>(context).cleardates();
+
                         Navigator.of(context).pop();
                       },
                       icon: Icon(Icons.close)),

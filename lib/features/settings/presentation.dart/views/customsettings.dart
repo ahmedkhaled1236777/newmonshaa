@@ -1,3 +1,4 @@
+import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
@@ -15,40 +16,37 @@ import 'package:ghhg/features/settings/presentation.dart/views/updatepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class customsettings extends StatelessWidget {
+class customsettings extends StatefulWidget {
   final double width;
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
+  bool? savesound;
   customsettings({super.key, required this.width});
+
+  @override
+  State<customsettings> createState() => _customsettingsState();
+}
+
+class _customsettingsState extends State<customsettings> {
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Colors.white,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: const Text(
               'الاعدادات',
-              style: TextStyle(color: Colors.white, fontSize: 14.2),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             centerTitle: true,
             backgroundColor: const Color(0xff415769),
           ),
-          drawer: Dashboard(),
           body: Center(
             child: Container(
-              width: width,
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+              width: widget.width,
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               child: Form(
                   child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
@@ -112,6 +110,24 @@ class customsettings extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
+                    customitemwithicon(
+                        description: "تفعيل الصوت",
+                        value: Transform.scale(
+                          scaleY: 0.8,
+                          scaleX: 1,
+                          child: Switch(
+                              activeColor: Appcolors.buttoncolor,
+                              value: cashhelper.getdata(key: "sound"),
+                              onChanged: (vale) async {
+                                await cashhelper.setdata(
+                                    key: "sound", value: vale);
+                                setState(() {});
+                                if (vale == true) sound.playsound();
+                              }),
+                        )),
+                    SizedBox(
+                      height: 10,
+                    ),
                     if (cashhelper.getdata(key: "role") == "manager")
                       customitemwithicon(
                         description: 'تعديل الحساب',
@@ -133,12 +149,15 @@ class customsettings extends StatelessWidget {
                     customitemwithicon(
                         description: 'تسجيل الخروج',
                         value: BlocConsumer<LogoutCubit, LogoutState>(
-                          listener: (context, state) {
+                          listener: (context, state) async {
                             if (state is Logoutsuccess) {
                               sound.playsound();
                               BlocProvider.of<HomeCubit>(context).cleardata();
-
-                              cashhelper.cleardata();
+                              widget.savesound =
+                                  cashhelper.getdata(key: "sound");
+                              await cashhelper.cleardata();
+                              await cashhelper.setdata(
+                                  key: "sound", value: widget.savesound);
                               showsnack(
                                   comment: "تم تسجيل الخروج بنجاح",
                                   context: context);

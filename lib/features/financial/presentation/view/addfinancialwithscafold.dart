@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class addfinancialwithscafold extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> foemkey = GlobalKey<FormState>();
 
   @override
@@ -14,28 +13,18 @@ class addfinancialwithscafold extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        key: scafoldstate,
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              scafoldstate.currentState!.openDrawer();
-            },
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
+          leading: BackButton(
+            color: Colors.white,
           ),
           backgroundColor: Appcolors.maincolor,
           centerTitle: true,
           title: Text(
             "سند قبض",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize:
-                   Appsizes.mappBarsize),
+            style:
+                TextStyle(color: Colors.white, fontSize: Appsizes.mappBarsize),
           ),
         ),
-        drawer: Dashboard(),
         body: Center(
             child: addfinancial(
           formkey: foemkey,

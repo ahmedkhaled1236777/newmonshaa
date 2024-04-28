@@ -30,7 +30,9 @@ class showclientsdialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(0)),
               content: SingleChildScrollView(
                   child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
+                width: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.of(context).size.width * 0.25
+                    : MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,

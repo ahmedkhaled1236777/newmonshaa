@@ -5,15 +5,12 @@ import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract
 import 'package:ghhg/features/contracts/presentation/views/addcontractwithscafold.dart';
 import 'package:ghhg/features/contracts/presentation/views/contractsearchdialog.dart';
 import 'package:ghhg/features/contracts/presentation/views/customtablecontacts.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/commn/toast.dart';
 
 class mobilecontracts extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
   final TextEditingController tenantname;
   final TextEditingController tenanphone;
   final TextEditingController tenantcard;
@@ -70,23 +67,15 @@ class mobilecontracts extends StatelessWidget {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: scafoldstate,
             backgroundColor: Color(0xff415769),
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               title: Text(
                 'عقود الايجار',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Appsizes.mappBarsize),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Color(0xff415769),
@@ -115,7 +104,7 @@ class mobilecontracts extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                navigateandfinish(
+                navigateto(
                     navigationscreen: addcontractwithscafold(
                         tenantname: tenantname,
                         tenanphone: tenanphone,
@@ -148,7 +137,6 @@ class mobilecontracts extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            drawer: Dashboard(),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

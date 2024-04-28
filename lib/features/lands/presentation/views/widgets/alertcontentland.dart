@@ -1,35 +1,47 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
-import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarcuibt.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarstate.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandcuibt.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandstate.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/showlands/showlands_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class landalertcontent extends StatelessWidget {
+class landalertcontent extends StatefulWidget {
+  @override
+  State<landalertcontent> createState() => _landalertcontentState();
+}
+
+class _landalertcontentState extends State<landalertcontent> {
   TextEditingController adress = TextEditingController();
+
   TextEditingController pricefrom = TextEditingController();
+
   TextEditingController priceto = TextEditingController();
+
   TextEditingController minimumarea = TextEditingController();
+
   TextEditingController maximumarea = TextEditingController();
+
   TextEditingController advertisecode = TextEditingController();
-  GlobalKey<FormState> minimumareak = GlobalKey<FormState>();
-  GlobalKey<FormState> maxareak = GlobalKey<FormState>();
-  GlobalKey<FormState> minpricek = GlobalKey<FormState>();
-  GlobalKey<FormState> maxpricek = GlobalKey<FormState>();
+
+  static final GlobalKey<FormState> minimumareak = GlobalKey<FormState>();
+
+  static final GlobalKey<FormState> maxareak = GlobalKey<FormState>();
+
+  static final GlobalKey<FormState> minpricek = GlobalKey<FormState>();
+
+  static final GlobalKey<FormState> maxpricek = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -276,23 +288,24 @@ class landalertcontent extends StatelessWidget {
                                       : num.parse(priceto.text),
                                   "lowest_space": minimumarea.text,
                                   "highest_space": maximumarea.text,
-                                  "id": advertisecode.text,
+                                  "code": advertisecode.text,
                                 };
                                 BlocProvider.of<ShowlandsCubit>(context)
                                     .data
                                     .clear();
 
-                                BlocProvider.of<ShowlandsCubit>(context)
-                                    .getallalands(
-                                  token: generaltoken,
-                                  page: 1,
-                                );
+                              
                                 BlocProvider.of<addaqarcuibt>(context)
                                     .employeeid = null;
                                 BlocProvider.of<DateCubit>(context)
                                     .cleardates();
 
                                 Navigator.pop(context);
+                                  BlocProvider.of<ShowlandsCubit>(context)
+                                    .getallalands(
+                                  token: generaltoken,
+                                  page: 1,
+                                );
                               }
                             },
                           )

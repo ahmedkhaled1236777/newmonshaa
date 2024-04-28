@@ -1,12 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customchoosedate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/customchoosedate.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/expenses.dart/data/models/expensesmodelrequest.dart';
 import 'package:ghhg/features/expenses.dart/presentation/viewmodel/expense/expenses_cubit.dart';
 import 'package:ghhg/features/expenses.dart/presentation/viewmodel/expense/expenses_state.dart';
@@ -29,6 +30,10 @@ class _addexpenseState extends State<addexpense> {
   TextEditingController amount = TextEditingController();
 
   TextEditingController descreption = TextEditingController();
+  @override
+  void initState() {
+    BlocProvider.of<DateCubit>(context).cleardates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +67,11 @@ class _addexpenseState extends State<addexpense> {
                   height: 15,
                 ),
                 custommytextform(
+                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                      keyboardType: TextInputType.number,
+
                   controller: amount,
                   hintText: "المبلغ",
                   val: "برجاء ادخال المبلغ",
@@ -86,7 +96,7 @@ class _addexpenseState extends State<addexpense> {
                   height: 10,
                 ),
                 BlocConsumer<expenseCubit, expenseState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is Addexpensefailure)
                       showsnack(comment: state.error_message, context: context);
                     if (state is Addexpensesuccess) {
@@ -94,6 +104,14 @@ class _addexpenseState extends State<addexpense> {
                       amount.clear();
                       descreption.clear();
                       BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
+                      MediaQuery.sizeOf(context).width > 950
+                          ? navigateandfinish(
+                              navigationscreen: expenses(), context: context)
+                          : {
+                              await BlocProvider.of<expenseCubit>(context)
+                                  .getallexpenses(token: generaltoken, page: 1),
+                              Navigator.pop(context),
+                            };
                       navigateandfinish(
                           navigationscreen: expenses(), context: context);
                       showsnack(

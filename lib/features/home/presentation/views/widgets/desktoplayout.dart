@@ -3,18 +3,15 @@ import 'dart:async';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
-import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
-import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/connect/presentation/view/connect.dart';
+import 'package:ghhg/features/technical%20support/presentation/view/connect.dart';
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/appbartittle.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/customappbaractions.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/customdraweitem.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/customgriditem.dart';
 import 'package:ghhg/features/notifications/presentations/view/alertnotifications.dart';
-import 'package:ghhg/features/notifications/presentations/view/mobilenotifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,8 +55,7 @@ class _desktoplayoutState extends State<desktoplayout> {
           actions: [
             customappbaractions(
               onTapmessage: (() {
-                navigateandfinish(
-                    navigationscreen: Connect(), context: context);
+                navigateto(navigationscreen: Connect(), context: context);
               }),
               onTapnotific: (() {
                 showDialog(
@@ -80,7 +76,7 @@ class _desktoplayoutState extends State<desktoplayout> {
                         content: alernotifications(
                           tablet_or_mobile: "",
                           counter: BlocProvider.of<HomeCubit>(context)
-                              .sidebar[12]["count"],
+                              .sidebar[13]["count"],
                         ),
                       );
                     }));
@@ -108,11 +104,13 @@ class _desktoplayoutState extends State<desktoplayout> {
                   child: ListView(
                       children: BlocProvider.of<HomeCubit>(context)
                           .sidebarpermessions
-                          .map((e) => e["name"] == "الاشعارات"
+                          .map((e) => e["name"] == "الاشعارات" ||
+                                  e["name"] == "الصفحه الرئيسيه"
                               ? SizedBox()
                               : Column(
                                   children: [
                                     customdraweritem(
+                                        mykey: widget.scafoldstate,
                                         count: e["count"],
                                         sizedboxwidth: 3.w,
                                         textstyle: TextStyle(
@@ -123,7 +121,7 @@ class _desktoplayoutState extends State<desktoplayout> {
                                         iconData: e["icon"],
                                         text: e["name"],
                                         onTap: () {
-                                          navigateandfinish(
+                                          navigateto(
                                               navigationscreen: e["page"],
                                               context: context);
                                         }),
@@ -157,7 +155,7 @@ class _desktoplayoutState extends State<desktoplayout> {
                                       textfontsize: 13.5,
                                       image: e.icon!,
                                       onTap: () {
-                                        navigateandfinish(
+                                        navigateto(
                                             navigationscreen:
                                                 BlocProvider.of<HomeCubit>(
                                                         context)

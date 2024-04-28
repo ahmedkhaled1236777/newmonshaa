@@ -10,9 +10,9 @@ class addaqarrequest {
   final String department;
   final String advertiser_type;
   final String advertised_phone_number;
-  final num real_state_space;
-  final num real_state_price;
-  final int? number_of_bathrooms;
+  final String real_state_space;
+  final String real_state_price;
+  final String? number_of_bathrooms;
   final int number_of_rooms;
   final String advertise_details;
   final String advertiser_name;

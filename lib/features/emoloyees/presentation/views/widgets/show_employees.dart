@@ -9,8 +9,6 @@ class ShowEmployees extends StatefulWidget {
 }
 
 class ShowEmployeesState extends State<ShowEmployees> {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, consters) {
@@ -18,17 +16,10 @@ class ShowEmployeesState extends State<ShowEmployees> {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-              key: scafoldstate,
               backgroundColor: Colors.white,
               appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () {
-                    scafoldstate.currentState!.openDrawer();
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
+                leading: BackButton(
+                  color: Colors.white,
                 ),
                 title: Text(
                   'بيانات الموظف',
@@ -50,9 +41,7 @@ class ShowEmployeesState extends State<ShowEmployees> {
                         width: 15,
                       ),
                       InkWell(
-                        onTap: () {
-                    
-                        },
+                        onTap: () {},
                         child: Icon(
                           Icons.print,
                           color: Colors.white,
@@ -66,7 +55,6 @@ class ShowEmployeesState extends State<ShowEmployees> {
                   )
                 ],
               ),
-              drawer: Dashboard(),
               body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
@@ -394,17 +382,10 @@ class ShowEmployeesState extends State<ShowEmployees> {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-              key: scafoldstate,
               backgroundColor: Colors.white,
               appBar: AppBar(
-                leading: IconButton(
-                  onPressed: () {
-                    scafoldstate.currentState!.openDrawer();
-                  },
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
+                leading: BackButton(
+                  color: Colors.white,
                 ),
                 title: Text(
                   'بيانات الموظف',
@@ -426,9 +407,7 @@ class ShowEmployeesState extends State<ShowEmployees> {
                         width: 15,
                       ),
                       InkWell(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         child: Icon(
                           Icons.print,
                           color: Colors.white,
@@ -442,7 +421,6 @@ class ShowEmployeesState extends State<ShowEmployees> {
                   )
                 ],
               ),
-              drawer: Dashboard(),
               body: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(

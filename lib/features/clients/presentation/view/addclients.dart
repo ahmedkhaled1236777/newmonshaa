@@ -1,20 +1,22 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/sound.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/clients/data/model/clientmodelrequest.dart';
+import 'package:ghhg/features/clients/presentation/view/clients.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_state.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class addclients extends StatefulWidget {
   final GlobalKey<FormState> formkey;
@@ -31,6 +33,11 @@ class _addclientsState extends State<addclients> {
   TextEditingController clientphone = TextEditingController();
   TextEditingController code = TextEditingController();
   TextEditingController notes = TextEditingController();
+  @override
+  void initState() {
+    BlocProvider.of<clientsCubit>(context).cleardata();
+    BlocProvider.of<DateCubit>(context).cleardates();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +86,11 @@ class _addclientsState extends State<addclients> {
                         height: 10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                            keyboardType: TextInputType.number,
+
                         controller: clientphone,
                         hintText: "رقم هاتف العميل",
                         val: "برجاء ادخال رقم هاتف العميل",
@@ -87,6 +99,11 @@ class _addclientsState extends State<addclients> {
                         height: 10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                            keyboardType: TextInputType.number,
+
                         controller: code,
                         hintText: "الكود",
                       ),
@@ -162,20 +179,23 @@ class _addclientsState extends State<addclients> {
                         height: 15,
                       ),
                       BlocConsumer<clientsCubit, clientsState>(
-                        listener: (context, state) {
+                        listener: (context, state) async {
                           if (state is Addclientsfailure)
                             showsnack(
                                 comment: state.error_message, context: context);
                           if (state is Addclientssuccess) {
                             sound.playsound();
-                            notes.clear();
-                            clientname.clear();
-                            clientphone.clear();
-                            code.clear();
-                            BlocProvider.of<DateCubit>(context).cleardates();
-                            BlocProvider.of<clientsCubit>(context).cleardata();
-                            BlocProvider.of<clientsCubit>(context)
-                                .getallclientss(token: generaltoken, page: 1);
+                            MediaQuery.sizeOf(context).width > 950
+                                ? navigateandfinish(
+                                    navigationscreen: clients(),
+                                    context: context)
+                                : {
+                                    await BlocProvider.of<clientsCubit>(context)
+                                        .getallclientss(
+                                            token: generaltoken, page: 1),
+                                    Navigator.pop(context),
+                                  };
+
                             showsnack(
                                 comment: state.success_message,
                                 context: context);

@@ -5,7 +5,6 @@ import 'package:ghhg/core/urls/urls.dart';
 import 'package:ghhg/features/emoloyees/data/models/addemployeerequest.dart';
 import 'package:ghhg/features/emoloyees/data/models/employeemodel/employeemodel.dart';
 import 'package:ghhg/features/emoloyees/data/repos/addemployeerepo.dart';
-import 'package:ghhg/features/tenants/data/model/tenantmodel/tenantmodel.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -19,7 +18,13 @@ class emplyeerepoimplementaion extends employeerepo {
 
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
-      } else if (response.data["code"] == 411) {
+      }else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      
+      
+       else if (response.data["code"] == 411) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));
@@ -44,8 +49,14 @@ class emplyeerepoimplementaion extends employeerepo {
               "تم جلب جميع الموظفين التابعه للشركه العقاريه بنجاح") {
         employeesmodel = Employeemodel.fromJson(response.data);
         return right(employeesmodel);
-      } else
+      } else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      else {
+                return left(requestfailure(error_message: response.data["message"]));
+
+      }
     } catch (e) {
       if (e is DioException)
         return left(requestfailure.fromdioexception(e));
@@ -62,8 +73,14 @@ class emplyeerepoimplementaion extends employeerepo {
           path: "/employee/delete/${employeenumber}", token: token);
       if (response.statusCode == 200 && response.data["status"] == true)
         return right("تم حذف البيانات بنجاح");
-      else
+     else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      else {
+                return left(requestfailure(error_message: response.data["message"]));
+
+      }
     } catch (e) {
       if (e is DioException) {
         return left(requestfailure.fromdioexception(e));
@@ -85,7 +102,12 @@ class emplyeerepoimplementaion extends employeerepo {
           data: employee.tojson());
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
-      } else if (response.data["code"] == 411) {
+      } else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+     
+      else if (response.data["code"] == 411) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));

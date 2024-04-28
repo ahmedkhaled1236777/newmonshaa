@@ -17,24 +17,15 @@ class desktopland extends StatefulWidget {
 }
 
 class _desktoplandState extends State<desktopland> {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Color(0xff415769),
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'الاراضي',
@@ -62,7 +53,6 @@ class _desktoplandState extends State<desktopland> {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

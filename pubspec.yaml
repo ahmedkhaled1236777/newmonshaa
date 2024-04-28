@@ -29,7 +29,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   audioplayers: ^6.0.0
-  awesome_notifications: ^0.7.0
+  awesome_notifications: ^0.8.2
   badges: ^3.1.2
   bloc: ^8.1.2
   cached_network_image: ^3.3.1
@@ -56,10 +56,19 @@ dependencies:
   printing: ^5.11.1
   shared_preferences: ^2.2.2
   animated_text_kit: ^4.2.2
+  lottie: ^3.1.0
   bitsdojo_window: ^0.1.6
   device_screen_size: ^0.0.2
 
+
 dev_dependencies:
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/qqq.jpg"
+  min_sdk_android: 21
   flutter_test:
     sdk: flutter
 
@@ -107,6 +116,12 @@ flutter:
     - family: Tre
       fonts:
         - asset: fonts/Jacquard24-Regular.ttf
+    - family: new
+      fonts:
+        - asset: fonts/new.ttf
+    - family: hsn
+      fonts:
+        - asset: fonts/hsn.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

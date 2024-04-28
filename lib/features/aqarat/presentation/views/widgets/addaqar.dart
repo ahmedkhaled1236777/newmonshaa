@@ -1,10 +1,10 @@
-import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
-import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/sound.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -13,14 +13,14 @@ import 'package:ghhg/features/aqarat/data/models/addaqarrequest/addaqarrequest.d
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarcuibt.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarstate.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/customgridimages.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customchoosedate.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/customchoosedate.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/pickedimage.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,6 +47,11 @@ class _addaqarState extends State<addaqar> {
   TextEditingController adressdetails = TextEditingController();
   TextEditingController area = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    BlocProvider.of<DateCubit>(context).cleardates();
+    BlocProvider.of<addaqarcuibt>(context).cleardata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +117,9 @@ class _addaqarState extends State<addaqar> {
                                   height: 10,
                                 ),
                                 custommytextform(
+                                  inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال عدد الغرف",
                                     controller: roomsnumber,
@@ -120,24 +128,31 @@ class _addaqarState extends State<addaqar> {
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
+                                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال المساحه",
                                     controller: area,
-                                    suffixtext: "متر",
                                     hintText: "المساحه"),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 custommytextform(
+                                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال السعر",
-                                    suffixtext: "جنيه",
                                     controller: price,
                                     hintText: "السعر"),
                                 const SizedBox(
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
+                                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال رقم الهاتف",
                                     controller: phone,
@@ -149,6 +164,9 @@ class _addaqarState extends State<addaqar> {
                             height: Appsizes.size10,
                           ),
                           custommytextform(
+                             inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                               keyboardType: TextInputType.number,
                               controller: aqarnumber,
                               hintText: "رقم العماره"),
@@ -156,6 +174,9 @@ class _addaqarState extends State<addaqar> {
                             height: Appsizes.size10,
                           ),
                           custommytextform(
+                             inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                               keyboardType: TextInputType.number,
                               controller: housenumber,
                               hintText: "رقم الشقه"),
@@ -206,6 +227,9 @@ class _addaqarState extends State<addaqar> {
                             height: 10,
                           ),
                           custommytextform(
+                             inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                               keyboardType: TextInputType.number,
                               controller: toilletsnumber,
                               hintText: "عدد الحمامات"),
@@ -233,7 +257,7 @@ class _addaqarState extends State<addaqar> {
                             height: Appsizes.size10,
                           ),
                           BlocConsumer<addaqarcuibt, addaqarstate>(
-                              listener: (context, state) {
+                              listener: (context, state) async {
                             if (state is addaaqarfailure)
                               showsnack(comment: state.error, context: context);
                             if (state is addaaqarsuccess) {
@@ -246,37 +270,46 @@ class _addaqarState extends State<addaqar> {
                                   .cleardata();
                               BlocProvider.of<DateCubit>(context).date1 =
                                   "التاريخ";
-
-                              navigateandfinish(
-                                  navigationscreen: Estate(), context: context);
+                              MediaQuery.sizeOf(context).width > 950
+                                  ? navigateandfinish(
+                                      navigationscreen: Estate(),
+                                      context: context)
+                                  : {
+                                      await BlocProvider.of<ShowaqaratCubit>(
+                                              context)
+                                          .getallaqarat(
+                                              token: generaltoken, page: 1),
+                                      Navigator.pop(context),
+                                    };
                             }
                           }, builder: (context, state) {
                             if (state is addaaqarloading) return loading();
                             return custommaterialbutton(
                                 onPressed: () async {
+                                  
                                   if (formkey.currentState!.validate()) {
                                     if (BlocProvider.of<addaqarcuibt>(context)
                                             .aqartype ==
                                         null) {
-                                      dialogerror(context,
-                                          error: "برجاء اختيار نوع العقار");
+                                      showdialogerror(
+                                          error: "برجاء اختيار نوع العقار",context: context);
                                     } else if (BlocProvider.of<addaqarcuibt>(
                                                 context)
                                             .departement ==
                                         null) {
-                                      dialogerror(context,
+                                      showdialogerror(context:  context,
                                           error: "برجاء اختيار القسم");
                                     } else if (BlocProvider.of<addaqarcuibt>(
                                                 context)
                                             .advistor_type ==
                                         null) {
-                                      dialogerror(context,
+                                      showdialogerror(context:  context,
                                           error: "برجاء اختيار نوع المعلن");
                                     } else if (BlocProvider.of<DateCubit>(
                                                 context)
                                             .date1 ==
                                         "التاريخ") {
-                                      dialogerror(context,
+                                      showdialogerror(context:  context,
                                           error: "برجاء اختيار التاريخ");
                                     } else {
                                       if (BlocProvider.of<addaqarcuibt>(context)
@@ -306,9 +339,9 @@ class _addaqarState extends State<addaqar> {
                                                   BlocProvider.of<addaqarcuibt>(context)
                                                       .advistor_type],
                                               advertised_phone_number: phone.text,
-                                              real_state_space: num.parse(area.text),
-                                              real_state_price: num.parse(price.text),
-                                              number_of_bathrooms: toilletsnumber.text.isNotEmpty ? int.parse(toilletsnumber.text) : null,
+                                              real_state_space: area.text,
+                                              real_state_price: price.text,
+                                              number_of_bathrooms: toilletsnumber.text,
                                               number_of_rooms: int.parse(roomsnumber.text),
                                               advertise_details: details.text,
                                               state_date_register: BlocProvider.of<DateCubit>(context).date1,

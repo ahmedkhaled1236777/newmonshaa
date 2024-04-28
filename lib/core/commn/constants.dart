@@ -20,7 +20,9 @@ Map request = {
   "ايجار": "rent",
   "بيع": "sale",
   "صاحب عقار": "real_state_owner",
-  "شركة عقارات": "real_state_company"
+  "شركة عقارات": "real_state_company",
+    "صاحب الارض": "real_state_owner"
+
 };
 Map requestland = {
   "شركة عقارات": "real_state_company",
@@ -30,8 +32,8 @@ Map showland = {
   "real_state_company": "شركة عقارات",
   "real_state_owner": "صاحب الارض",
 };
-Map commessionrequest = {"نسبه": "per", "عموله": "val"};
-Map commessionresponse = {"per": "نسبه", "val": "عموله"};
+Map commessionrequest = {"العموله بالنسبه": "per", "العموله بالمبلغ": "val"};
+Map commessionresponse = {"per": "العموله بالنسبه", "val": "العموله بالمبلغ"};
 Map clientstatussrequest = {
   "انتظار": "waiting",
   "معاينه": "inspection",
@@ -55,3 +57,5 @@ Map clientsdepartementresponse = {
   "land_sale": "ارض بيع",
 };
 var refreshicon = Icons.refresh;
+bool inhome = false;
+bool insplash = true;

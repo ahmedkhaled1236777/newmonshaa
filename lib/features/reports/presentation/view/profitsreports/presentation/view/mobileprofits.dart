@@ -1,8 +1,9 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/customprofititem.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/search.dart';
@@ -12,8 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableallmobileprofitatreportss extends StatefulWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   State<customtableallmobileprofitatreportss> createState() =>
       _customtableallmobileprofitatreportssState();
@@ -38,17 +37,10 @@ class _customtableallmobileprofitatreportssState
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
@@ -63,21 +55,18 @@ class _customtableallmobileprofitatreportssState
                     icon:
                         const Icon(Icons.refresh, color: Appcolors.whitecolor)),
                 profitatsearchreport(),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 )
               ],
-              title: Text(
+              title: const Text(
                 'الارباح',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize:
-                        MediaQuery.sizeOf(context).width > 600 ? 6.sp : 9.sp),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,

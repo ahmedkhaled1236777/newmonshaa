@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -18,6 +19,7 @@ class desktopdrawer extends StatefulWidget {
 }
 
 class _desktopdrawerState extends State<desktopdrawer> {
+  GlobalKey<ScaffoldState> mykey = GlobalKey<ScaffoldState>();
   Timer? timer;
   @override
   void initState() {
@@ -53,13 +55,14 @@ class _desktopdrawerState extends State<desktopdrawer> {
                       .map((e) => Column(
                             children: [
                               customdraweritem(
+                                  mykey: mykey,
                                   count: e["count"],
                                   sizedboxwidth: 3.w,
                                   textstyle: Appstyles.textStyle13wd,
                                   iconData: e["icon"],
                                   text: e["name"],
                                   onTap: () {
-                                    navigateandfinish(
+                                    navigateto(
                                         navigationscreen: e["page"],
                                         context: context);
                                   },

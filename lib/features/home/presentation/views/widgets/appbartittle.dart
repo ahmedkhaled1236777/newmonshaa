@@ -20,7 +20,6 @@ class appbartittle extends StatelessWidget {
                 backgroundImage: AssetImage("images/logo.png"),
               )
             : imagefromrequest(
-              
                 url: cashhelper.getdata(key: "logo"),
                 height: 40,
                 width: 40,

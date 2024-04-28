@@ -1,5 +1,6 @@
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +12,8 @@ class tenantsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        phone.clear();
+        cardnumber.clear();
         showDialog(
           context: context,
 
@@ -71,11 +74,21 @@ class tenantsearch extends StatelessWidget {
                                     height: 20,
                                   ),
                                   custommaterialbutton(
-                                      onPressed: () {
+                                      onPressed: () async {
                                         BlocProvider.of<TenantCubit>(context)
-                                            .searchfortenant(
-                                                phone.text, cardnumber.text);
+                                            .queryParameters = {
+                                          "phone": phone.text,
+                                          "card_number": cardnumber.text
+                                        };
+                                       
+
+                                        phone.clear();
+                                        cardnumber.clear();
                                         Navigator.pop(context);
+                                         await BlocProvider.of<TenantCubit>(
+                                                context)
+                                            .getalltenants(
+                                                token: generaltoken, page: 1);
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

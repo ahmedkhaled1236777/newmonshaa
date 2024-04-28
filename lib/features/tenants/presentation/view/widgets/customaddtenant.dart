@@ -1,9 +1,10 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/tenants/data/model/tenantmodelrequest.dart';
 import 'package:ghhg/features/tenants/presentation/view/widgets/tenants.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
@@ -81,6 +82,10 @@ class _addtenantState extends State<addtenant> {
                         height: 10,
                       ),
                       custommytextform(
+ keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                         controller: phone,
                         hintText: "رقم الهاتف",
                         val: "برجاء ادخال رقم الهاتف",
@@ -89,6 +94,10 @@ class _addtenantState extends State<addtenant> {
                         height: 10,
                       ),
                       custommytextform(
+ keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                         controller: cardnumber,
                         hintText: "رقم البطاقه",
                         val: "برجاء ادخال رقم البطاقه",
@@ -121,7 +130,7 @@ class _addtenantState extends State<addtenant> {
                         height: 10,
                       ),
                       BlocConsumer<TenantCubit, TenantState>(
-                          listener: (context, state) {
+                          listener: (context, state) async {
                         if (state is AddTenantfailure)
                           showsnack(
                               comment: state.error_message, context: context);
@@ -133,8 +142,15 @@ class _addtenantState extends State<addtenant> {
                           narionality.clear();
                           cardnumber.clear();
                           phone.clear();
-                          navigateandfinish(
-                              navigationscreen: Tenants(), context: context);
+                          MediaQuery.sizeOf(context).width > 950
+                              ? navigateandfinish(
+                                  navigationscreen: Tenants(), context: context)
+                              : {
+                                  await BlocProvider.of<TenantCubit>(context)
+                                      .getalltenants(
+                                          token: generaltoken, page: 1),
+                                  Navigator.pop(context),
+                                };
                           showsnack(
                               comment: state.success_message, context: context);
                         }

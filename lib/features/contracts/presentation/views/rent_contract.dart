@@ -60,11 +60,11 @@ Future<Uint8List> generateEMSPDF(
                     textAlign: pw.TextAlign.center),
               ),
               pw.SizedBox(height: 30),
-              pw.Text(' ${data.contractDate} إنه في يوم  ',
+              pw.Text('إنه في يوم ........................ الموافق ${data.contractDate} ',
                   style: pw.TextStyle(font: font, fontSize: 9),
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 12),
-              pw.Text('تحرر بين كل من:',
+              pw.Text('تحرر بين كل من :',
                   style: pw.TextStyle(font: font, fontSize: 9),
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 12),
@@ -91,7 +91,7 @@ Future<Uint8List> generateEMSPDF(
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 8),
               pw.Text(
-                  'بموجب هذا العقد قد أجر الطرف الأول للطرف الثاني ما هو الشقة السكنية الكائنة فى ${data.realStateAddress} - ${data.realStateAddressDetails} ',
+                  'بموجب هذا العقد قد أجر الطرف الأول للطرف الثاني ما هو ............................................ بقصد استعماله ....................................... الكائنة فى ${data.realStateAddress} - ${data.realStateAddressDetails} ',
                   style:
                       pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
                   textDirection: pw.TextDirection.rtl),
@@ -256,29 +256,66 @@ Future<Uint8List> generateEMSPDF(
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 8),
               pw.Text(
-                  'يقر أطراف هذا التعاقد بأن جميع العناوين الواردة قرين كل طرف هي عناوين صحيحة، وأنه في حالة توجيه ثمة مراسلات أو إخطارات أو إنذارات قانونية أو قضائية أو خطابات موصى عليها بعلم الوصول على تلك العناوين فهي صحيحة ونافذة ومقبولة من أطراف هذا التعاقد، وأنه في حالة تغيير أياً من العناوين الواردة فيلتزم من قام بتغيير عنوانه أن يخطر الطرف الآخر بالعنوان الجديد والصحيح، وإلا صارت الإخطارات والمكاتبات والمراسلات والإنذارات والإعلانات صحيحة ونافذة في حق من تم إعلانه بها وقانونية.',
+                  'تختص محكمة                                                                    الابتدائيه وجزئياتها بالنظر فيما ينشأ من منازعات او خلافه حول بنود العقد وقد تحرر هذا العقد من نسختين بيد كل الطرفين نسخه للعمل بموجبها.',
                   style:
                       pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
                   textDirection: pw.TextDirection.rtl),
+              pw.SizedBox(height: 12),
+              pw.Text('17- البند السابع عشر ',
+                  style: pw.TextStyle(
+                      font: font, fontSize: 9, fontWeight: pw.FontWeight.bold),
+                  textDirection: pw.TextDirection.rtl),
+              pw.SizedBox(height: 8),
+              pw.Text("بند اضافي : ........................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................ ",
+                  style:
+                      pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
+                  textDirection: pw.TextDirection.rtl),
+              pw.SizedBox(height: 35),
               pw.SizedBox(height: 25),
               pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
-                    pw.Text('الطرف الثانى المستاجر',
-                        style: pw.TextStyle(
-                            font: font,
-                            fontSize: 11,
-                            fontWeight: pw.FontWeight.bold),
-                        textDirection: pw.TextDirection.rtl),
+                    pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          pw.Text('الطرف الثانى المستاجر',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(
+                            height: 35,
+                          ),
+                          pw.Text('شاهد ثاني',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                        ]),
                     pw.Text('',
                         style: pw.TextStyle(font: font),
                         textDirection: pw.TextDirection.rtl),
-                    pw.Text('الطرف الاول المؤجر',
-                        style: pw.TextStyle(
-                            font: font,
-                            fontSize: 11,
-                            fontWeight: pw.FontWeight.bold),
-                        textDirection: pw.TextDirection.rtl),
+                    pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.end,
+                        children: [
+                          pw.Text('الطرف الاول المؤجر',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(
+                            height: 35,
+                          ),
+                          pw.Text('شاهد اول',
+                              style: pw.TextStyle(
+                                  font: font,
+                                  fontSize: 11,
+                                  fontWeight: pw.FontWeight.bold),
+                              textDirection: pw.TextDirection.rtl),
+                        ]),
                   ]),
             ])))
       ])

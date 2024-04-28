@@ -2,19 +2,18 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/nodata.dart';
+import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/view/customtableaqaratreportitem.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/viewmodel/aqaratreports/aqaratreports_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableallmobileaqaratreportss extends StatefulWidget {
   ScrollController scrollController = ScrollController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   @override
   State<customtableallmobileaqaratreportss> createState() =>
@@ -46,17 +45,10 @@ class _customtableallmobileaqaratreportssState
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
@@ -76,14 +68,11 @@ class _customtableallmobileaqaratreportssState
               title: Text(
                 'العقارات',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize:
-                        MediaQuery.sizeOf(context).width > 600 ? 6.sp : 9.sp),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -120,49 +109,56 @@ class _customtableallmobileaqaratreportssState
                             if (state is Aqaratreportsloading) return loading();
                             if (state is Aqaratreportsfailure)
                               return SizedBox();
-                            return SingleChildScrollView(
-                                controller: widget.scrollController,
-                                child: ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return index >=
-                                              BlocProvider.of<
-                                                          AqaratreportsCubit>(
-                                                      context)
-                                                  .data
-                                                  .length
-                                          ? loading()
-                                          : customtableaqaratreportsitem(
-                                              departement: show[
-                                                  prov.data[index].department!],
-                                              textStyle:
-                                                  Appstyles.gettabletextstyle(
-                                                      context: context),
-                                              emoloyeename:
-                                                  prov.data[index].user!.name!,
-                                              date: prov.data[index].createdAt!,
-                                              adress: prov.data[index]
-                                                  .realStateAddress!,
-                                              type: show[prov
-                                                  .data[index].realStateType!],
-                                            );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        const Divider(),
-                                    itemCount: BlocProvider.of<
+                            return BlocProvider.of<AqaratreportsCubit>(context)
+                                    .data
+                                    .isEmpty
+                                ? nodata()
+                                : SingleChildScrollView(
+                                    controller: widget.scrollController,
+                                    child: ListView.separated(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return index >=
+                                                  BlocProvider.of<
+                                                              AqaratreportsCubit>(
+                                                          context)
+                                                      .data
+                                                      .length
+                                              ? loading()
+                                              : customtableaqaratreportsitem(
+                                                  departement: show[prov
+                                                      .data[index].department!],
+                                                  textStyle: Appstyles
+                                                      .gettabletextstyle(
+                                                          context: context),
+                                                  emoloyeename: prov
+                                                      .data[index].user!.name!,
+                                                  date: prov
+                                                      .data[index].createdAt!,
+                                                  adress: prov.data[index]
+                                                      .realStateAddress!,
+                                                  type: show[prov.data[index]
+                                                      .realStateType!],
+                                                );
+                                        },
+                                        separatorBuilder: (context, index) =>
+                                            const Divider(),
+                                        itemCount: BlocProvider.of<
+                                                            AqaratreportsCubit>(
+                                                        context)
+                                                    .loading ==
+                                                true
+                                            ? BlocProvider.of<
+                                                            AqaratreportsCubit>(
+                                                        context)
+                                                    .data
+                                                    .length +
+                                                1
+                                            : BlocProvider.of<
                                                     AqaratreportsCubit>(context)
-                                                .loading ==
-                                            true
-                                        ? BlocProvider.of<AqaratreportsCubit>(
-                                                    context)
                                                 .data
-                                                .length +
-                                            1
-                                        : BlocProvider.of<AqaratreportsCubit>(
-                                                context)
-                                            .data
-                                            .length));
+                                                .length));
                           },
                         ),
                       )

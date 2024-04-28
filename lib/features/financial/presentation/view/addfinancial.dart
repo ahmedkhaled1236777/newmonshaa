@@ -3,9 +3,9 @@ import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:ghhg/features/financial/data/model/financialmodelrequest.dart';
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_cubit.dart';
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_state.dart';
@@ -26,6 +26,8 @@ class addfinancial extends StatefulWidget {
 class _addfinancialState extends State<addfinancial> {
   @override
   void initState() {
+    /*  BlocProvider.of<financialCubit>(context).dispose();*/
+    BlocProvider.of<DateCubit>(context).cleardates();
     /*  BlocProvider.of<financialCubit>(context).clearcontrollers();
     BlocProvider.of<DateCubit>(context).cleardates();*/
   }
@@ -170,6 +172,8 @@ class _addfinancialState extends State<addfinancial> {
                             .queryParameters = null;
                         await BlocProvider.of<financialCubit>(context)
                             .getallfinancials(token: generaltoken, page: 1);
+                        if (MediaQuery.sizeOf(context).width < 950)
+                          Navigator.pop(context);
                         showsnack(
                             comment: state.success_message, context: context);
                       }

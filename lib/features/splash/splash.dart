@@ -1,6 +1,4 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:ghhg/core/commn/constants.dart';
-import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/listeninternet.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/features/auth/login/presentation/views/login.dart';
@@ -52,9 +50,7 @@ class LogoAnimationScreenState extends State<LogoAnimationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(""),
-        ),
+        backgroundColor: Colors.white,
         body: Stack(
           alignment: Alignment.center,
           children: [
@@ -62,8 +58,11 @@ class LogoAnimationScreenState extends State<LogoAnimationScreen> {
               duration: const Duration(seconds: 500),
               padding: EdgeInsets.only(bottom: issecond ? 5 : 0),
               child: AnimatedScale(
-              
-                scale: isFirst ? 0.1 :MediaQuery.sizeOf(context).width<950?1: 2,
+                scale: isFirst
+                    ? 0.1
+                    : MediaQuery.sizeOf(context).width < 950
+                        ? 1
+                        : 2,
                 duration: const Duration(milliseconds: 600),
                 // width: isFirst ? 180 : 83,
                 // height: isFirst ? 170 : 84,
@@ -94,10 +93,14 @@ class LogoAnimationScreenState extends State<LogoAnimationScreen> {
             Positioned(
                 bottom: 100,
                 child: AnimatedOpacity(
-                    onEnd: () {
+                    onEnd: () async {
+                      await listeninternet.init();
+
                       navigateandfinish(
                           navigationscreen:
-cashhelper.getdata(key: "token")!=null?MyHomePage():Login()                                  ,
+                              cashhelper.getdata(key: "token") != null
+                                  ? MyHomePage()
+                                  : Login(),
                           context: context);
                     },
                     // If the widget is visible, animate to 0.0 (invisible).
@@ -106,10 +109,11 @@ cashhelper.getdata(key: "token")!=null?MyHomePage():Login()                     
                     duration: const Duration(milliseconds: 1500),
                     // The green box must be a child of the AnimatedOpacity widget.
                     child: const Text(
-                      "M o n s h a a",
+                      "منشأه",
                       style: TextStyle(
+                        fontWeight: FontWeight.w500,
                         fontSize: 70.0,
-                        fontFamily: 'Tre',
+                        fontFamily: 'hsn',
                         color: Color.fromARGB(255, 203, 171, 90),
                       ),
                     ))),

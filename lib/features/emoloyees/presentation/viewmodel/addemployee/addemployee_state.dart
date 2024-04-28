@@ -10,6 +10,8 @@ class resetdatastate extends AddemployeeState {}
 
 class updateemployeeloading extends AddemployeeState {}
 
+class changestatusstate extends AddemployeeState {}
+
 class updateemployeesuccess extends AddemployeeState {
   final String succes_message;
 

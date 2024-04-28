@@ -1,19 +1,18 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/nodata.dart';
+import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/viewmodel/landsreports/landsreports_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/views/customtablelandsreports.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/views/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableallmobilelandatreportss extends StatefulWidget {
   ScrollController scrollController = ScrollController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   @override
   State<customtableallmobilelandatreportss> createState() =>
@@ -45,17 +44,10 @@ class _customtableallmobilelandatreportssState
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
@@ -68,21 +60,18 @@ class _customtableallmobilelandatreportssState
                     icon:
                         const Icon(Icons.refresh, color: Appcolors.whitecolor)),
                 landatsearchreport(),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 )
               ],
-              title: Text(
+              title: const Text(
                 'الاراضي',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize:
-                        MediaQuery.sizeOf(context).width > 600 ? 6.sp : 9.sp),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -119,50 +108,58 @@ class _customtableallmobilelandatreportssState
                             if (state is landatreportsloading) return loading();
                             if (state is landatreportsfailure)
                               return SizedBox();
-                            return SingleChildScrollView(
-                                controller: widget.scrollController,
-                                child: ListView.separated(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      return index >=
-                                              BlocProvider.of<
-                                                          landatreportsCubit>(
-                                                      context)
-                                                  .data
-                                                  .length
-                                          ? loading()
-                                          : customtablelandatreportsitem(
-                                              priceofmeter: prov
-                                                  .data[index].priceOfOneMeter
-                                                  .toString()!,
-                                              textStyle:
-                                                  Appstyles.gettabletextstyle(
-                                                      context: context),
-                                              emoloyeename:
-                                                  prov.data[index].user!.name!,
-                                              date: prov.data[index].createdAt!,
-                                              adress: prov.data[index].address!,
-                                              area: prov
-                                                  .data[index].sizeInMetres
-                                                  .toString(),
-                                            );
-                                    },
-                                    separatorBuilder: (context, index) =>
-                                        const Divider(),
-                                    itemCount: BlocProvider.of<
+                            return BlocProvider.of<landatreportsCubit>(context)
+                                    .data
+                                    .isEmpty
+                                ? nodata()
+                                : SingleChildScrollView(
+                                    controller: widget.scrollController,
+                                    child: ListView.separated(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return index >=
+                                                  BlocProvider.of<
+                                                              landatreportsCubit>(
+                                                          context)
+                                                      .data
+                                                      .length
+                                              ? loading()
+                                              : customtablelandatreportsitem(
+                                                  priceofmeter: prov.data[index]
+                                                      .priceOfOneMeter
+                                                      .toString()!,
+                                                  textStyle: Appstyles
+                                                      .gettabletextstyle(
+                                                          context: context),
+                                                  emoloyeename: prov
+                                                      .data[index].user!.name!,
+                                                  date: prov
+                                                      .data[index].createdAt!,
+                                                  adress:
+                                                      prov.data[index].address!,
+                                                  area: prov
+                                                      .data[index].sizeInMetres
+                                                      .toString(),
+                                                );
+                                        },
+                                        separatorBuilder: (context, index) =>
+                                            const Divider(),
+                                        itemCount: BlocProvider.of<
+                                                            landatreportsCubit>(
+                                                        context)
+                                                    .loading ==
+                                                true
+                                            ? BlocProvider.of<
+                                                            landatreportsCubit>(
+                                                        context)
+                                                    .data
+                                                    .length +
+                                                1
+                                            : BlocProvider.of<
                                                     landatreportsCubit>(context)
-                                                .loading ==
-                                            true
-                                        ? BlocProvider.of<landatreportsCubit>(
-                                                    context)
                                                 .data
-                                                .length +
-                                            1
-                                        : BlocProvider.of<landatreportsCubit>(
-                                                context)
-                                            .data
-                                            .length));
+                                                .length));
                           },
                         ),
                       )

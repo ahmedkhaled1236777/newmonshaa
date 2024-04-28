@@ -5,8 +5,6 @@ import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/leadinappbar.dart';
 import 'package:ghhg/features/notifications/presentations/viewmodel/notifications/notifications_cubit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +26,7 @@ class mobilenotificationslayout extends StatefulWidget {
 class _mobilenotificationslayoutState extends State<mobilenotificationslayout> {
   @override
   initscroll() async {
-    await BlocProvider.of<NotificationsCubit>(context)
+  if(widget.counter>0)  await BlocProvider.of<NotificationsCubit>(context)
         .getallnotifications(token: generaltoken, page: 1);
 
     widget.scrollController.addListener(() async {
@@ -42,7 +40,6 @@ class _mobilenotificationslayoutState extends State<mobilenotificationslayout> {
 
   initState() {
     initscroll();
-   
   }
 
   final GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
@@ -54,7 +51,9 @@ class _mobilenotificationslayoutState extends State<mobilenotificationslayout> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
             appBar: AppBar(
-              leading: BackButton(color: Colors.white,),
+              leading: BackButton(
+                color: Colors.white,
+              ),
               backgroundColor: Appcolors.maincolor,
               title: Text(
                 'الاشعارات',
@@ -105,17 +104,18 @@ class _mobilenotificationslayoutState extends State<mobilenotificationslayout> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                     cashhelper.getdata(key: "logo") == null
-            ? const CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage("images/logo.png"),
-              )
-            : imagefromrequest(
-              
-                url: cashhelper.getdata(key: "logo"),
-                height: 40,
-                width: 40,
-              ),
+                                      cashhelper.getdata(key: "logo") == null
+                                          ? const CircleAvatar(
+                                              radius: 20,
+                                              backgroundImage:
+                                                  AssetImage("images/logo.png"),
+                                            )
+                                          : imagefromrequest(
+                                              url: cashhelper.getdata(
+                                                  key: "logo"),
+                                              height: 40,
+                                              width: 40,
+                                            ),
                                       SizedBox(
                                         width: 10,
                                       ),

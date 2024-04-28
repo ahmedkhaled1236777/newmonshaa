@@ -8,7 +8,6 @@ import 'customcontainerwidget.dart';
 
 class customreports extends StatelessWidget {
   final String devicetype;
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   customreports({super.key, required this.devicetype});
 
@@ -19,17 +18,10 @@ class customreports extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        key: scafoldstate,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: () {
-              scafoldstate.currentState!.openDrawer();
-            },
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
+          leading: BackButton(
+            color: Colors.white,
           ),
           title: const Text(
             'التقارير',
@@ -38,7 +30,6 @@ class customreports extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Color(0xff415769),
         ),
-        drawer: Dashboard(),
         body: SizedBox(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,

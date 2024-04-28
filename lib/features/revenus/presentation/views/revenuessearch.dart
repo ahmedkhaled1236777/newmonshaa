@@ -1,7 +1,7 @@
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/revenus/presentation/viewmodel/revenuecuibt/revenue_cubit.dart';
 import 'package:ghhg/features/revenus/presentation/views/choosedates.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ class revenuesearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        BlocProvider.of<DateCubit>(context).cleardates();
         showDialog(
           context: context,
 
@@ -90,13 +91,14 @@ class revenuesearch extends StatelessWidget {
                                                         context)
                                                     .date7,
                                           };
-                                          await BlocProvider.of<revenueCubit>(
-                                                  context)
-                                              .getallrevenues(
-                                                  token: generaltoken, page: 1);
+                                         
                                           BlocProvider.of<DateCubit>(context)
                                               .cleardates();
                                           Navigator.pop(context);
+                                           await BlocProvider.of<revenueCubit>(
+                                                  context)
+                                              .getallrevenues(
+                                                  token: generaltoken, page: 1);
                                         }
                                       },
                                       button_name: "بحث",

@@ -65,7 +65,7 @@ class customtablefinishedcontractsitem extends StatelessWidget {
           SizedBox(
             width: 3,
           ),
-          if (tenentname != null)
+          if (tenentname != null&&MediaQuery.sizeOf(context).width>950)
             Expanded(
                 flex: 3,
                 child: Text(
@@ -76,7 +76,7 @@ class customtablefinishedcontractsitem extends StatelessWidget {
           SizedBox(
             width: 3,
           ),
-          if (tenentphone != null)
+          if (tenentphone != null&&MediaQuery.sizeOf(context).width>950)
             Expanded(
                 flex: 3,
                 child: Text(

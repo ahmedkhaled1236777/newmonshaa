@@ -1,12 +1,11 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
+import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/contracts/presentation/views/addcontract.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class addcontractwithscafold extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> foemkey = GlobalKey<FormState>();
   final TextEditingController tenantname;
   final TextEditingController tenanphone;
@@ -63,28 +62,23 @@ class addcontractwithscafold extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        key: scafoldstate,
         appBar: AppBar(
-          leading: IconButton(
+          leading: BackButton(
             onPressed: () {
-              scafoldstate.currentState!.openDrawer();
+                 BlocProvider.of<contractCubit>(context)
+                                  .id=null;
+                                  Navigator.pop(context);
             },
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-            ),
+            color: Colors.white,
           ),
           backgroundColor: Appcolors.maincolor,
           centerTitle: true,
           title: Text(
             "تسجيل عقد ايجار",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize:
-                    Appsizes.mappBarsize),
+            style:
+                TextStyle(color: Colors.white, fontSize: Appsizes.mappBarsize),
           ),
         ),
-        drawer: Dashboard(),
         body: Center(
             child: addcontract(
           formkey: foemkey,

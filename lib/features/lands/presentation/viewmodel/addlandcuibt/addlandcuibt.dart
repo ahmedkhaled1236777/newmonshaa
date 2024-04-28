@@ -1,11 +1,7 @@
-import 'package:ghhg/features/aqarat/data/models/addaqarrequest/addaqarrequest.dart';
-import 'package:ghhg/features/aqarat/data/repos/addaqar/addaqarimplementation.dart';
-import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarstate.dart';
 import 'package:ghhg/features/lands/data/models/addlandrequestmodel.dart';
 import 'package:ghhg/features/lands/data/repos/addland/addlandrepoimplementation.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandstate.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -62,6 +58,7 @@ class addlandcuibt extends Cubit<addlandstate> {
   cleardata() {
     advistor_type = null;
     imageFile = [];
-    List images = [];
+    images = [];
+    emit(changeadvistortypeland());
   }
 }

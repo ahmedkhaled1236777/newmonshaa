@@ -34,6 +34,8 @@ class _searchState extends State<search> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                       onPressed: () {
+                        BlocProvider.of<addaqarcuibt>(context).cleardata();
+
                         Navigator.of(context).pop();
                       },
                       icon: Icon(

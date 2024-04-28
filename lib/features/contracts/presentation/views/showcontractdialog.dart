@@ -30,14 +30,16 @@ class showcontractdialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(0)),
               content: SingleChildScrollView(
                   child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
+                width: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.of(context).size.width * 0.25
+                    : MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Center(
                       child: Text(
-                        'بيانات المستاجر',
+                        'بيانات عقد الايجار',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
@@ -277,6 +279,40 @@ class showcontractdialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
                         'عنوان العقار: ${BlocProvider.of<contractCubit>(context).contractdata[index].realStateAddress}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 12.5, color: Colors.black87),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 7),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0xff2BA4C8), width: 0.5),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        'عنوان العقار بالتفصيل : ${BlocProvider.of<contractCubit>(context).contractdata[index].realStateAddressDetails}',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(fontSize: 12.5, color: Colors.black87),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 1,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 7),
+                      decoration: BoxDecoration(
+                          border:
+                              Border.all(color: Color(0xff2BA4C8), width: 0.5),
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        'المحافظه التابع لها العقار : ${BlocProvider.of<contractCubit>(context).contractdata[index].governorate}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 12.5, color: Colors.black87),
                       ),

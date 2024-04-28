@@ -9,34 +9,23 @@ import 'package:ghhg/features/expenses.dart/presentation/views/expensesearch.dar
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class mobileexpenses extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constrains) {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: scafoldstate,
             backgroundColor: Color(0xff415769),
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               title: Text(
                 'المصروفات',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Appsizes.mappBarsize),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Color(0xff415769),
@@ -65,7 +54,7 @@ class mobileexpenses extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                navigateandfinish(
+                navigateto(
                     navigationscreen: addexpensewithscafold(),
                     context: context);
               },
@@ -75,7 +64,6 @@ class mobileexpenses extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            drawer: Dashboard(),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [customtableexpenses(MediaQuery.sizeOf(context).width)],

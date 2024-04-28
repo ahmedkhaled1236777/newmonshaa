@@ -1,23 +1,21 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/tenants/data/model/tenantmodel/datum.dart';
 import 'package:ghhg/features/tenants/data/model/tenantmodelrequest.dart';
-import 'package:ghhg/features/tenants/presentation/view/widgets/tenants.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class edittenantdialog extends StatelessWidget {
+class edittenantdialog extends StatefulWidget {
   final double width;
   final double height;
   final Datum data;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController name;
   final TextEditingController phone;
   final TextEditingController adress;
@@ -38,14 +36,43 @@ class edittenantdialog extends StatelessWidget {
       required this.nationality});
 
   @override
+  State<edittenantdialog> createState() => _edittenantdialogState(
+      name: name,
+      phone: phone,
+      data: data,
+      adress: adress,
+      cardnumber: cardnumber,
+      job: job,
+      nationality: nationality);
+}
+
+class _edittenantdialogState extends State<edittenantdialog> {
+  final Datum data;
+  static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final TextEditingController name;
+  final TextEditingController phone;
+  final TextEditingController adress;
+  final TextEditingController cardnumber;
+  final TextEditingController job;
+  final TextEditingController nationality;
+
+  _edittenantdialogState(
+      {required this.data,
+      required this.name,
+      required this.phone,
+      required this.adress,
+      required this.cardnumber,
+      required this.job,
+      required this.nationality});
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<TenantCubit, TenantState>(
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: widget.width,
+            height: widget.height,
             child: SingleChildScrollView(
               child: Column(children: [
                 const SizedBox(
@@ -78,6 +105,8 @@ class edittenantdialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
+                                                            keyboardType: TextInputType.number,
+
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
                           hintText: "رقم الهاتف"),
@@ -85,6 +114,8 @@ class edittenantdialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
+                                                            keyboardType: TextInputType.number,
+
                           val: "برجاء ادخال رقم البطاقه",
                           controller: cardnumber,
                           hintText: "رقم البطاقه"),
@@ -116,13 +147,14 @@ class edittenantdialog extends StatelessWidget {
                   height: Appsizes.size10,
                 ),
                 BlocConsumer<TenantCubit, TenantState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is editTenantfailure) {
-                      showsnack(comment: state.error_message, context: context);
+showdialogerror(error: state.error_message, context: context);
                     }
                     if (state is editTenantsuccess) {
-                      navigateandfinish(
-                          navigationscreen: Tenants(), context: context);
+                       await BlocProvider.of<TenantCubit>(context)
+        .getalltenants(token: generaltoken, page: 1);
+Navigator.pop(context);
 
                       showsnack(
                           comment: state.success_message, context: context);
@@ -134,7 +166,7 @@ class edittenantdialog extends StatelessWidget {
                         onPressed: () async {
                           BlocProvider.of<TenantCubit>(context).updatetenant(
                               token: generaltoken,
-                              id: data.id!.toInt(),
+                              id: widget.data.id!.toInt(),
                               tenantmodel: tenentmodelrequest(
                                   name: name.text,
                                   cardnumber: cardnumber.text,

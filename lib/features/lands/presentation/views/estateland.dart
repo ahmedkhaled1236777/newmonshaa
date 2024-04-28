@@ -1,5 +1,3 @@
-import 'package:ghhg/features/aqarat/presentation/views/widgets/desktopaqarat.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/mobileaddaqqar.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/desktopland.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/mobileland.dart';
 

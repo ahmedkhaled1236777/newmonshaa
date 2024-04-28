@@ -9,6 +9,7 @@ class showemployeescuibt extends Cubit<showemployeesstates> {
   showemployeescuibt({required this.employeerepo})
       : super(showemployeesintial());
   List<Datum> employeesdata = [];
+  List<Datum> filterdata = [];
   int page = 1;
   getallemployees({required String token, required int page}) async {
     this.page = 1;
@@ -18,8 +19,9 @@ class showemployeescuibt extends Cubit<showemployeesstates> {
       emit(showemployeesfailure(error_message: l.error_message));
     }, (r) {
       employeesdata.clear();
-
+      filterdata.clear();
       employeesdata.addAll(r.data!);
+      filterdata.addAll(r.data!);
       emit(showemployeessuccess());
     });
   }
@@ -33,6 +35,11 @@ class showemployeescuibt extends Cubit<showemployeesstates> {
       employeesdata.removeWhere((element) => element.id == employeenumber);
       emit(deleteemployeesuccess(succes_message: success));
     });
+  }
+
+  fileralldata() {
+    employeesdata.clear();
+    employeesdata.addAll(filterdata);
   }
 
   searchforemployee(String phone, String cardnumber) {

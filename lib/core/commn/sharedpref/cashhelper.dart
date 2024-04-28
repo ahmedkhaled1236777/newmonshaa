@@ -6,21 +6,21 @@ class cashhelper {
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static setdata({required String key, required dynamic? value}) {
+  static setdata({required String key, required dynamic? value}) async {
     if (value is bool) {
-      return sharedPreferences.setBool(key, value);
+      return await sharedPreferences.setBool(key, value);
     }
     if (value is String) {
-      return sharedPreferences.setString(key, value);
+      return await sharedPreferences.setString(key, value);
     }
     if (value is int) {
-      return sharedPreferences.setInt(key, value);
+      return await sharedPreferences.setInt(key, value);
     }
     if (value is double) {
-      return sharedPreferences.setDouble(key, value);
+      return await sharedPreferences.setDouble(key, value);
     }
     if (value is List<String>) {
-      return sharedPreferences.setStringList(key, value);
+      return await sharedPreferences.setStringList(key, value);
     }
   }
 
@@ -28,7 +28,7 @@ class cashhelper {
     return sharedPreferences.get(key);
   }
 
-  static cleardata() {
-    return sharedPreferences.clear();
+  static cleardata() async {
+    return await sharedPreferences.clear();
   }
 }

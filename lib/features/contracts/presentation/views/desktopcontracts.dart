@@ -4,13 +4,11 @@ import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract
 import 'package:ghhg/features/contracts/presentation/views/addcontract.dart';
 import 'package:ghhg/features/contracts/presentation/views/contractsearchdialog.dart';
 import 'package:ghhg/features/contracts/presentation/views/customtablecontacts.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class desktopcontracts extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
   final TextEditingController tenantname;
   final TextEditingController tenanphone;
   final TextEditingController tenantcard;
@@ -66,17 +64,10 @@ class desktopcontracts extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'عقود الايجار',
@@ -99,7 +90,6 @@ class desktopcontracts extends StatelessWidget {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

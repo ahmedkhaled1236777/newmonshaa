@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
@@ -8,13 +9,12 @@ import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/auth/login/data/models/loginrequest.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/customimage.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/customtextform.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/noaccount.dart';
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/logincuibt.dart';
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/loginstates.dart';
 import 'package:ghhg/features/auth/register/presentation/views/register.dart';
-import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
 import 'package:ghhg/features/home/presentation/views/home.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +51,7 @@ class _DesktoplayoutState extends State<Desktoplayout> {
             customimage(
               width: width * 0.4,
               height: height * 0.5,
-              imagename: "images/qqq.jpg",
+              imagename: "images/re.jpg",
             ),
             Container(
               width: width * 0.3,
@@ -69,12 +69,16 @@ class _DesktoplayoutState extends State<Desktoplayout> {
                       customimage(
                           width: width * 0.1,
                           height: height * 0.2,
-                          imagename: 'images/building.png'),
+                          imagename: 'images/employees.png'),
                       const Text(Apptextes.login, style: Appstyles.textstle13),
                       const SizedBox(
                         height: Appsizes.size20,
                       ),
                       customtextform(
+                        keyboardType: TextInputType.number,
+inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], // Only numbers can be entered,
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
                           prefixicon: Icons.phone,
@@ -123,8 +127,8 @@ class _DesktoplayoutState extends State<Desktoplayout> {
                                         login: loginrequest(
                                   token: "",
                                   device_type: "android",
-                                  phone: phone.text,
-                                  password: password.text,
+                                  phone: phone.text.trim(),
+                                  password: password.text.trim(),
                                 ));
                               }
                             },
@@ -148,6 +152,8 @@ class _DesktoplayoutState extends State<Desktoplayout> {
                             cashhelper.setdata(
                                 key: "token",
                                 value: state.loginmodel.data!.token);
+                            if (cashhelper.getdata(key: "sound") == null)
+                              cashhelper.setdata(key: "sound", value: false);
 
                             cashhelper.setdata(
                                 key: "name",

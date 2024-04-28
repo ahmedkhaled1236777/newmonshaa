@@ -23,7 +23,6 @@ class finishedcontractsCubit extends Cubit<finishedcontractsState> {
     "عنوان العقار",
     "المالك",
     "هاتف المالك",
-    " المستأجر",
     "تاريخ الانتهاء",
     "حذف"
   ];

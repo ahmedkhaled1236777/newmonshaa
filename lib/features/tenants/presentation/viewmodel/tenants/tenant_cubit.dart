@@ -89,14 +89,4 @@ class TenantCubit extends Cubit<TenantState> {
       emit(editTenantsuccess(success_message: success));
     });
   }
-
-  searchfortenant(String phone, String cardnumber) {
-    if (phone.isNotEmpty) {
-      tenantdata.removeWhere((element) => element.phone != phone);
-    }
-    if (cardnumber.isNotEmpty) {
-      tenantdata.removeWhere((element) => element.cardNumber != cardnumber);
-    }
-    emit(deleteTenantsuccess(succes_message: ""));
-  }
 }

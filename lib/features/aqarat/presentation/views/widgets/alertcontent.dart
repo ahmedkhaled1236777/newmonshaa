@@ -1,7 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
-import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -9,24 +8,40 @@ import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqar
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarstate.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class alertcontent extends StatelessWidget {
+class alertcontent extends StatefulWidget {
+  @override
+  State<alertcontent> createState() => _alertcontentState();
+}
+
+class _alertcontentState extends State<alertcontent> {
+  static final GlobalKey<FormState> minimumareak = GlobalKey<FormState>();
+  static final GlobalKey<FormState> maxareak = GlobalKey<FormState>();
+  static final GlobalKey<FormState> minpricek = GlobalKey<FormState>();
+  static final GlobalKey<FormState> maxpricek = GlobalKey<FormState>();
   TextEditingController adress = TextEditingController();
+
   TextEditingController pricefrom = TextEditingController();
+
   TextEditingController priceto = TextEditingController();
+
   TextEditingController minimumarea = TextEditingController();
+
   TextEditingController maximumarea = TextEditingController();
+
   TextEditingController advertisecode = TextEditingController();
-  GlobalKey<FormState> minimumareak = GlobalKey<FormState>();
-  GlobalKey<FormState> maxareak = GlobalKey<FormState>();
-  GlobalKey<FormState> minpricek = GlobalKey<FormState>();
-  GlobalKey<FormState> maxpricek = GlobalKey<FormState>();
+  @override
+  void initState() {
+    BlocProvider.of<addaqarcuibt>(context).cleardata();
+    BlocProvider.of<addaqarcuibt>(context).employeename = null;
+      BlocProvider.of<addaqarcuibt>(context)
+                                    .employeeid = null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -270,6 +285,9 @@ class alertcontent extends StatelessWidget {
                               } else {
                                 BlocProvider.of<ShowaqaratCubit>(context)
                                     .queryParameters = {
+                                  "real_state_type": request[
+                                      BlocProvider.of<addaqarcuibt>(context)
+                                          .aqartype],
                                   "real_state_address": adress.text,
                                   "code": advertisecode.text,
                                   "user_id":
@@ -286,19 +304,23 @@ class alertcontent extends StatelessWidget {
                                       : num.parse(priceto.text),
                                   "lowest_space": minimumarea.text,
                                   "highest_space": maximumarea.text,
+                                  "code": advertisecode.text
                                 };
                                 BlocProvider.of<ShowaqaratCubit>(context)
                                     .data
                                     .clear();
-
-                                await BlocProvider.of<ShowaqaratCubit>(context)
-                                    .getallaqarat(token: generaltoken, page: 1);
-                                BlocProvider.of<DateCubit>(context)
+                                       BlocProvider.of<DateCubit>(context)
                                     .cleardates();
                                 BlocProvider.of<addaqarcuibt>(context)
                                     .employeeid = null;
-
+                                BlocProvider.of<addaqarcuibt>(context)
+                                    .aqartype = null;
                                 Navigator.pop(context);
+
+                                await BlocProvider.of<ShowaqaratCubit>(context)
+                                    .getallaqarat(token: generaltoken, page: 1);
+                               
+
                               }
                             },
                           )

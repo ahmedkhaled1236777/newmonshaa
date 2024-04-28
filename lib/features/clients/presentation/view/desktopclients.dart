@@ -10,25 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class desktopclientss extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'العملاء',
@@ -51,7 +42,6 @@ class desktopclientss extends StatelessWidget {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

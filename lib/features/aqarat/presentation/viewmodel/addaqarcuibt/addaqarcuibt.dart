@@ -39,7 +39,11 @@ class addaqarcuibt extends Cubit<addaqarstate> {
     employeename = val;
     emit(addchangeemployeename());
   }
-
+clearemployeename(){
+  employeename=null;
+  employeeid=null;
+    emit(addchangeemployeename());
+}
   changeaddaqardepartement(String val) {
     departement = val;
     emit(changedepartement());
@@ -80,15 +84,12 @@ class addaqarcuibt extends Cubit<addaqarstate> {
   }
 
   getallemployees({required String token}) async {
-    print("oooooooooooooooooooooooooooooooooooooooooooooo");
     var result = await addaqarrepo.getallemployees(token: token);
     result.fold((failure) {
-      print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
       print(failure.error_message);
       emit(getallemployeesfailure(error_message: failure.error_message));
     }, (success) {
       allemployeesmodel = success;
-      print("ooooooooooooooooooooiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
       for (var element in allemployeesmodel!.data!) {
         employessides.addAll({element.name!: element.id!.toInt()});
       }
@@ -101,6 +102,7 @@ class addaqarcuibt extends Cubit<addaqarstate> {
     advistor_type = null;
     departement = null;
     imageFile = [];
-    List images = [];
+    images = [];
+    emit(changeadvistortype());
   }
 }

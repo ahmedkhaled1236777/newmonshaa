@@ -1,20 +1,24 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/sound.dart';
 
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/lands/data/models/addlandrequestmodel.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandcuibt.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandstate.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/date/date_cubit.dart';
+import 'package:ghhg/features/lands/presentation/viewmodel/showlands/showlands_cubit.dart';
 import 'package:ghhg/features/lands/presentation/views/estateland.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/customchoosedate.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/customgridimages.dart';
@@ -41,6 +45,11 @@ class _addlandState extends State<addland> {
   TextEditingController adressdetails = TextEditingController();
   TextEditingController area = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    BlocProvider.of<DatelandCubit>(context).cleardata();
+    BlocProvider.of<addlandcuibt>(context).cleardata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,6 +115,9 @@ class _addlandState extends State<addland> {
                                   height: 10,
                                 ),
                                 custommytextform(
+ inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال المساحه",
                                     controller: area,
@@ -114,6 +126,9 @@ class _addlandState extends State<addland> {
                                   height: 10,
                                 ),
                                 custommytextform(
+                                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال سعر المتر",
                                     controller: price,
@@ -122,6 +137,9 @@ class _addlandState extends State<addland> {
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
+                                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال رقم الهاتف",
                                     controller: phone,
@@ -165,7 +183,7 @@ class _addlandState extends State<addland> {
                             height: Appsizes.size10,
                           ),
                           BlocConsumer<addlandcuibt, addlandstate>(
-                              listener: (context, state) {
+                              listener: (context, state) async {
                             if (state is addlandfailure)
                               showsnack(comment: state.error, context: context);
                             if (state is addlandsuccess) {
@@ -179,9 +197,17 @@ class _addlandState extends State<addland> {
                               BlocProvider.of<DatelandCubit>(context).date1 =
                                   "التاريخ";
 
-                              navigateandfinish(
-                                  navigationscreen: landsEstate(),
-                                  context: context);
+                              MediaQuery.sizeOf(context).width > 950
+                                  ? navigateandfinish(
+                                      navigationscreen: landsEstate(),
+                                      context: context)
+                                  : {
+                                      await BlocProvider.of<ShowlandsCubit>(
+                                              context)
+                                          .getallalands(
+                                              token: generaltoken, page: 1),
+                                      Navigator.pop(context),
+                                    };
                             }
                           }, builder: (context, state) {
                             if (state is addlandloading) return loading();
@@ -191,13 +217,13 @@ class _addlandState extends State<addland> {
                                     if (BlocProvider.of<addlandcuibt>(context)
                                             .advistor_type ==
                                         null) {
-                                      dialogerror(context,
+                                      showdialogerror(context:  context,
                                           error: "برجاء اختيار نوع المعلن");
                                     } else if (BlocProvider.of<DatelandCubit>(
                                                 context)
                                             .date1 ==
                                         "التاريخ") {
-                                      dialogerror(context,
+                                      showdialogerror(context:  context,
                                           error: "برجاء اختيار التاريخ");
                                     } else {
                                       if (BlocProvider.of<addlandcuibt>(context)

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -11,8 +12,13 @@ class customtextform extends StatelessWidget {
   bool obscureText;
   Widget? suffixIcon;
   String? val;
+    TextInputType keyboardType;
+
+List<TextInputFormatter>? inputFormatters;
   customtextform(
       {super.key,
+      this.keyboardType=TextInputType.text,
+      this.inputFormatters,
       required this.controller,
       required this.prefixicon,
       required this.hintText,
@@ -23,6 +29,8 @@ class customtextform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: keyboardType,
+       inputFormatters:inputFormatters,
       validator: (value) {
         if (value!.isEmpty) {
           return val;

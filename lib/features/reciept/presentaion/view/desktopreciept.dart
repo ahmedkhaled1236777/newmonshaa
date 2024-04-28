@@ -2,8 +2,6 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
-import 'package:ghhg/features/contracts/presentation/views/contractsearchdialog.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reciept/presentaion/view/addreciept.dart';
 import 'package:ghhg/features/reciept/presentaion/view/customtablereciept.dart';
 import 'package:ghhg/features/reciept/presentaion/view/recieptsearch.dart';
@@ -11,7 +9,6 @@ import 'package:ghhg/features/reciept/presentaion/viewmodel/recieptcuibt/reciept
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 
 class desktopreciepts extends StatefulWidget {
   @override
@@ -19,8 +16,6 @@ class desktopreciepts extends StatefulWidget {
 }
 
 class _desktoprecieptsState extends State<desktopreciepts> {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -34,17 +29,10 @@ class _desktoprecieptsState extends State<desktopreciepts> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'سند صرف',
@@ -67,7 +55,6 @@ class _desktoprecieptsState extends State<desktopreciepts> {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

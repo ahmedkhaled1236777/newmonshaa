@@ -22,10 +22,12 @@ class revenuerepoimplementation extends revenuerepo {
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
       }
-      if (response.statusCode == 200 && response.data["code"] == 409) {
-        return left(requestfailure(error_message: response.data["message"]));
-      } else {
+      else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      }
+       else {
+        return left(requestfailure(error_message: response.data["message"]));
       }
     } catch (e) {
       if (e is DioException) return left(requestfailure.fromdioexception(e));
@@ -94,14 +96,14 @@ class revenuerepoimplementation extends revenuerepo {
           path: "/expenses/update/${id}",
           data: revenuemodel.tojson(),
           token: token);
-      print("/////////////////////////////");
-      print(response);
+
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      } else if (response.statusCode == 200 && response.data["code"] == 409) {
-        return left(requestfailure(error_message: response.data["message"]));
-      } else
+      }  else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      } else
+        return left(requestfailure(error_message: response.data["message"]));
     } catch (e) {
       if (e is DioException) {
         return left(requestfailure.fromdioexception(e));

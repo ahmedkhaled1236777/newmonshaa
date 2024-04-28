@@ -1,36 +1,6 @@
-import 'dart:async';
-import 'package:ghhg/core/color/appcolors.dart';
-import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarcuibt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-void dialogerror(BuildContext context, {required String error}) {
-  showDialog(
-      context: context,
-      builder: ((context) {
-        return AlertDialog(
-          actions: [
-            const SizedBox(
-              height: 25,
-            ),
-            Center(
-              child: Text(error),
-            ),
-            const SizedBox(
-              height: 40,
-            ),
-            Center(
-              child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text("تم")),
-            )
-          ],
-        );
-      }));
-}
 
 awsomdialogerror({
   required BuildContext context,
@@ -66,13 +36,14 @@ awsomdialogerror({
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      SizedBox(height: 15,),
                       Text(
                         tittle,
                         style: const TextStyle(fontSize: 12),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 25,
                       ),
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,

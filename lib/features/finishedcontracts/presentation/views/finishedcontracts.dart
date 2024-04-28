@@ -1,8 +1,6 @@
-import 'package:ghhg/features/finishedcontracts/presentation/viewmodel/finishedcontracts/finishedcontracts_cubit.dart';
 import 'package:ghhg/features/finishedcontracts/presentation/views/customtablefinishedcontracts.dart';
 import 'package:ghhg/features/finishedcontracts/presentation/views/cutsomtablemobilefinshedcontracts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class finishedcontracts extends StatefulWidget {
   @override

@@ -1,7 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/financial/presentation/view/addfinancial.dart';
 import 'package:ghhg/features/financial/presentation/view/customtablefinancial.dart';
 import 'package:ghhg/features/financial/presentation/view/financialsearch.dart';
@@ -17,8 +16,6 @@ class desktopfinancials extends StatefulWidget {
 }
 
 class _desktopfinancialsState extends State<desktopfinancials> {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -31,17 +28,10 @@ class _desktopfinancialsState extends State<desktopfinancials> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'سند قبض',
@@ -64,7 +54,6 @@ class _desktopfinancialsState extends State<desktopfinancials> {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

@@ -29,7 +29,7 @@ class customappbaractions extends StatelessWidget {
               position: badges.BadgePosition.custom(top: -10, start: -5),
               badgeContent: Text(
                 BlocProvider.of<HomeCubit>(context)
-                    .sidebar[12]["count"]
+                    .sidebar[13]["count"]
                     .toString(),
                 style: TextStyle(color: Colors.white),
               ),

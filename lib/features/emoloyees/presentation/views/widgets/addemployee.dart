@@ -1,13 +1,11 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/emoloyees/presentation/viewmodel/showemployeecuibt/employeecuibt.dart';
-import 'package:ghhg/features/emoloyees/presentation/views/widgets/employees.dart';
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/employees_powers.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customchoosedate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/emoloyees/data/models/addemployeerequest.dart';
 import 'package:ghhg/features/emoloyees/presentation/viewmodel/addemployee/addemployee_cubit.dart';
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/uploadimage.dart';
@@ -38,6 +36,10 @@ class _addemplyeeState extends State<addemplyee> {
   TextEditingController phone = TextEditingController();
 
   TextEditingController password = TextEditingController();
+  @override
+  void initState() {
+    BlocProvider.of<AddemployeeCubit>(context).resetdata();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +92,7 @@ class _addemplyeeState extends State<addemplyee> {
                         ),
                         custommytextform(
                           controller: jobdescription,
-                          hintText: "المسمي الوطيفي",
+                          hintText: "المسمي الوظيفي",
                           val: "برجاء ادخال المسمي الوظيفي",
                         ),
                         const SizedBox(
@@ -105,6 +107,11 @@ class _addemplyeeState extends State<addemplyee> {
                           height: 10,
                         ),
                         custommytextform(
+                           inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                              keyboardType: TextInputType.number,
+
                           controller: cardnumber,
                           hintText: "رقم البطاقه",
                           val: "برجاء ادخال رقم البطاقه",
@@ -113,6 +120,11 @@ class _addemplyeeState extends State<addemplyee> {
                           height: 10,
                         ),
                         custommytextform(
+                           inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                              keyboardType: TextInputType.number,
+
                           controller: phone,
                           hintText: "رقم الهاتف",
                           val: "برجاء ادخال رقم الهاتف",
@@ -178,8 +190,6 @@ class _addemplyeeState extends State<addemplyee> {
                         ),
                         BlocConsumer<AddemployeeCubit, AddemployeeState>(
                           listener: (context, state) async {
-                            print("jjjjjjjjjjjjjjjjjjjjjjjjjjj");
-                            print(state);
                             if (state is Addemployeefailure) {
                               showsnack(
                                   comment: state.error_message,
@@ -198,12 +208,15 @@ class _addemplyeeState extends State<addemplyee> {
                               password.clear();
                               phone.clear();
                               cardnumber.clear();
+
                               BlocProvider.of<showemployeescuibt>(context)
                                   .employeesdata
                                   .clear();
                               await BlocProvider.of<showemployeescuibt>(context)
                                   .getallemployees(
                                       token: generaltoken, page: 1);
+                              if (MediaQuery.sizeOf(context).width < 950)
+                                Navigator.pop(context);
                               showsnack(
                                   comment: state.succes_message,
                                   context: context);
@@ -244,6 +257,7 @@ class _addemplyeeState extends State<addemplyee> {
                                           .addemployee(
                                               token: generaltoken,
                                               employee: addemployeemodel(
+                                                  is_active: "1",
                                                   password: password.text,
                                                   name: employeename.text,
                                                   phone: phone.text,

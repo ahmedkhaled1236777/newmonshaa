@@ -1,4 +1,4 @@
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/customtextform.dart';
 import 'package:ghhg/features/auth/profile/presentation/view/widgets/customdescription.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
@@ -17,6 +17,7 @@ class showtenantdialog extends StatelessWidget {
       onTap: () {
         showDialog<void>(
           context: context,
+
           barrierDismissible: false, // user must tap button!
           builder: (BuildContext context) {
             return AlertDialog(
@@ -32,7 +33,9 @@ class showtenantdialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(0)),
               content: SingleChildScrollView(
                   child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
+                width: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.of(context).size.width * 0.25
+                    : MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -51,7 +54,7 @@ class showtenantdialog extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width * 1,
                       padding:
-                          EdgeInsets.symmetric(vertical: 12, horizontal: 7),
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 0),
                       decoration: BoxDecoration(
                           border:
                               Border.all(color: Color(0xff2BA4C8), width: 0.5),

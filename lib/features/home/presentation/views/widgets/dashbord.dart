@@ -2,19 +2,20 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
 
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
 
 import 'package:ghhg/features/home/presentation/views/widgets/appbartittle.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/customdraweitem.dart';
-import 'package:ghhg/features/lands/presentation/viewmodel/showlands/showlands_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Dashboard extends StatelessWidget {
+  final GlobalKey<ScaffoldState> mykey;
+
+  const Dashboard({super.key, required this.mykey});
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, conters) {
@@ -44,11 +45,13 @@ class Dashboard extends StatelessWidget {
                     Column(
                       children: BlocProvider.of<HomeCubit>(context)
                           .sidebarpermessions
-                          .map((e) => e["name"] == "الاشعارات"
+                          .map((e) => e["name"] == "الاشعارات" ||
+                                  e["name"] == "الصفحه الرئيسيه"
                               ? SizedBox()
                               : Column(
                                   children: [
                                     customdraweritem(
+                                        mykey: mykey,
                                         count: e["count"],
                                         sizedboxwidth: 3.w,
                                         textstyle: TextStyle(
@@ -58,13 +61,7 @@ class Dashboard extends StatelessWidget {
                                         iconData: e["icon"],
                                         text: e["name"],
                                         onTap: () {
-                                          BlocProvider.of<ShowaqaratCubit>(
-                                                  context)
-                                              .queryParameters = null;
-                                          BlocProvider.of<ShowlandsCubit>(
-                                                  context)
-                                              .queryParameters = null;
-                                          navigateandfinish(
+                                          navigateto(
                                               navigationscreen: e["page"],
                                               context: context);
                                         },
@@ -104,13 +101,15 @@ class Dashboard extends StatelessWidget {
                     Column(
                       children: BlocProvider.of<HomeCubit>(context)
                           .sidebarpermessions
-                          .map((e) => e["name"] == "الاشعارات"
+                          .map((e) => e["name"] == "الاشعارات" ||
+                                  e["name"] == "الصفحه الرئيسيه"
                               ? SizedBox()
                               : Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     customdraweritem(
+                                        mykey: mykey,
                                         count: e["count"],
                                         sizedboxwidth: 6.w,
                                         textstyle: TextStyle(
@@ -121,7 +120,9 @@ class Dashboard extends StatelessWidget {
                                         iconData: e["icon"],
                                         text: e["name"],
                                         onTap: () {
-                                          navigateandfinish(
+                                          mykey.currentState!.closeDrawer();
+
+                                          navigateto(
                                               navigationscreen: e["page"],
                                               context: context);
                                         },

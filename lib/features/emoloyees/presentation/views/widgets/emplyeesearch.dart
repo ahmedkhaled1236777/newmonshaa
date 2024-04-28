@@ -1,5 +1,5 @@
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/emoloyees/presentation/viewmodel/showemployeecuibt/employeecuibt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,6 +11,10 @@ class emplyeesearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        phone.clear();
+        cardnumber.clear();
+        BlocProvider.of<showemployeescuibt>(context).fileralldata();
+
         showDialog(
           context: context,
 
@@ -43,8 +47,7 @@ class emplyeesearch extends StatelessWidget {
                               borderRadius: BorderRadius.circular(0),
                               color: Colors.white,
                             ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
+                            padding: const EdgeInsets.symmetric(vertical: 20),
                             child: SingleChildScrollView(
                               scrollDirection: Axis.vertical,
                               child: Column(
@@ -76,6 +79,8 @@ class emplyeesearch extends StatelessWidget {
                                                 context)
                                             .searchforemployee(
                                                 phone.text, cardnumber.text);
+                                        phone.clear();
+                                        cardnumber.clear();
                                         Navigator.pop(context);
                                       },
                                       button_name: "بحث",

@@ -21,8 +21,13 @@ class registerrepoimplementation extends registerrepo {
       if (response.statusCode == 200 && response.data["status"] == true) {
         registermodel = Registermodel.fromJson(response.data);
         return right(registermodel);
-      } else {
+      }  else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      else {
+                return left(requestfailure(error_message: response.data["message"]));
+
       }
       // ignore: curly_braces_in_flow_control_structures
     } catch (e) {

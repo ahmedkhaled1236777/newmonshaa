@@ -1,16 +1,16 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:ghhg/core/commn/listeninternet.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/services/apiservice.dart';
 import 'package:ghhg/features/aqarat/data/repos/addaqar/addaqarimplementation.dart';
@@ -22,6 +22,7 @@ import 'package:ghhg/features/aqarat/presentation/viewmodel/edit/edit_cubit.dart
 import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
 import 'package:ghhg/features/auth/login/data/repos/loginrepo/loginrepoimplementation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ghhg/features/auth/login/presentation/views/login.dart';
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/logincuibt.dart';
 import 'package:ghhg/features/auth/profile/data/repo/profilerepoimplementation.dart';
 import 'package:ghhg/features/auth/profile/presentation/viewmodel/cubit/profile_cubit.dart';
@@ -29,8 +30,11 @@ import 'package:ghhg/features/auth/register/data/repos/registerrepoimplementatio
 import 'package:ghhg/features/auth/register/presentation/viewsmodel/registercuibt/registercuibt.dart';
 import 'package:ghhg/features/clients/data/repos/clientrepoimplementation.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
-import 'package:ghhg/features/connect/data/repo/connectrepoimp.dart';
-import 'package:ghhg/features/connect/presentation/viewmodel/connect/connectcuibt.dart';
+import 'package:ghhg/features/employeecomission/data/repos/employeecomrepoimp.dart';
+import 'package:ghhg/features/employeecomission/presentation/view/employeecom.dart';
+import 'package:ghhg/features/employeecomission/presentation/viewmodel/employeecomcuibt/employeecocuibt.dart';
+import 'package:ghhg/features/technical%20support/data/repo/connectrepoimp.dart';
+import 'package:ghhg/features/technical%20support/presentation/viewmodel/connect/connectcuibt.dart';
 import 'package:ghhg/features/contracts/data/repos/contractrepoimplementation.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/emoloyees/data/repos/addemployeerepoimplementation.dart';
@@ -75,25 +79,35 @@ import 'package:ghhg/features/tenants/data/repo/tenantrepoimplementation.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
 import 'package:ghhg/firebase_options.dart';
 import 'package:month_year_picker/month_year_picker.dart';
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await cashhelper.initcashhelper();
+ 
 // Replace with actual values
-  if (Platform.isAndroid) {
+    if (Platform.isAndroid) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
 
     );
-       intializenotification(_firebaseMessagingBackgroundHandler);
+     AwesomeNotifications().initialize(
+      // set the icon to null if you want to use the default app icon
+      'resource://drawable/sss',
+      [
+        NotificationChannel(
+            channelKey: 'newas',  
+            channelName: 'Basic notifications',
+            channelDescription: 'Notification channel for basic tests',
+            defaultColor: Color(0xFF9D50DD),
+            ledColor: Colors.white)
+      ]);
 
   }
 /*
 
  bitsdojo_window: ^0.1.6
   device_screen_size: ^0.0.2*/
-Size screenSize = WidgetsBinding.instance.window.physicalSize;
+/*Size screenSize = WidgetsBinding.instance.window.physicalSize;
 double width = screenSize.width;
 double height = screenSize.height;
 doWhenWindowReady(() {
@@ -101,11 +115,10 @@ doWhenWindowReady(() {
     appWindow.size = Size(width,height); 
     appWindow.alignment = Alignment.center;
     appWindow.show();
-  });
+  });*/
   Apiservice.initdio();
 
   runApp(const MyApp());
-  await listeninternet.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
@@ -144,6 +157,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (context) =>
                 AqaratreportsCubit(showaqqarrepoimplementationreports())),
+        BlocProvider(
+            create: (context) =>
+                employeecomCubit(employeecomrepoimplementation())),
         BlocProvider(
             create: (context) =>
                 moneyatreportsCubit(showmoneyrepoimplementationreports())),
@@ -205,14 +221,19 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (context, child) => GetMaterialApp(
-            title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              appBarTheme: AppBarTheme(),
+              scaffoldBackgroundColor: Colors.white,
+              dialogBackgroundColor: Colors.white,
               datePickerTheme: DatePickerThemeData(
                   inputDecorationTheme: InputDecorationTheme(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0)))),
-              dialogTheme: const DialogTheme(
+              dialogTheme: DialogTheme(
+                  insetPadding: MediaQuery.sizeOf(context).width < 950
+                      ? EdgeInsets.symmetric(horizontal: 15, vertical: 20)
+                      : null,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(0)))),
               fontFamily: 'Alexandria',
@@ -220,7 +241,7 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             localizationsDelegates: const [
-  GlobalCupertinoLocalizations.delegate, // Here !
+              GlobalCupertinoLocalizations.delegate, // Here !
               GlobalWidgetsLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               MonthYearPickerLocalizations.delegate,
@@ -264,40 +285,4 @@ class MyApp extends StatelessWidget {
     );
   }
   //kjkj
-}
-intializenotification(
-    Future<void> Function(RemoteMessage) fun) async {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  FirebaseMessaging.onBackgroundMessage(fun);
-  AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
-      'resource://drawable/sss',
-      [
-        NotificationChannel(
-            channelKey: 'basic key',  
-            channelName: 'Basic notifications',
-            channelDescription: 'Notification channel for basic tests',
-            defaultColor: Color(0xFF9D50DD),
-            ledColor: Colors.white)
-      ]);
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-   
-    AwesomeNotifications().createNotification(
-        content: NotificationContent(
-            id: Random().nextInt(1000),
-            channelKey: 'basic key',
-            body: message.notification!.body,
-            title: message.notification!.title));
-  });
 }

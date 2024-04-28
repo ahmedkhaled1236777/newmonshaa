@@ -1,8 +1,6 @@
-import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/toast.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
-import 'package:ghhg/features/financial/presentation/view/customtableallfinancials.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +15,10 @@ class allfinancialsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        ownerphone.clear();
+        ownercard.clear();
+        tenantcard.clear();
+        tenantphone.clear();
         showDialog(
           context: context,
 
@@ -97,15 +99,16 @@ class allfinancialsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
+                                         ownercard.clear();
+                                        ownerphone.clear();
+                                        tenantcard.clear();
+                                        tenantphone.clear();
                                         Navigator.pop(context);
                                         await BlocProvider.of<financialCubit>(
                                                 context)
                                             .getallfinancials(
                                                 token: generaltoken, page: 1);
-                                        ownercard.clear();
-                                        ownerphone.clear();
-                                        tenantcard.clear();
-                                        tenantphone.clear();
+                                       
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

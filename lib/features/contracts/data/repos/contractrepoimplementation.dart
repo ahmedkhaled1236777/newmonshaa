@@ -20,14 +20,18 @@ class contractrepoimplementation extends contractrepo {
           path: urls.add_contract,
           token: token,
           data: contract.tojson());
-      print("wwwwwwwwwwwwwwwwwwwwwww");
-      print(response.data);
+      
 
       if (response.statusCode == 200 && response.data["status"] == true) {
         print(response.data);
         return right(response.data["message"]);
       }
-      if (response.statusCode == 200 && response.data["code"] == 409) {
+       else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+     
+      else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["data"][0]));
       } else {
         return left(requestfailure(error_message: response.data["data"][0]));
@@ -45,7 +49,6 @@ class contractrepoimplementation extends contractrepo {
       Map<String, dynamic>? queryParameters}) async {
     Contractmodel contractmodel;
     try {
-      print("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
       Response response = await Getdata.getdata(
           path: "/tenant-contract/all-tenant-contracts?page=${page}",
           token: token,
@@ -54,10 +57,16 @@ class contractrepoimplementation extends contractrepo {
       if (response.statusCode == 200 && response.data["code"] == 200) {
         contractmodel = Contractmodel.fromJson(response.data);
         return right(contractmodel);
-      } else if (response.statusCode == 200 && response.data["code"] == 409) {
-        return left(requestfailure(error_message: response.data["message"]));
+      }
+       else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+     
+       else if (response.statusCode == 200 && response.data["code"] == 409) {
+        return left(requestfailure(error_message: response.data["data"][0]));
       } else
-        return left(requestfailure(error_message: response.data[0]));
+        return left(requestfailure(error_message: response.data["message"]));
     } catch (e) {
       if (e is DioException)
         return left(requestfailure.fromdioexception(e));
@@ -74,8 +83,14 @@ class contractrepoimplementation extends contractrepo {
           path: "/tenant-contract/delete/${contractid}", token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      } else if (response.statusCode == 200 && response.data["code"] == 409) {
-        return left(requestfailure(error_message: response.data["message"]));
+      } else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+    
+      
+       else if (response.statusCode == 200 && response.data["code"] == 409) {
+        return left(requestfailure(error_message: response.data["data"][0]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));
     } catch (e) {
@@ -91,16 +106,24 @@ class contractrepoimplementation extends contractrepo {
   Future<Either<failure, String>> editcontract(
       {required String token,
       required int id,
+      Map<String, dynamic>? queryparm,
       required contractmodelrequest contractmodel}) async {
     try {
       Response response = await Postdata.postdata(
+        queryParameters:queryparm ,
           path: "/tenant-contract/update/${id}",
           data: contractmodel.tojson(),
           token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      } else if (response.statusCode == 200 && response.data["code"] == 409) {
-        return left(requestfailure(error_message: response.data["message"]));
+      }
+       else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      
+       else if (response.statusCode == 200 && response.data["code"] == 409) {
+        return left(requestfailure(error_message: response.data["data"][0]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));
     } catch (e) {

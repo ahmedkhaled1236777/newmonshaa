@@ -1,7 +1,7 @@
 import 'package:ghhg/features/contracts/presentation/views/addcontract.dart';
 import 'package:flutter/material.dart';
 
-class editcontractdialog extends StatelessWidget {
+class editcontractdialog extends StatefulWidget {
   final TextEditingController tenantname;
   final TextEditingController tenanphone;
   final TextEditingController tenantcard;
@@ -24,10 +24,85 @@ class editcontractdialog extends StatelessWidget {
   final TextEditingController insuranceval;
   final TextEditingController commessionvalue;
   final TextEditingController periodofdelay;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
-  editcontractdialog(
+
+  const editcontractdialog(
       {super.key,
       required this.tenantname,
+      required this.tenanphone,
+      required this.tenantcard,
+      required this.tenantadress,
+      required this.tenantjob,
+      required this.tenantnationality,
+      required this.ownername,
+      required this.ownerphone,
+      required this.ownercard,
+      required this.owneradress,
+      required this.ownerjob,
+      required this.ownernationality,
+      required this.aqaradress,
+      required this.aqaradressdetails,
+      required this.aqarmohafza,
+      required this.area,
+      required this.emaranumber,
+      required this.housenumber,
+      required this.totalvalue,
+      required this.insuranceval,
+      required this.commessionvalue,
+      required this.periodofdelay});
+
+  @override
+  State<editcontractdialog> createState() => _editcontractdialogState(
+      aqaradress: aqaradress,
+      aqaradressdetails: aqaradressdetails,
+      aqarmohafza: aqarmohafza,
+      area: area,
+      emaranumber: emaranumber,
+      housenumber: housenumber,
+      insuranceval: insuranceval,
+      commessionvalue: commessionvalue,
+      periodofdelay: periodofdelay,
+      tenanphone: tenanphone,
+      tenantadress: tenantadress,
+      tenantname: tenantname,
+      tenantcard: tenantcard,
+      tenantjob: tenantjob,
+      tenantnationality: tenantnationality,
+      totalvalue: totalvalue,
+      owneradress: owneradress,
+      ownercard: ownercard,
+      ownerjob: ownerjob,
+      ownername: ownername,
+      ownernationality: ownernationality,
+      ownerphone: ownerphone);
+}
+
+class _editcontractdialogState extends State<editcontractdialog> {
+  final TextEditingController tenantname;
+  final TextEditingController tenanphone;
+  final TextEditingController tenantcard;
+  final TextEditingController tenantadress;
+  final TextEditingController tenantjob;
+  final TextEditingController tenantnationality;
+  final TextEditingController ownername;
+  final TextEditingController ownerphone;
+  final TextEditingController ownercard;
+  final TextEditingController owneradress;
+  final TextEditingController ownerjob;
+  final TextEditingController ownernationality;
+  final TextEditingController aqaradress;
+  final TextEditingController aqaradressdetails;
+  final TextEditingController aqarmohafza;
+  final TextEditingController area;
+  final TextEditingController emaranumber;
+  final TextEditingController housenumber;
+  final TextEditingController totalvalue;
+  final TextEditingController insuranceval;
+  final TextEditingController commessionvalue;
+  final TextEditingController periodofdelay;
+  static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+  _editcontractdialogState(
+      {required this.tenantname,
       required this.tenanphone,
       required this.tenantcard,
       required this.tenantadress,

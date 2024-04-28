@@ -1,13 +1,13 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/home/presentation/views/home.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/settings/data/models/updateprofilemodelrequest.dart';
 import 'package:ghhg/features/settings/presentation.dart/viewmodel/updateprofilecuibt/updateprofilecuibt.dart';
 import 'package:ghhg/features/settings/presentation.dart/viewmodel/updateprofilecuibt/updateprofilestates.dart';
@@ -19,58 +19,64 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class updatecompanyprofile extends StatelessWidget {
+class updatecompanyprofile extends StatefulWidget {
   final double width;
+
+  updatecompanyprofile({super.key, required this.width});
+
+  @override
+  State<updatecompanyprofile> createState() => _updatecompanyprofileState();
+}
+
+class _updatecompanyprofileState extends State<updatecompanyprofile> {
+  static final GlobalKey<FormState> opass = GlobalKey<FormState>();
+  static final GlobalKey<FormState> npass = GlobalKey<FormState>();
   TextEditingController name =
       TextEditingController(text: cashhelper.getdata(key: "name"));
+
   final TextEditingController company_name =
       TextEditingController(text: cashhelper.getdata(key: "company_name"));
+
   final TextEditingController company_adress =
       TextEditingController(text: cashhelper.getdata(key: "company_adress"));
+
   final TextEditingController phone =
       TextEditingController(text: cashhelper.getdata(key: "phone"));
+
   final TextEditingController company_phone =
       TextEditingController(text: cashhelper.getdata(key: "company_phone"));
+
   final TextEditingController currency =
       TextEditingController(text: cashhelper.getdata(key: "currency"));
+
   TextEditingController oldpass = TextEditingController();
+
   TextEditingController newpass = TextEditingController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
+
   TextEditingController pass = TextEditingController();
-  GlobalKey<FormState> opass = GlobalKey<FormState>();
-  GlobalKey<FormState> npass = GlobalKey<FormState>();
-  updatecompanyprofile({super.key, required this.width});
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Colors.white,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: const Text(
               'تعديل الملف الشخصي',
-              style: TextStyle(color: Colors.white, fontSize: 14.2),
+              style: TextStyle(color: Colors.white, fontSize: 14),
             ),
             centerTitle: true,
             backgroundColor: const Color(0xff415769),
           ),
-          drawer: Dashboard(),
           body: Center(
             child: Container(
-              width: width,
+              width: widget.width,
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-              child: Form(
-                  child: SingleChildScrollView(
+              child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,7 +130,12 @@ class updatecompanyprofile extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    custommytextform(controller: phone, hintText: "الهاتف"),
+                    custommytextform(
+                      keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                      controller: phone, hintText: "الهاتف"),
                     const SizedBox(
                       height: 10,
                     ),
@@ -134,6 +145,10 @@ class updatecompanyprofile extends StatelessWidget {
                       height: 10,
                     ),
                     custommytextform(
+                       keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                         controller: company_phone, hintText: "هاتف الشركه"),
                     const SizedBox(
                       height: 10,
@@ -169,9 +184,10 @@ class updatecompanyprofile extends StatelessWidget {
                     }, builder: (context, state) {
                       return BlocConsumer<updateprofileCubit,
                           updateprofilestates>(listener: (context, state) {
-                        if (state is updateprofilefailure)
+                        if (state is updateprofilefailure) {
                           showsnack(
                               comment: state.error_message, context: context);
+                        }
                         if (state is updateprofilesuccess) {
                           sound.playsound();
                           BlocProvider.of<updateprofileCubit>(context).image =
@@ -265,7 +281,7 @@ class updatecompanyprofile extends StatelessWidget {
                     })
                   ],
                 ),
-              )),
+              ),
             ),
           )),
     );

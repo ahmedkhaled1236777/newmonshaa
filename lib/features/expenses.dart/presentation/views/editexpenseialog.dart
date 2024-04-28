@@ -1,27 +1,25 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customchoosedate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/customchoosedate.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/expenses.dart/data/models/expensemodel/datum.dart';
 import 'package:ghhg/features/expenses.dart/data/models/expensemodelupdate.dart';
-import 'package:ghhg/features/expenses.dart/data/models/expensesmodelrequest.dart';
 import 'package:ghhg/features/expenses.dart/presentation/viewmodel/expense/expenses_cubit.dart';
 import 'package:ghhg/features/expenses.dart/presentation/viewmodel/expense/expenses_state.dart';
-import 'package:ghhg/features/expenses.dart/presentation/views/expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class editexpensedialog extends StatelessWidget {
+class editexpensedialog extends StatefulWidget {
   final double width;
   final double height;
   final Datum data;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController amount;
   final TextEditingController descreption;
 
@@ -35,14 +33,26 @@ class editexpensedialog extends StatelessWidget {
   });
 
   @override
+  State<editexpensedialog> createState() =>
+      _editexpensedialogState(amount: amount, descreption: descreption);
+}
+
+class _editexpensedialogState extends State<editexpensedialog> {
+  static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final TextEditingController amount;
+  final TextEditingController descreption;
+
+  _editexpensedialogState({required this.amount, required this.descreption});
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<expenseCubit, expenseState>(
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: widget.width,
+            height: widget.height,
             child: SingleChildScrollView(
               child: Column(children: [
                 const SizedBox(
@@ -68,6 +78,11 @@ class editexpensedialog extends StatelessWidget {
                   child: Column(
                     children: [
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                            keyboardType: TextInputType.number,
+
                           val: "برجاء ادخال المبلغ",
                           controller: amount,
                           hintText: "المبلغ"),
@@ -90,14 +105,16 @@ class editexpensedialog extends StatelessWidget {
                   height: Appsizes.size10,
                 ),
                 BlocConsumer<expenseCubit, expenseState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is editexpensefailure) {
-                      showsnack(comment: state.error_message, context: context);
+showdialogerror(error: state.error_message, context: context);
                     }
                     if (state is editexpensesuccess) {
                       BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
-                      navigateandfinish(
-                          navigationscreen: expenses(), context: context);
+                      await BlocProvider.of<expenseCubit>(context)
+        .getallexpenses(token: generaltoken, page: 1);
+                  Navigator.pop(context);
+
 
                       showsnack(
                           comment: state.success_message, context: context);
@@ -109,7 +126,7 @@ class editexpensedialog extends StatelessWidget {
                         onPressed: () async {
                           BlocProvider.of<expenseCubit>(context).updateexpense(
                               token: generaltoken,
-                              id: data.id!.toInt(),
+                              id: widget.data.id!.toInt(),
                               expensemodel: expensesmodelupdaterequest(
                                   amount: amount.text,
                                   description: descreption.text,

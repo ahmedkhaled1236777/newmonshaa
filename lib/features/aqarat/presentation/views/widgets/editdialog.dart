@@ -1,7 +1,9 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -10,21 +12,21 @@ import 'package:ghhg/features/aqarat/data/models/showstate/datum.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqarcuibt.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/edit/edit_cubit.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customchoosedate.dart';
+import 'package:ghhg/core/commn/widgets/customchoosedate.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/customgridimages.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/pickedimage.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class editdialog extends StatelessWidget {
+class editdialog extends StatefulWidget {
   final double width;
   final double height;
   final Datum data;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController aqarnumber;
   final TextEditingController advertiser_name;
   final TextEditingController housenumber;
@@ -55,14 +57,57 @@ class editdialog extends StatelessWidget {
       required this.area});
 
   @override
+  State<editdialog> createState() => _editdialogState(
+        adress: adress,
+        adressdetails: adressdetails,
+        advertiser_name: advertiser_name,
+        aqarnumber: aqarnumber,
+        toilletsnumber: toilletsnumber,
+        details: details,
+        area: area,
+        housenumber: housenumber,
+        phone: phone,
+        roomsnumber: roomsnumber,
+        price: price,
+      );
+}
+
+class _editdialogState extends State<editdialog> {
+  final TextEditingController aqarnumber;
+  final TextEditingController advertiser_name;
+  final TextEditingController housenumber;
+  final TextEditingController adress;
+  final TextEditingController phone;
+  final TextEditingController roomsnumber;
+  final TextEditingController price;
+  final TextEditingController toilletsnumber;
+  final TextEditingController details;
+  final TextEditingController adressdetails;
+  final TextEditingController area;
+  static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+
+  _editdialogState(
+      {required this.aqarnumber,
+      required this.advertiser_name,
+      required this.housenumber,
+      required this.adress,
+      required this.phone,
+      required this.roomsnumber,
+      required this.price,
+      required this.toilletsnumber,
+      required this.details,
+      required this.adressdetails,
+      required this.area});
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditCubit, EditState>(
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: widget.width,
+            height: widget.height,
             child: SingleChildScrollView(
               child: Column(children: [
                 SizedBox(
@@ -88,9 +133,9 @@ class editdialog extends StatelessWidget {
                   child: Column(
                     children: [
                       custommytextform(
-                          val: "برجاء ادخال اسم المعلن",
+                          val: "برجاء ادخال اسم المالك او الوسيط",
                           controller: advertiser_name,
-                          hintText: "اسم المعلن"),
+                          hintText: "اسم المالك او الوسيط"),
                       const SizedBox(
                         height: 10,
                       ),
@@ -109,6 +154,9 @@ class editdialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال عدد الغرف",
                           controller: roomsnumber,
@@ -117,6 +165,9 @@ class editdialog extends StatelessWidget {
                         height: Appsizes.size10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال المساحه",
                           controller: area,
@@ -125,6 +176,9 @@ class editdialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال السعر",
                           controller: price,
@@ -133,10 +187,13 @@ class editdialog extends StatelessWidget {
                         height: Appsizes.size10,
                       ),
                       custommytextform(
+                         inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
-                          hintText: "رقم االهاتف"),
+                          hintText: "رقم هاتف المالك او الوسيط"),
                     ],
                   ),
                 ),
@@ -144,6 +201,9 @@ class editdialog extends StatelessWidget {
                   height: Appsizes.size10,
                 ),
                 custommytextform(
+                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                     keyboardType: TextInputType.number,
                     controller: aqarnumber,
                     hintText: "رقم العماره"),
@@ -151,6 +211,9 @@ class editdialog extends StatelessWidget {
                   height: Appsizes.size10,
                 ),
                 custommytextform(
+                   inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                     keyboardType: TextInputType.number,
                     controller: housenumber,
                     hintText: "رقم الشقه"),
@@ -167,7 +230,7 @@ class editdialog extends StatelessWidget {
                   ],
                   hint: "نوع العقار",
                   name: BlocProvider.of<EditCubit>(context).aqartype == null
-                      ? show[data.realStateType]
+                      ? show[widget.data.realStateType]
                       : BlocProvider.of<EditCubit>(context).aqartype,
                   onchanged: (val) {
                     BlocProvider.of<EditCubit>(context).changeaddaqartype(val);
@@ -184,7 +247,7 @@ class editdialog extends StatelessWidget {
                     items: ["بيع", "ايجار"],
                     name:
                         BlocProvider.of<EditCubit>(context).departement == null
-                            ? show[data.department]
+                            ? show[widget.data.department]
                             : BlocProvider.of<EditCubit>(context).departement,
                     hint: "القسم"),
                 const SizedBox(
@@ -197,20 +260,22 @@ class editdialog extends StatelessWidget {
                     },
                     name: BlocProvider.of<EditCubit>(context).advistor_type ==
                             null
-                        ? show[data.advertiserType]
+                        ? show[widget.data.advertiserType]
                         : BlocProvider.of<EditCubit>(context).advistor_type,
                     items: ["صاحب عقار", "شركة عقارات"],
                     hint: "نوع المعلن"),
                 const SizedBox(
                   height: 10,
                 ),
-                custommytextform(
-                    keyboardType: TextInputType.number,
-                    controller: toilletsnumber,
-                    hintText: "عدد الحمامات"),
-                const SizedBox(
-                  height: Appsizes.size10,
-                ),
+                if (BlocProvider.of<EditCubit>(context).aqartype != "محل")
+                  custommytextform(
+                      keyboardType: TextInputType.number,
+                      controller: toilletsnumber,
+                      hintText: "عدد الحمامات"),
+                if (BlocProvider.of<EditCubit>(context).aqartype != "محل")
+                  const SizedBox(
+                    height: Appsizes.size10,
+                  ),
                 custommytextform(
                     maxlines: 3,
                     controller: details,
@@ -236,14 +301,16 @@ class editdialog extends StatelessWidget {
                 BlocConsumer<EditCubit, EditState>(
                   listener: (context, state) {
                     if (state is editfailure) {
-                      Navigator.pop(context);
-                      showsnack(comment: state.error_message, context: context);
+showdialogerror(error: state.error_message, context: context);
                     }
                     if (state is editsuccess) {
                       BlocProvider.of<DateCubit>(context).cleardates();
                       BlocProvider.of<addaqarcuibt>(context).cleardata();
-                      navigateandfinish(
-                          navigationscreen: Estate(), context: context);
+                     
+                                      Navigator.pop(context);
+                                        BlocProvider.of<ShowaqaratCubit>(context)
+        .getallaqarat(token: generaltoken, page: 1);
+                                    
 
                       showsnack(
                           comment: state.successmessage, context: context);
@@ -261,7 +328,7 @@ class editdialog extends StatelessWidget {
                           }
                           BlocProvider.of<EditCubit>(context).updateaqar(
                               token: generaltoken,
-                              id: data.id!.toInt(),
+                              id: widget.data.id!.toInt(),
                               add_aqar: addaqarrequest(
                                   advertiser_name: advertiser_name.text,
                                   real_state_address: adress.text,
@@ -272,26 +339,26 @@ class editdialog extends StatelessWidget {
                                       adressdetails.text,
                                   real_state_type:
                                       BlocProvider.of<EditCubit>(context).aqartype == null
-                                          ? data.realStateType
+                                          ? widget.data.realStateType
                                           : request[
                                               BlocProvider.of<EditCubit>(context)
                                                   .aqartype!],
                                   department: BlocProvider.of<EditCubit>(context).departement == null
-                                      ? data.department
+                                      ? widget.data.department
                                       : request[BlocProvider.of<EditCubit>(context)
                                           .departement!],
                                   advertiser_type:
                                       BlocProvider.of<EditCubit>(context).advistor_type == null
-                                          ? data.advertiserType
+                                          ? widget.data.advertiserType
                                           : request[BlocProvider.of<EditCubit>(context).advistor_type!],
                                   advertised_phone_number: phone.text,
-                                  real_state_space: num.parse(area.text),
-                                  real_state_price: num.parse(price.text),
+                                  real_state_space: area.text,
+                                  real_state_price:price.text,
                                   number_of_rooms: int.parse(roomsnumber.text),
                                   state_date_register: BlocProvider.of<DateCubit>(context).date1,
                                   advertise_details: details.text,
                                   apartment_number: housenumber.text,
-                                  number_of_bathrooms: int.parse(toilletsnumber.text),
+                                  number_of_bathrooms: toilletsnumber.text,
                                   building_number: aqarnumber.text));
                         },
                         button_name: "تعديل البيانات",

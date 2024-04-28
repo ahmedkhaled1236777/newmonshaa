@@ -1,6 +1,5 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/toast.dart';
-import 'package:ghhg/features/emoloyees/presentation/views/widgets/emplyeesearch.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/tenants/presentation/view/widgets/customaddtenant.dart';
 import 'package:ghhg/features/tenants/presentation/view/widgets/customtabletenant.dart';
@@ -11,25 +10,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class desktoptenents extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'المستاجرين',
@@ -56,7 +46,6 @@ class desktoptenents extends StatelessWidget {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

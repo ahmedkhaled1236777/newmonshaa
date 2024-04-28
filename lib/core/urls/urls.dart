@@ -7,6 +7,7 @@ abstract class urls {
   static const register = "/register";
   static const allemployees = "/employee/get-all-employees";
   static const updateprofile = "/auth/update-profile";
+  static const addemployeecom = "/employee-commissions/create";
   // ignore: constant_identifier_names
   static const get_profile = "/auth/get-profile";
   // ignore: constant_identifier_names

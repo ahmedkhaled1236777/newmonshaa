@@ -15,10 +15,10 @@ class DateCubit extends Cubit<DateState> {
   String date7 = "التاريخ الي";
   String time = "وقت المعاينه";
 
-  DateTime selectedDate1 = DateTime.now();
   TimeOfDay selectedtime1 = TimeOfDay.now();
   DateCubit() : super(DateInitial());
   changedate(BuildContext context) async {
+    selectedDate = DateTime.now();
     emit(newchangedatestate());
     DateTime? date = await showDatePicker(
         context: context,
@@ -39,6 +39,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate2(BuildContext context) async {
+    selectedDate = DateTime.now();
     emit(newchangedatestate());
 
     DateTime? date = await showDatePicker(
@@ -60,6 +61,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate3(BuildContext context) async {
+    selectedDate = DateTime.now();
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -79,6 +81,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate4(BuildContext context) async {
+    selectedDate = DateTime.now();
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -98,6 +101,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate5(BuildContext context) async {
+    selectedDate = DateTime.now();
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -117,8 +121,10 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changetime(BuildContext context) async {
-    TimeOfDay? time1 =
-        await showTimePicker(context: context, initialTime: selectedtime1);
+    TimeOfDay? time1 = await showTimePicker(
+        context: context,
+        initialTime: selectedtime1,
+        initialEntryMode: TimePickerEntryMode.input);
 
     if (time1 != null) {
       selectedtime1 = time1;
@@ -133,6 +139,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate7(BuildContext context) async {
+    selectedDate = DateTime.now();
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -151,6 +158,7 @@ class DateCubit extends Cubit<DateState> {
   }
 
   changedate6(BuildContext context) async {
+    selectedDate = DateTime.now();
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: selectedDate,

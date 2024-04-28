@@ -1,29 +1,28 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/clients/data/model/clientmodelrequest.dart';
-import 'package:ghhg/features/clients/presentation/view/clients.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_state.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/model/clientmodel/datum.dart';
 
-class editclientdialog extends StatelessWidget {
+class editclientdialog extends StatefulWidget {
   final double width;
   final double height;
   final Datum data;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController clientname;
   final TextEditingController clientphone;
   final TextEditingController code;
@@ -41,14 +40,33 @@ class editclientdialog extends StatelessWidget {
   });
 
   @override
+  State<editclientdialog> createState() => _editclientdialogState(
+      clientname: clientname,
+      clientphone: clientphone,
+      code: code,
+      notes: notes);
+}
+
+class _editclientdialogState extends State<editclientdialog> {
+  final TextEditingController clientname;
+  final TextEditingController clientphone;
+  final TextEditingController code;
+  final TextEditingController notes;
+
+  _editclientdialogState(
+      {required this.clientname,
+      required this.clientphone,
+      required this.code,
+      required this.notes});
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<clientsCubit, clientsState>(
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: widget.width,
+            height: widget.height,
             child: SingleChildScrollView(
               child: Column(children: [
                 const SizedBox(
@@ -77,11 +95,22 @@ class editclientdialog extends StatelessWidget {
                       height: 10,
                     ),
                     custommytextform(
+                       inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                          keyboardType: TextInputType.number,
+
                         controller: clientphone, hintText: "رقم هاتف العميل"),
                     const SizedBox(
                       height: 10,
                     ),
-                    custommytextform(controller: code, hintText: "الكود"),
+                    custommytextform(
+                       inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                          keyboardType: TextInputType.number,
+
+                      controller: code, hintText: "الكود"),
                     const SizedBox(
                       height: 10,
                     ),
@@ -158,15 +187,19 @@ class editclientdialog extends StatelessWidget {
                 BlocConsumer<clientsCubit, clientsState>(
                   listener: (context, state) {
                     if (state is editclientsfailure) {
-                      Navigator.pop(context);
-                      showsnack(comment: state.error_message, context: context);
+                    showdialogerror(error: state.error_message, context: context);
+
                     }
                     if (state is editclientssuccess) {
                       BlocProvider.of<DateCubit>(context).cleardates();
                       BlocProvider.of<clientsCubit>(context).departement = null;
                       BlocProvider.of<clientsCubit>(context).status = null;
-                      navigateandfinish(
-                          navigationscreen: clients(), context: context);
+                      
+                            
+                                   
+                                      Navigator.pop(context);
+                                        BlocProvider.of<clientsCubit>(context)
+        .getallclientss(token: generaltoken, page: 1);
 
                       showsnack(
                           comment: state.success_message, context: context);
@@ -178,7 +211,7 @@ class editclientdialog extends StatelessWidget {
                         onPressed: () async {
                           BlocProvider.of<clientsCubit>(context).updateclients(
                               token: generaltoken,
-                              id: data.id!.toInt(),
+                              id: widget.data.id!.toInt(),
                               clientsmodel: clientmodelrequest(
                                   name: clientname.text,
                                   phone: clientphone.text,

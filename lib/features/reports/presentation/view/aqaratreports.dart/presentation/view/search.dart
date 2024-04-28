@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/view/aqaratalertcontent.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +27,7 @@ class _aqaratsearchreportState extends State<aqaratsearchreport> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                       onPressed: () {
+                        BlocProvider.of<DateCubit>(context).cleardates();
                         Navigator.of(context).pop();
                       },
                       icon: Icon(Icons.close)),

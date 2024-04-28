@@ -1,11 +1,9 @@
-import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/expenses.dart/presentation/viewmodel/expense/expenses_cubit.dart';
 import 'package:ghhg/features/expenses.dart/presentation/views/choosedates.dart';
-import 'package:ghhg/features/expenses.dart/presentation/views/expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,6 +12,7 @@ class expensesearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        BlocProvider.of<DateCubit>(context).cleardates();
         showDialog(
           context: context,
 
@@ -68,15 +67,15 @@ class expensesearch extends StatelessWidget {
                                   custommaterialbutton(
                                       onPressed: () async {
                                         if (BlocProvider.of<DateCubit>(context)
-                                                .date1 ==
-                                            "التاريخ")
+                                                .date6 ==
+                                            "التاريخ من")
                                           showdialogerror(
                                               error: "برجاء اختيار التاريخ من",
                                               context: context);
                                         else if (BlocProvider.of<DateCubit>(
                                                     context)
-                                                .date2 ==
-                                            "التاريخ")
+                                                .date7 ==
+                                            "التاريخ الي")
                                           showdialogerror(
                                               error: "برجاء اختيار التاريخ الي",
                                               context: context);
@@ -86,19 +85,20 @@ class expensesearch extends StatelessWidget {
                                             "date_from":
                                                 BlocProvider.of<DateCubit>(
                                                         context)
-                                                    .date1,
+                                                    .date6,
                                             "date_to":
                                                 BlocProvider.of<DateCubit>(
                                                         context)
-                                                    .date2,
+                                                    .date7,
                                           };
-                                          await BlocProvider.of<expenseCubit>(
-                                                  context)
-                                              .getallexpenses(
-                                                  token: generaltoken, page: 1);
+                                         
                                           BlocProvider.of<DateCubit>(context)
                                               .cleardates();
                                           Navigator.pop(context);
+                                           await BlocProvider.of<expenseCubit>(
+                                                  context)
+                                              .getallexpenses(
+                                                  token: generaltoken, page: 1);
                                         }
                                       },
                                       button_name: "بحث",

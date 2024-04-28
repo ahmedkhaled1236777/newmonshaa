@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:ghhg/core/errors/failure.dart';
 import 'package:ghhg/features/emoloyees/data/models/addemployeerequest.dart';
-import 'package:ghhg/features/emoloyees/data/repos/addemployeerepo.dart';
 import 'package:ghhg/features/emoloyees/data/repos/addemployeerepoimplementation.dart';
 import 'package:bloc/bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +12,7 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
   AddemployeeCubit({required this.addemployeerepo})
       : super(AddemployeeInitial());
   File? image;
+  String? is_active;
   uploadimage() async {
     XFile? pickedimage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -46,15 +45,14 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
     "سندات الصرف": "financial_receipt",
     "المصروفات": "expenses",
     "الموظفين": "employees",
-    "التقارير": "reports",
     "الدعم الفني": "technical_support",
     "عقارات البيع": "selling_states",
     "عقارات الايجار": "tenant_states",
     "الايرادات": "revenue",
     "العملاء": "clients",
-    "الاشعارات": "notifications",
     "العقود المنتهيه": "expired_contracts",
-    "الارباح": "profits"
+    "الارباح": "profits",
+    "عموله الموظفين":"employee_commission"
   };
   Map showpermessions = {
     "states": "العقارات",
@@ -73,7 +71,9 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
     "clients": "العملاء",
     "notifications": "الاشعارات",
     "expired_contracts": "العقود المنتهيه",
-    "profits": "الارباح"
+    "profits": "الارباح",
+       "employee_commission": "عموله الموظفين"
+
   };
   List selecteditems = [];
   getselecteditems() {
@@ -83,6 +83,9 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
         employeepermession.add(permessions["عقارات البيع"]);
         employeepermession.add(permessions["عقارات الايجار"]);
       }
+      if (selecteditems[i] == "الاشعارات" || selecteditems[i] == "التقارير") {
+        continue;
+      }
       employeepermession.add(permessions[selecteditems[i]]);
     }
     return employeepermession;
@@ -91,7 +94,12 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
   showselecteditems(List<String> permessions) {
     selecteditems = [];
     for (int i = 0; i < permessions.length; i++) {
-      if (permessions[i] != "home_page" && permessions[i] != "setting")
+      if (permessions[i] != "home_page" &&
+          permessions[i] != "setting" &&
+          permessions[i] != "notifications" &&
+          permessions[i] != "reports" &&
+          permessions[i] != "selling_states" &&
+          permessions[i] != "tenant_states")
         selecteditems.add(showpermessions[permessions[i]]);
     }
   }
@@ -124,5 +132,10 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
     selecteditems = [];
     image = null;
     emit(resetdatastate());
+  }
+
+  changestatus(String val) {
+    this.is_active = val;
+    emit(changestatusstate());
   }
 }

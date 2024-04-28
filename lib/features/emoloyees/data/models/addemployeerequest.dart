@@ -8,10 +8,12 @@ class addemployeemodel {
   final String employee_address;
   final String card_number;
   final String jobtittle;
+  final String is_active;
   final List<String> permessions;
 
   addemployeemodel(
       {required this.password,
+      required this.is_active,
       required this.name,
       required this.jobtittle,
       required this.phone,
@@ -21,6 +23,7 @@ class addemployeemodel {
       this.employee_image});
   FormData tojson() => FormData.fromMap({
         if (employee_image != null) "employee_image": employee_image,
+        "is_active": is_active,
         "name": name,
         "phone": phone,
         "password": password,

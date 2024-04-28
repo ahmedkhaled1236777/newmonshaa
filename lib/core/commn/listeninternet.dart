@@ -15,20 +15,14 @@ class listeninternet {
     await connect.onConnectivityChanged.listen((event) {
       if (event == ConnectivityResult.none) {
         checked = true;
-        Get.off(() => nointernet(),
+        Get.to(() => nointernet(),
             transition: Transition.rightToLeft,
             duration: Duration(milliseconds: 500),
             curve: Curves.easeInOut);
       }
       if (event != ConnectivityResult.none && checked == true) {
         checked = false;
-        Get.off(
-            () => cashhelper.getdata(key: "token") == null
-                ? Login()
-                : MyHomePage(),
-            transition: Transition.rightToLeft,
-            duration: Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
+        Get.back();
       }
     });
   }

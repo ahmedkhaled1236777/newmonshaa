@@ -1,12 +1,12 @@
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_state.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,6 +16,7 @@ class clientsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        phone.clear();
         BlocProvider.of<clientsCubit>(context).status = null;
         BlocProvider.of<DateCubit>(context).date5 = "تاريخ المعاينه";
         showDialog(
@@ -131,17 +132,17 @@ class clientsearch extends StatelessWidget {
                                                       context)
                                                   .status],
                                         };
-
-                                        await BlocProvider.of<clientsCubit>(
-                                                context)
-                                            .getallclientss(
-                                                token: generaltoken, page: 1);
-                                        BlocProvider.of<DateCubit>(context)
+ BlocProvider.of<DateCubit>(context)
                                             .cleardates();
                                         phone.clear();
                                         BlocProvider.of<clientsCubit>(context)
                                             .status = null;
                                         Navigator.pop(context);
+                                        await BlocProvider.of<clientsCubit>(
+                                                context)
+                                            .getallclientss(
+                                                token: generaltoken, page: 1);
+                                       
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

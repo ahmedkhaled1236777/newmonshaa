@@ -1,4 +1,12 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:ghhg/core/commn/constants.dart';
+import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
+import 'package:lottie/lottie.dart';
 
 class nointernet extends StatelessWidget {
   @override
@@ -7,11 +15,7 @@ class nointernet extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            Expanded(
-                child: Image.asset(
-              "images/nointernet.png",
-              width: MediaQuery.sizeOf(context).width * 0.5,
-            )),
+            Expanded(child: Lottie.asset("images/nointerneta.json")),
             SizedBox(
               height: 10,
             ),
@@ -20,6 +24,14 @@ class nointernet extends StatelessWidget {
               style: TextStyle(fontSize: 15),
             ),
             SizedBox(
+              height: 10,
+            ),
+     if(insplash==true)    IconButton(
+      icon:Icon(Icons.refresh),
+      onPressed: () async {
+       if(await Connectivity().checkConnectivity()!=ConnectivityResult.none)         {  await BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
+                  Navigator.pop(context);}}),
+             SizedBox(
               height: 20,
             ),
           ],

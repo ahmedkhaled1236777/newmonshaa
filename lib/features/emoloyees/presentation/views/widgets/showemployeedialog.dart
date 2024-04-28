@@ -1,8 +1,5 @@
-import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
-import 'package:ghhg/features/auth/profile/presentation/view/widgets/customdescription.dart';
 import 'package:ghhg/features/emoloyees/presentation/viewmodel/showemployeecuibt/employeecuibt.dart';
-import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +30,9 @@ class showtemployeedialog extends StatelessWidget {
                   borderRadius: BorderRadius.circular(0)),
               content: SingleChildScrollView(
                   child: Container(
-                width: MediaQuery.of(context).size.width * 0.24,
+                width: MediaQuery.sizeOf(context).width > 950
+                    ? MediaQuery.of(context).size.width * 0.25
+                    : MediaQuery.of(context).size.width * 0.9,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,

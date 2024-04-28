@@ -1,12 +1,9 @@
-import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/toast.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
-import 'package:ghhg/features/reciept/presentaion/view/cuatomtableallreciepts.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/reciept/presentaion/viewmodel/recieptcuibt/recieptcuibt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
 
 class allrecieptsearch extends StatelessWidget {
   final TextEditingController ownerphone = TextEditingController();
@@ -16,6 +13,8 @@ class allrecieptsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        ownercard.clear();
+        ownerphone.clear();
         showDialog(
           context: context,
 
@@ -82,14 +81,15 @@ class allrecieptsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
+                                           ownercard.clear();
+                                        ownerphone.clear();
                                         Navigator.pop(context);
                                         await BlocProvider.of<recieptCubit>(
                                                 context)
                                             .getallreciepts(
                                                 token: generaltoken, page: 1);
 
-                                        ownercard.clear();
-                                        ownerphone.clear();
+                                     
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

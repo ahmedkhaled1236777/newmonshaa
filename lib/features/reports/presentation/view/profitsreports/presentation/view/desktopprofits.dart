@@ -2,9 +2,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
-import 'package:ghhg/features/reports/presentation/view/moneyreports/presentation/view/custommonetrablereports.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/customprofititem.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/viewmodel/cubit/profit_cubit.dart';
@@ -13,8 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtabledesktopprofitatreports extends StatefulWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   State<customtabledesktopprofitatreports> createState() =>
       _customtabledesktopprofitatreportsState();
@@ -40,17 +37,10 @@ class _customtabledesktopprofitatreportsState
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
@@ -76,7 +66,6 @@ class _customtabledesktopprofitatreportsState
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,

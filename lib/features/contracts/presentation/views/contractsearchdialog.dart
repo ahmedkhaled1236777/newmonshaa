@@ -1,6 +1,6 @@
 import 'package:ghhg/core/commn/toast.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +15,10 @@ class contractsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
+        tenantcard.clear();
+        tenantphone.clear();
+        ownercard.clear();
+        ownerphone.clear();
         showDialog(
           context: context,
 
@@ -95,16 +99,17 @@ class contractsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
+                                           tenantcard.clear();
+                                        tenantphone.clear();
+                                        ownercard.clear();
+                                        ownerphone.clear();
                                         Navigator.pop(context);
 
                                         await BlocProvider.of<contractCubit>(
                                                 context)
                                             .getallcontracts(
                                                 token: generaltoken, page: 1);
-                                        tenantcard.clear();
-                                        tenantphone.clear();
-                                        ownercard.clear();
-                                        ownerphone.clear();
+                                     
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

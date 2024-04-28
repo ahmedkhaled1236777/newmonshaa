@@ -15,7 +15,7 @@ class customcontainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        navigateandfinish(navigationscreen: page, context: context);
+        navigateto(navigationscreen: page, context: context);
       },
       child: Container(
         decoration: BoxDecoration(

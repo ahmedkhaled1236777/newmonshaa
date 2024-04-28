@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:ghhg/core/commn/navigation.dart';
-import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -20,15 +19,11 @@ class desktopdrawer extends StatefulWidget {
 }
 
 class _desktopdrawerState extends State<desktopdrawer> {
+  GlobalKey<ScaffoldState> mykey = GlobalKey<ScaffoldState>();
+
   Timer? timer;
   @override
-  void initState() {
-    print("oooooooooooooooooooooooooooooooooooooooooooooooooo");
-    timer = Timer.periodic(
-        Duration(seconds: 5),
-        (Timer t) =>
-            BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken));
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +52,7 @@ class _desktopdrawerState extends State<desktopdrawer> {
                           .map((e) => Column(
                                 children: [
                                   customdraweritem(
+                                      mykey: mykey,
                                       count: e["count"],
                                       sizedboxwidth: 3.w,
                                       textstyle: Appstyles.textStyle13wd,

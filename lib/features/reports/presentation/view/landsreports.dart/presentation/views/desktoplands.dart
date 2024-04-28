@@ -2,8 +2,9 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/viewmodel/landsreports/landsreports_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/views/customtablelandsreports.dart';
@@ -14,7 +15,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtabledesktoplandatreports extends StatefulWidget {
   ScrollController scrollController = ScrollController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   @override
   State<customtabledesktoplandatreports> createState() =>
@@ -47,17 +47,10 @@ class _customtabledesktoplandatreportsState
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               actions: [
                 IconButton(
@@ -81,7 +74,6 @@ class _customtabledesktoplandatreportsState
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -116,57 +108,67 @@ class _customtabledesktoplandatreportsState
                         builder: (context, state) {
                           if (state is landatreportsloading) return loading();
                           if (state is landatreportsfailure) return SizedBox();
-                          return SingleChildScrollView(
-                              controller: widget.scrollController,
-                              child: ListView.separated(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return index >=
-                                            BlocProvider.of<landatreportsCubit>(
-                                                    context)
-                                                .data
-                                                .length
-                                        ? loading()
-                                        : customtablelandatreportsitem(
-                                            textStyle:
-                                                Appstyles.gettabletextstyle(
-                                                    context: context),
-                                            date: prov.data[index].createdAt!,
-                                            advertisertype: show[prov
-                                                .data[index].advertiserType],
-                                            emoloyeename:
-                                                prov.data[index].user!.name!,
-                                            advertiser:
-                                                prov.data[index].sellerName!,
-                                            area: prov.data[index].sizeInMetres!
-                                                .toString(),
-                                            phone: prov
-                                                .data[index].sellerPhoneNumber!,
-                                            adress: prov.data[index].address!,
-                                            amoutofmoney: prov
-                                                .data[index].totalCost
-                                                .toString(),
-                                            priceofmeter: prov
-                                                .data[index].priceOfOneMeter
-                                                .toString(),
-                                          );
-                                  },
-                                  separatorBuilder: (context, index) =>
-                                      const Divider(),
-                                  itemCount: BlocProvider.of<
-                                                  landatreportsCubit>(context)
-                                              .loading ==
-                                          true
-                                      ? BlocProvider.of<landatreportsCubit>(
+                          return BlocProvider.of<landatreportsCubit>(context)
+                                  .data
+                                  .isEmpty
+                              ? nodata()
+                              : SingleChildScrollView(
+                                  controller: widget.scrollController,
+                                  child: ListView.separated(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return index >=
+                                                BlocProvider.of<
+                                                            landatreportsCubit>(
+                                                        context)
+                                                    .data
+                                                    .length
+                                            ? loading()
+                                            : customtablelandatreportsitem(
+                                                textStyle:
+                                                    Appstyles.gettabletextstyle(
+                                                        context: context),
+                                                date:
+                                                    prov.data[index].createdAt!,
+                                                advertisertype: show[prov
+                                                    .data[index]
+                                                    .advertiserType],
+                                                emoloyeename: prov
+                                                    .data[index].user!.name!,
+                                                advertiser: prov
+                                                    .data[index].sellerName!,
+                                                area: prov
+                                                    .data[index].sizeInMetres!
+                                                    .toString(),
+                                                phone: prov.data[index]
+                                                    .sellerPhoneNumber!,
+                                                adress:
+                                                    prov.data[index].address!,
+                                                amoutofmoney: prov
+                                                    .data[index].totalCost
+                                                    .toString(),
+                                                priceofmeter: prov
+                                                    .data[index].priceOfOneMeter
+                                                    .toString(),
+                                              );
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          const Divider(),
+                                      itemCount: BlocProvider.of<
+                                                          landatreportsCubit>(
+                                                      context)
+                                                  .loading ==
+                                              true
+                                          ? BlocProvider.of<landatreportsCubit>(
+                                                      context)
+                                                  .data
+                                                  .length +
+                                              1
+                                          : BlocProvider.of<landatreportsCubit>(
                                                   context)
                                               .data
-                                              .length +
-                                          1
-                                      : BlocProvider.of<landatreportsCubit>(
-                                              context)
-                                          .data
-                                          .length));
+                                              .length));
                         },
                       ))
                     ]))));

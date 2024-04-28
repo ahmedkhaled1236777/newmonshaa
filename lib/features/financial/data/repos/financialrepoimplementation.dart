@@ -20,10 +20,15 @@ class financialrepoimplementation extends financialrepo {
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
       }
+      else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
+        return left(requestfailure(error_message: response.data["data"][0]));
+      }
+     else
       if (response.statusCode == 200 && response.data["code"] == 422) {
-        return left(requestfailure(error_message: response.data[0]));
+        return left(requestfailure(error_message: response.data["data"][0]));
       } else {
-        return left(requestfailure(error_message: response.data[0]));
+        return left(requestfailure(error_message: response.data["data"][0]));
       }
     } catch (e) {
       if (e is DioException) return left(requestfailure.fromdioexception(e));

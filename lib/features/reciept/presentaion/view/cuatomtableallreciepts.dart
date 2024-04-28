@@ -3,8 +3,9 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/toast.dart';
+import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/customheadertable.dart';
+import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reciept/presentaion/view/customtableallrecieptsitem.dart';
 import 'package:ghhg/features/reciept/presentaion/view/receipt_print.dart';
@@ -14,11 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../data/models/allrecieptmodel/receipt.dart';
-
 class customtableallreciepts extends StatefulWidget {
   ScrollController scrollController = ScrollController();
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
 
   customtableallreciepts();
 
@@ -34,17 +32,10 @@ class _customtableallrecieptsState extends State<customtableallreciepts> {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Scaffold(
-            key: widget.scafoldstate,
             backgroundColor: Appcolors.maincolor,
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  widget.scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               title: Text(
                 'سند صرف',
@@ -53,7 +44,6 @@ class _customtableallrecieptsState extends State<customtableallreciepts> {
               centerTitle: true,
               backgroundColor: Appcolors.maincolor,
             ),
-            drawer: Dashboard(),
             body: Container(
                 color: Colors.white,
                 width: MediaQuery.of(context).size.width,
@@ -80,132 +70,141 @@ class _customtableallrecieptsState extends State<customtableallreciepts> {
                                 .toList()),
                       ),
                       Expanded(
-                          child: ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return customtablerecieptsitem(
-                                    textStyle: Appstyles.gettabletextstyle(
-                                        context: context),
-                                    cashnumber:
-                                        (BlocProvider.of<recieptCubit>(context)
-                                                    .reciepts
-                                                    .length -
-                                                index)
-                                            .toString(),
-                                    date: BlocProvider.of<recieptCubit>(context)
-                                        .reciepts[index]
-                                        .transactionDate!,
-                                    datefrom:
-                                        BlocProvider.of<recieptCubit>(context)
+                          child: BlocProvider.of<recieptCubit>(context)
+                                  .reciepts
+                                  .isEmpty
+                              ? nodata()
+                              : ListView.separated(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return customtablerecieptsitem(
+                                        textStyle: Appstyles.gettabletextstyle(
+                                            context: context),
+                                        cashnumber:
+                                            (BlocProvider.of<recieptCubit>(context)
+                                                        .reciepts
+                                                        .length -
+                                                    index)
+                                                .toString(),
+                                        date: BlocProvider.of<recieptCubit>(context)
                                             .reciepts[index]
-                                            .contractDateFrom,
-                                    dateto:
-                                        BlocProvider.of<recieptCubit>(context)
+                                            .transactionDate!,
+                                        datefrom:
+                                            BlocProvider.of<recieptCubit>(context)
+                                                .reciepts[index]
+                                                .contractDateFrom,
+                                        dateto: BlocProvider.of<recieptCubit>(context)
                                             .reciepts[index]
                                             .contractDateTo,
-                                    ownername:
-                                        BlocProvider.of<recieptCubit>(context)
-                                            .reciepts[index]
-                                            .ownerName!,
-                                    ownerphone:
-                                        BlocProvider.of<recieptCubit>(context)
-                                            .reciepts[index]
-                                            .ownerPhone,
-                                    amountofmoney:
-                                        BlocProvider.of<recieptCubit>(context)
-                                            .reciepts[index]
-                                            .totalAmount
-                                            .toString(),
-                                    print: IconButton(
-                                        onPressed: () {
-                                          navigateto(
-                                              navigationscreen: PdfViewReceipt(
-                                                  data: BlocProvider.of<
-                                                          recieptCubit>(context)
-                                                      .reciepts[index]),
-                                              context: context);
-                                        },
-                                        icon: const Icon(
-                                          Icons.print,
-                                          size: 24,
-                                        )),
-                                    delete: IconButton(
-                                        onPressed: () {
-                                          awsomdialogerror(
-                                            mywidget: BlocConsumer<recieptCubit,
-                                                recieptState>(
-                                              listener: (context, state) {
-                                                if (state
-                                                    is deleterecieptsuccess) {
-                                                  Navigator.pop(context);
-
-                                                  showsnack(
-                                                      comment:
-                                                          state.succes_message,
-                                                      context: context);
-                                                }
-                                                if (state
-                                                    is deleterecieptfailure) {
-                                                  Navigator.pop(context);
-
-                                                  showsnack(
-                                                      comment:
-                                                          state.errormessage,
-                                                      context: context);
-                                                }
-                                              },
-                                              builder: (context, state) {
-                                                return ElevatedButton(
-                                                    style: const ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  37,
-                                                                  163,
-                                                                  42)),
-                                                    ),
-                                                    onPressed: () async {
-                                                      await BlocProvider.of<
+                                        ownername:
+                                            BlocProvider.of<recieptCubit>(context)
+                                                .reciepts[index]
+                                                .ownerName!,
+                                        ownerphone:
+                                            BlocProvider.of<recieptCubit>(context)
+                                                .reciepts[index]
+                                                .ownerPhone,
+                                        amountofmoney:
+                                            BlocProvider.of<recieptCubit>(context)
+                                                .reciepts[index]
+                                                .totalAmount
+                                                .toString(),
+                                        print: IconButton(
+                                            onPressed: () {
+                                              navigateto(
+                                                  navigationscreen: PdfViewReceipt(
+                                                      data: BlocProvider.of<
                                                                   recieptCubit>(
                                                               context)
-                                                          .deletereciept(
-                                                              token:
-                                                                  generaltoken,
-                                                              recieptid: BlocProvider
-                                                                      .of<recieptCubit>(
+                                                          .reciepts[index]),
+                                                  context: context);
+                                            },
+                                            icon: const Icon(
+                                              Icons.print,
+                                              size: 24,
+                                            )),
+                                        delete: IconButton(
+                                            onPressed: () {
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    recieptCubit, recieptState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleterecieptsuccess) {
+                                                      Navigator.pop(context);
+
+                                                      showsnack(
+                                                          comment: state
+                                                              .succes_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleterecieptfailure) {
+                                                      Navigator.pop(context);
+
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      recieptCubit>(
+                                                                  context)
+                                                              .deletereciept(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  recieptid: BlocProvider.of<
+                                                                              recieptCubit>(
                                                                           context)
-                                                                  .reciepts[
-                                                                      index]
-                                                                  .id!
-                                                                  .toInt());
-                                                    },
-                                                    child: const Text(
-                                                      "تاكيد",
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.white),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ));
-                                              },
-                                            ),
-                                            context: context,
-                                            tittle: "هل تريد حذف سند الصرف ؟",
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.delete_outline_outlined,
-                                          color: Colors.red,
-                                          size: 24,
-                                        )));
-                              },
-                              separatorBuilder: (context, index) =>
-                                  const Divider(),
-                              itemCount: BlocProvider.of<recieptCubit>(context)
-                                  .reciepts
-                                  .length))
+                                                                      .reciepts[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle:
+                                                    "هل تريد حذف سند الصرف ؟",
+                                              );
+                                            },
+                                            icon: const Icon(
+                                              Icons.delete_outline_outlined,
+                                              color: Colors.red,
+                                              size: 24,
+                                            )));
+                                  },
+                                  separatorBuilder: (context, index) =>
+                                      const Divider(),
+                                  itemCount:
+                                      BlocProvider.of<recieptCubit>(context)
+                                          .reciepts
+                                          .length))
                     ])),
           ),
         );

@@ -2,8 +2,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:ghhg/features/reports/presentation/view/revenusreports.dart/presentation/viewmodel/revenus/revenusreports_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,9 +17,9 @@ class revenusatalertcontent extends StatelessWidget {
             scrollDirection: Axis.vertical,
             child: Column(children: [
               SizedBox(
-                  width: MediaQuery.of(context).size.width < 600
-                      ? MediaQuery.of(context).size.width * 0.70
-                      : MediaQuery.of(context).size.width * 0.3,
+                  width:MediaQuery.sizeOf(context).width > 950
+                      ? MediaQuery.sizeOf(context).width * 0.25
+                      : MediaQuery.sizeOf(context).width * 1,
                   child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(0),

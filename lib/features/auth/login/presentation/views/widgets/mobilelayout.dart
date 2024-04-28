@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
@@ -10,7 +11,7 @@ import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/auth/login/data/models/loginrequest.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/customimage.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/customtextform.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/noaccount.dart';
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/logincuibt.dart';
@@ -77,7 +78,7 @@ class _MobilelayoutState extends State<Mobilelayout> {
                     child: customimage(
                         width: width * 0.2,
                         height: height * 0.2,
-                        imagename: "images/building.png")),
+                        imagename: "images/employees.png")),
                 const SizedBox(
                   height: Appsizes.size40,
                 ),
@@ -91,6 +92,10 @@ class _MobilelayoutState extends State<Mobilelayout> {
                   height: Appsizes.size20,
                 ),
                 customtextform(
+keyboardType: TextInputType.number,
+inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], // Only numbers can be entered,
                     val: "برجاء ادخال رقم الهاتف",
                     controller: phone,
                     prefixicon: Icons.phone,
@@ -127,9 +132,14 @@ class _MobilelayoutState extends State<Mobilelayout> {
                     password.clear();
                     phone.clear();
                     generaltoken = state.loginmodel.data!.token!;
+                    if (cashhelper.getdata(key: "sound") == null)
+                      cashhelper.setdata(key: "sound", value: false);
 
                     cashhelper.setdata(
                         key: "logo", value: state.loginmodel.data!.logo);
+                    cashhelper.setdata(
+                        key: "currency",
+                        value: state.loginmodel.data!.currency);
                     cashhelper.setdata(
                         key: "permessions",
                         value: state.loginmodel.data!.permissions);
@@ -170,8 +180,8 @@ class _MobilelayoutState extends State<Mobilelayout> {
                                 login: loginrequest(
                           device_type: "android",
                           token: token!,
-                          phone: phone.text,
-                          password: password.text,
+                          phone: phone.text.trim(),
+                          password: password.text.trim(),
                         ));
                       }
                     },

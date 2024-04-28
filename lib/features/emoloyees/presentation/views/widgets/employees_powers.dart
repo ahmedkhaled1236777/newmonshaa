@@ -22,8 +22,8 @@ class EmployessPowersState extends State<EmployessPowers> {
     'الموظفين',
     'الدعم الفني',
     "الايرادات",
-    "الاشعارات",
     "العملاء",
+    "عموله الموظفين",
     "العقود المنتهيه",
     "الارباح"
   ];
@@ -59,9 +59,27 @@ class EmployessPowersState extends State<EmployessPowers> {
                       return InkWell(
                         onTap: () {
                           isSelected
-                              ? BlocProvider.of<AddemployeeCubit>(context)
-                                  .selecteditems
-                                  .remove(item)
+                              ? {
+                                  item == "العقارات"
+                                      ? {
+                                          BlocProvider.of<AddemployeeCubit>(
+                                                  context)
+                                              .selecteditems
+                                              .remove("عقارات البيع"),
+                                          BlocProvider.of<AddemployeeCubit>(
+                                                  context)
+                                              .selecteditems
+                                              .remove(item),
+                                          BlocProvider.of<AddemployeeCubit>(
+                                                  context)
+                                              .selecteditems
+                                              .remove("عقارات الايجار")
+                                        }
+                                      : BlocProvider.of<AddemployeeCubit>(
+                                              context)
+                                          .selecteditems
+                                          .remove(item)
+                                }
                               : BlocProvider.of<AddemployeeCubit>(context)
                                   .selecteditems
                                   .add(item);

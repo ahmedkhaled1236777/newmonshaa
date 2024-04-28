@@ -1,6 +1,5 @@
 import 'package:ghhg/features/auth/login/presentation/views/widgets/desktoplayout.dart';
 import 'package:ghhg/features/auth/login/presentation/views/widgets/mobilelayout.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 // ignore: camel_case_types, use_key_in_widget_constructors

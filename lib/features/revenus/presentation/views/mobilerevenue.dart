@@ -9,34 +9,23 @@ import 'package:ghhg/features/revenus/presentation/views/customtablerevenue.dart
 import 'package:ghhg/features/revenus/presentation/views/revenuessearch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class mobilerevenues extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constrains) {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: scafoldstate,
             backgroundColor: Color(0xff415769),
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
-              title: Text(
+              title: const Text(
                 'الايرادات',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: constrains.maxWidth > 600 ? 6.sp : 9.sp),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Color(0xff415769),
@@ -52,7 +41,7 @@ class mobilerevenues extends StatelessWidget {
                               .getallrevenues(token: generaltoken, page: 1);
                         },
                         icon: const Icon(
-                          Icons.blur_circular_outlined,
+                          Icons.refresh,
                           color: Appcolors.whitecolor,
                         )),
                     revenuesearch(),
@@ -65,7 +54,7 @@ class mobilerevenues extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                navigateandfinish(
+                navigateto(
                     navigationscreen: addrevenuewithscafold(),
                     context: context);
               },
@@ -75,7 +64,6 @@ class mobilerevenues extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            drawer: Dashboard(),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [customtablerevenues(MediaQuery.sizeOf(context).width)],

@@ -1,4 +1,5 @@
-import 'package:ghhg/features/connect/presentation/view/connect.dart';
+import 'package:ghhg/features/employeecomission/presentation/view/employeecom.dart';
+import 'package:ghhg/features/technical%20support/presentation/view/connect.dart';
 import 'package:ghhg/features/clients/presentation/view/clients.dart';
 import 'package:ghhg/features/contracts/presentation/views/contract.dart';
 import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
@@ -26,20 +27,22 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final homerepoimplementation homerepo;
-bool first_time_interner=true;
-int counter=0;
-increasecounter(){
-  counter++;
-}
+  bool first_time_interner = true;
+  int counter = 0;
+  increasecounter() {
+    counter++;
+  }
+
   Homemodel? home;
   HomeCubit(this.homerepo) : super(HomeInitial());
   bool firstloafing = true;
+  bool firstfirebasenotifications = true;
   List sidebarpermessions = [];
   List<Home> gridpermessions = [];
   bool shownotifications = false;
   bool showtechnicalsupport = false;
   resetcounter() {
-    sidebar[12]["count"] = 0;
+    sidebar[13]["count"] = 0;
     emit(resetcounterstate());
   }
 
@@ -67,6 +70,7 @@ increasecounter(){
       "page": MyHomePage(),
       "count": 0
     },
+    
     {
       "name": "العقارات",
       "name_en": "states",
@@ -137,6 +141,13 @@ increasecounter(){
       "name_en": "expenses",
       "icon": Icons.monetization_on_outlined,
       "page": expenses(),
+      "count": 0
+    },
+    {
+      "name": "عموله الموظفين",
+      "name_en": "employee_commission",
+      "icon": Icons.price_change_outlined,
+      "page": employeecoms(),
       "count": 0
     },
     {
@@ -298,6 +309,13 @@ increasecounter(){
         "page": expenses(),
         "count": 0
       },
+      {
+      "name": "عموله الموظفين",
+      "name_en": "employee_commission",
+      "icon": Icons.home,
+      "page": employeecoms(),
+      "count": 0
+    },
       {
         "name": "الايردات",
         "name_en": "revenues",

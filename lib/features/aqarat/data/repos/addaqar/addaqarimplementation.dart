@@ -16,11 +16,15 @@ class addaqarimplementation extends aqarrepo {
       Response response = await Postdata.postdata(
           path: urls.add_aqar, data: myaddaqarrequest.tojson(), token: token);
       if (response.statusCode == 200 &&
-          response.data["message"] == "تم اضافه البيانات بنجاح") {
-        print(response.data);
+          response.data["status"] == true) {
         return right("تمت اضافة البيانات بنجاح");
-      } else {
+      } else if(response.statusCode == 200 &&
+          response.data["code"] == 422){
         return left(requestfailure(error_message: response.data["data"][0]));
+      }
+      else {
+                return left(requestfailure(error_message: response.data["message"]));
+
       }
     } catch (e) {
       if (e is DioException) {

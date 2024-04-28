@@ -81,6 +81,7 @@ Future<Uint8List> generateEMSPDF(
                                   fontSize: 11,
                                   fontWeight: pw.FontWeight.bold),
                               textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
                           pw.Text(data.tenant!.name!,
                               style: pw.TextStyle(
                                   font: font,
@@ -89,18 +90,13 @@ Future<Uint8List> generateEMSPDF(
                               textDirection: pw.TextDirection.rtl),
                         ]),
                         pw.Column(children: [
-                          pw.Text('الصارف(الموظف)',
+                          pw.Text('الصارف (الموظف)',
                               style: pw.TextStyle(
                                   font: font,
                                   fontSize: 11,
                                   fontWeight: pw.FontWeight.bold),
                               textDirection: pw.TextDirection.rtl),
-                          pw.Text(data.user!.name!,
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
                         ]),
                         pw.Column(children: [
                           pw.Text('المالك',
@@ -109,12 +105,7 @@ Future<Uint8List> generateEMSPDF(
                                   fontSize: 11,
                                   fontWeight: pw.FontWeight.bold),
                               textDirection: pw.TextDirection.rtl),
-                          pw.Text(data.ownerName!,
-                              style: pw.TextStyle(
-                                  font: font,
-                                  fontSize: 11,
-                                  fontWeight: pw.FontWeight.bold),
-                              textDirection: pw.TextDirection.rtl),
+                          pw.SizedBox(height: 5),
                         ])
                       ]),
                 ]));

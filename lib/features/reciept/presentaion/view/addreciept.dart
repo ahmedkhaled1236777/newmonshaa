@@ -1,15 +1,16 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_state.dart';
-import 'package:ghhg/features/contracts/presentation/views/customshoosedate.dart';
+import 'package:ghhg/core/commn/widgets/customshoosedate.dart';
 import 'package:ghhg/features/reciept/data/models/recieptmodelrequest.dart';
 import 'package:ghhg/features/reciept/presentaion/viewmodel/recieptcuibt/recieptcuibt.dart';
 import 'package:ghhg/features/reciept/presentaion/viewmodel/recieptcuibt/recieptstate.dart';
@@ -31,9 +32,9 @@ class addreciept extends StatefulWidget {
 class _addrecieptState extends State<addreciept> {
   @override
   void initState() {
-    /* BlocProvider.of<recieptCubit>(context).clearcontrollers();
     BlocProvider.of<DateCubit>(context).cleardates();
-    BlocProvider.of<contractCubit>(context).commessiontype = null;*/
+    BlocProvider.of<contractCubit>(context).commessiontype = null;
+    BlocProvider.of<recieptCubit>(context).companyamola.clear();
   }
 
   @override
@@ -147,7 +148,7 @@ class _addrecieptState extends State<addreciept> {
                                   BlocProvider.of<contractCubit>(context)
                                       .changecommessiontype(val);
                                 },
-                                items: ["نسبه", "عموله"],
+                                items: ["العموله بالمبلغ", "العموله بالنسبه"],
                                 name: BlocProvider.of<contractCubit>(context)
                                     .commessiontype,
                                 hint: "نوع العموله");
@@ -159,11 +160,16 @@ class _addrecieptState extends State<addreciept> {
                         BlocBuilder<contractCubit, contractState>(
                           builder: (context, state) {
                             return custommytextform(
+                                inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                                                                  keyboardType: TextInputType.number,
+
                               controller: BlocProvider.of<recieptCubit>(context)
                                   .companyamola,
                               hintText: BlocProvider.of<contractCubit>(context)
                                           .commessiontype ==
-                                      "نسبه"
+                                      "العموله بالنسبه"
                                   ? "قيمة النسبه في المئه"
                                   : "قيمة العموله",
                               val: "برجاء ادخال قيمة العموله",
@@ -220,7 +226,8 @@ class _addrecieptState extends State<addreciept> {
                                   .queryParameters = null;
                               await BlocProvider.of<recieptCubit>(context)
                                   .getallreciepts(token: generaltoken, page: 1);
-
+                              if (MediaQuery.sizeOf(context).width < 950)
+                                Navigator.pop(context);
                               showsnack(
                                   comment: state.success_message,
                                   context: context);
@@ -230,7 +237,13 @@ class _addrecieptState extends State<addreciept> {
                             if (state is Addrecieptloading) return loading();
                             return custommaterialbutton(
                                 onPressed: () async {
-                                  if (widget.formkey.currentState!.validate()) {
+                                    if ( BlocProvider.of<contractCubit>(context)
+                                                      .commessiontype ==
+                                        null) {
+                                      showdialogerror(
+                                          error: "برجاء اختيار نوع العموله ",
+                                          context: context);}
+                                else  if (widget.formkey.currentState!.validate()) {
                                     if (BlocProvider.of<DateCubit>(context)
                                             .date1 ==
                                         "التاريخ") {
@@ -268,7 +281,7 @@ class _addrecieptState extends State<addreciept> {
                                                       .commessiontype],
                                               compenyamola: BlocProvider.of<contractCubit>(context)
                                                           .commessiontype ==
-                                                      "نسبه"
+                                                      "العموله بالنسبه"
                                                   ? (double.parse(BlocProvider.of<recieptCubit>(context).companyamola.text) /
                                                           100 *
                                                           double.parse(BlocProvider.of<recieptCubit>(context).amountofmoney.text))

@@ -1,31 +1,33 @@
+import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 
-import 'package:ghhg/features/aqarat/presentation/views/widgets/custommytextform.dart';
+import 'package:ghhg/core/commn/widgets/custommytextform.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/dropdown.dart';
-import 'package:ghhg/features/auth/login/presentation/views/widgets/custommaterialbutton.dart';
+import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/lands/data/models/addlandrequestmodel.dart';
 import 'package:ghhg/features/lands/data/models/showlands/datum.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandcuibt.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/edit/edit_cubit.dart';
-import 'package:ghhg/features/lands/presentation/views/estateland.dart';
+import 'package:ghhg/features/lands/presentation/viewmodel/showlands/showlands_cubit.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/customchoosedate.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/customgridimages.dart';
 import 'package:ghhg/features/lands/presentation/views/widgets/pickedimage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class editlanddialog extends StatelessWidget {
+class editlanddialog extends StatefulWidget {
   final double width;
+
   final double height;
+
   final Datum data;
-  GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController clientname;
   final TextEditingController adress;
   final TextEditingController adressdetails;
@@ -34,14 +36,43 @@ class editlanddialog extends StatelessWidget {
   final TextEditingController details;
   final TextEditingController area;
 
-  editlanddialog(
+  const editlanddialog(
       {super.key,
       required this.width,
       required this.height,
-      required this.adressdetails,
       required this.data,
       required this.clientname,
       required this.adress,
+      required this.adressdetails,
+      required this.price,
+      required this.phone,
+      required this.details,
+      required this.area});
+  @override
+  State<editlanddialog> createState() => _editlanddialogState(
+      clientname: clientname,
+      adress: adress,
+      adressdetails: adressdetails,
+      phone: phone,
+      price: price,
+      details: details,
+      area: area);
+}
+
+class _editlanddialogState extends State<editlanddialog> {
+  static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final TextEditingController clientname;
+  final TextEditingController adress;
+  final TextEditingController adressdetails;
+  final TextEditingController price;
+  final TextEditingController phone;
+  final TextEditingController details;
+  final TextEditingController area;
+
+  _editlanddialogState(
+      {required this.clientname,
+      required this.adress,
+      required this.adressdetails,
       required this.price,
       required this.phone,
       required this.details,
@@ -54,8 +85,8 @@ class editlanddialog extends StatelessWidget {
         return Directionality(
           textDirection: TextDirection.rtl,
           child: SizedBox(
-            width: width,
-            height: height,
+            width: widget.width,
+            height: widget.height,
             child: SingleChildScrollView(
               child: Column(children: [
                 const SizedBox(
@@ -95,13 +126,19 @@ class editlanddialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
-                          val: "يرجي ادخال اسم العميل",
+                          val: "يرجي ادخال اسم المالك او الوسيط",
                           controller: clientname,
-                          hintText: "اسم العميل"),
+                          hintText: "اسم المالك او الوسيط"),
                       const SizedBox(
                         height: 10,
                       ),
                       custommytextform(
+                          inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
+                        
+                        
+
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال المساحه",
                           controller: area,
@@ -110,6 +147,9 @@ class editlanddialog extends StatelessWidget {
                         height: 10,
                       ),
                       custommytextform(
+                          inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال سعر المتر",
                           controller: price,
@@ -118,10 +158,13 @@ class editlanddialog extends StatelessWidget {
                         height: Appsizes.size10,
                       ),
                       custommytextform(
+                          inputFormatters: <TextInputFormatter>[
+      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+  ], 
                           keyboardType: TextInputType.number,
-                          val: "برجاء ادخال رقم الهاتف",
+                          val: "برجاء ادخال رقم هاتف المالك او الوسيط",
                           controller: phone,
-                          hintText: "رقم االهاتف"),
+                          hintText: "رقم هاتف المالك"),
                     ],
                   ),
                 ),
@@ -137,7 +180,7 @@ class editlanddialog extends StatelessWidget {
                     name: BlocProvider.of<EditlandCubit>(context)
                                 .advistor_type ==
                             null
-                        ? showland[data.advertiserType]
+                        ? showland[widget.data.advertiserType]
                         : BlocProvider.of<EditlandCubit>(context).advistor_type,
                     items: ["صاحب الارض", "شركة عقارات"],
                     hint: "نوع المعلن"),
@@ -145,9 +188,7 @@ class editlanddialog extends StatelessWidget {
                   height: Appsizes.size10,
                 ),
                 custommytextform(
-                    maxlines: 3,
-                    controller: details,
-                    hintText: "تفاصيل الاعلان"),
+                    maxlines: 3, controller: details, hintText: "تفاصيل الارض"),
                 const SizedBox(
                   height: Appsizes.size10,
                 ),
@@ -167,14 +208,14 @@ class editlanddialog extends StatelessWidget {
                   height: Appsizes.size15,
                 ),
                 BlocConsumer<EditlandCubit, EditlandState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is editlandfailure) {
-                      showsnack(comment: state.error_message, context: context);
+showdialogerror(error: state.error_message, context: context);
                     }
                     if (state is editlandsuccess) {
-                      navigateandfinish(
-                          navigationscreen: landsEstate(), context: context);
-
+                    await BlocProvider.of<ShowlandsCubit>(context)
+        .getallalands(token: generaltoken, page: 1);
+Navigator.pop(context);
                       showsnack(
                           comment: state.successmessage, context: context);
                     }
@@ -191,7 +232,7 @@ class editlanddialog extends StatelessWidget {
                           }
                           BlocProvider.of<EditlandCubit>(context).updateland(
                               token: generaltoken,
-                              id: data.id!.toInt(),
+                              id: widget.data.id!.toInt(),
                               add_land: addlandrequest(
                                 address: adress.text,
                                 real_state_address_details: adressdetails.text,
@@ -205,7 +246,7 @@ class editlanddialog extends StatelessWidget {
                                                 context)
                                             .advistor_type ==
                                         null
-                                    ? data.advertiserType
+                                    ? widget.data.advertiserType
                                     : request[
                                         BlocProvider.of<EditlandCubit>(context)
                                             .advistor_type!],

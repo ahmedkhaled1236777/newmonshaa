@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: camel_case_types
 class customdraweritem extends StatelessWidget {
+  final GlobalKey<ScaffoldState> mykey;
+
   final IconData iconData;
   final String text;
   final int count;
@@ -13,6 +15,7 @@ class customdraweritem extends StatelessWidget {
   final double sizedboxwidth;
   const customdraweritem(
       {super.key,
+      required this.mykey,
       required this.iconData,
       required this.count,
       required this.sizedboxwidth,

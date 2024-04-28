@@ -14,7 +14,7 @@ class _pickedimageState extends State<pickedimage> {
   uploadImage() async {
     final List<XFile> pickedimage = await widget.picker.pickMultiImage();
 
-    if (pickedimage.isNotEmpty) {
+    if (pickedimage != null) {
       // ignore: use_build_context_synchronously
       BlocProvider.of<addaqarcuibt>(context)
           .addnewimage(pickedimages: pickedimage);

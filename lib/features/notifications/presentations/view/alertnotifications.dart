@@ -24,7 +24,7 @@ class _alernotificationsmobilenotificationslayoutState
     extends State<alernotifications> {
   @override
   initscroll() async {
-    await BlocProvider.of<NotificationsCubit>(context)
+ if(widget.counter>0)   await BlocProvider.of<NotificationsCubit>(context)
         .getallnotifications(token: generaltoken, page: 1);
 
     widget.scrollController.addListener(() async {
@@ -102,17 +102,19 @@ class _alernotificationsmobilenotificationslayoutState
                                           SizedBox(
                                             width: 10,
                                           ),
-                                          cashhelper.getdata(key: "logo") == null
-            ? const CircleAvatar(
-                radius: 20,
-                backgroundImage: AssetImage("images/logo.png"),
-              )
-            : imagefromrequest(
-              
-                url: cashhelper.getdata(key: "logo"),
-                height: 40,
-                width: 40,
-              ),
+                                          cashhelper.getdata(key: "logo") ==
+                                                  null
+                                              ? const CircleAvatar(
+                                                  radius: 20,
+                                                  backgroundImage: AssetImage(
+                                                      "images/logo.png"),
+                                                )
+                                              : imagefromrequest(
+                                                  url: cashhelper.getdata(
+                                                      key: "logo"),
+                                                  height: 40,
+                                                  width: 40,
+                                                ),
                                           SizedBox(
                                             width: 10,
                                           ),

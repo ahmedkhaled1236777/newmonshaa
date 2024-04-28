@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/profitalertcontent.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +27,8 @@ class _profitatsearchreportState extends State<profitatsearchreport> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                       onPressed: () {
+                        BlocProvider.of<DateCubit>(context).cleardates();
+
                         Navigator.of(context).pop();
                       },
                       icon: Icon(Icons.close)),

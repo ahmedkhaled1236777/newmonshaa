@@ -10,34 +10,23 @@ import 'package:ghhg/features/lands/presentation/views/widgets/customtableland.d
 import 'package:ghhg/features/lands/presentation/views/widgets/searchland.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class mobileland extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constrains) {
       return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-            key: scafoldstate,
             backgroundColor: Color(0xff415769),
             appBar: AppBar(
-              leading: IconButton(
-                onPressed: () {
-                  scafoldstate.currentState!.openDrawer();
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                ),
+              leading: BackButton(
+                color: Colors.white,
               ),
               title: Text(
                 'الاراضي',
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Appsizes.mappBarsize),
+                    color: Colors.white, fontSize: Appsizes.mappBarsize),
               ),
               centerTitle: true,
               backgroundColor: Color(0xff415769),
@@ -66,7 +55,7 @@ class mobileland extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                navigateandfinish(
+                navigateto(
                     navigationscreen: addlandwithscafold(), context: context);
               },
               backgroundColor: Color(0xffBF4F51),
@@ -75,7 +64,6 @@ class mobileland extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            drawer: Dashboard(),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

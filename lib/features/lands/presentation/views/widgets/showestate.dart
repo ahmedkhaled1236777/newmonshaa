@@ -1,6 +1,5 @@
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/lands/data/models/showlands/datum.dart';
 
 import 'package:flutter/material.dart';
@@ -35,33 +34,6 @@ class ShowlandEstateState extends State<mlandShowEstate> {
             ),
             centerTitle: true,
             backgroundColor: Color(0xff415769),
-            actions: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.message,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 13,
-                  ),
-                ],
-              )
-            ],
           ),
           body: LayoutBuilder(
             builder: (context, constraints) {
@@ -102,12 +74,16 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                       SizedBox(
                                         width: 10,
                                       ),
-                                      Text(
-                                        widget.data!.address!,
-                                        style: TextStyle(
-                                            fontSize: 12.5,
-                                            color: Colors.blueGrey,
-                                            fontWeight: FontWeight.w100),
+                                      Expanded(
+                                        child: Text(
+                                          "${widget.data!.address!} - ${widget.data!.addressDetails}",
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 12.5,
+                                              color: Colors.blueGrey,
+                                              fontWeight: FontWeight.w100),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -161,7 +137,23 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        'نوع المعلن:${show[widget.data.advertiserType]}',
+                                        "التكلفه الكليه : ${widget.data.totalCost.toString()}",
+                                        style: TextStyle(
+                                            fontSize: 12.5,
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.w100),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        'نوع المعلن : ${showland[widget.data.advertiserType]}',
                                         style: TextStyle(
                                             fontSize: 12.5,
                                             color: Colors.blueGrey,
@@ -177,7 +169,7 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        'كود الاعلان: ',
+                                        'كود الاعلان : ',
                                         style: TextStyle(
                                             fontSize: 12.5,
                                             color: Colors.blueGrey,
@@ -200,7 +192,7 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        'التاريخ: ',
+                                        'التاريخ : ',
                                         style: TextStyle(
                                             fontSize: 12.5,
                                             color: Colors.blueGrey,
@@ -272,7 +264,7 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                 if (widget.data.advertiseDetails != null)
                                   Container(
                                     child: Text(
-                                      "وصف الاعلان : ${widget.data.advertiseDetails!}",
+                                      "تفاصيل الارض : ${widget.data.advertiseDetails!}",
                                       textAlign: TextAlign.justify,
                                       style: TextStyle(
                                           height: 2,
@@ -302,7 +294,10 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                         mainAxisSpacing: 10),
                                 children: widget.data.landImages!
                                     .map((e) => imagefromrequest(
-                                        url: e, height: 200, width: 200))
+                                        border: 0,
+                                        url: e,
+                                        height: 200,
+                                        width: 200))
                                     .toList(),
                               ),
                             ),
@@ -351,12 +346,17 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        Text(
-                                          widget.data!.address!,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.blueGrey,
-                                              fontWeight: FontWeight.w100),
+                                        Expanded(
+                                          child: Text(
+                                            "${widget.data!.address!} - ${widget.data!.addressDetails}",
+                                            maxLines: 10,
+                                            softWrap: true,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.blueGrey,
+                                                fontWeight: FontWeight.w100),
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -407,11 +407,28 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   SizedBox(
                                     height: 15,
                                   ),
+                                   
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "التكلفه الكليه : ${widget.data.totalCost.toString()}",
+                                        style: TextStyle(
+                                            fontSize: 12.5,
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.w100),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                 const SizedBox(
+                                  height: 15,
+                                ),
                                   Container(
                                     child: Row(
                                       children: [
                                         Text(
-                                          'النوع:${show[widget.data.advertiserType]}',
+                                          ' نوع المعلن : ${showland[widget.data.advertiserType]}',
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.blueGrey,
@@ -427,7 +444,7 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                     child: Row(
                                       children: [
                                         Text(
-                                          'كود الاعلان: ',
+                                          'كود الاعلان : ',
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: Colors.blueGrey,
@@ -522,7 +539,7 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   if (widget.data.advertiseDetails != null)
                                     Container(
                                       child: Text(
-                                        "وصف الاعلان : ${widget.data.advertiseDetails!}",
+                                        "تفاصيل الارض : ${widget.data.advertiseDetails!}",
                                         textAlign: TextAlign.justify,
                                         style: TextStyle(
                                             height: 2,
@@ -536,33 +553,21 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                             )),
                           )),
                       Container(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Container(
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 10),
-                              alignment: Alignment.center,
-                              width: 400,
-                              height: 400,
-                              child: GridView(
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2,
-                                        childAspectRatio: 1.4,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10),
-                                children: widget.data.landImages!
-                                    .map((e) => imagefromrequest(
-                                        url: e, height: 200, width: 200))
-                                    .toList(),
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.white,
-                            ),
-                            padding: EdgeInsets.all(20),
-                          )),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          alignment: Alignment.center,
+                          child: ListView.separated(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) => imagefromrequest(
+                                  border: 0,
+                                  url: widget.data.landImages![index],
+                                  height: 200,
+                                  width: 200),
+                              separatorBuilder: (context, index) => SizedBox(
+                                    height: 5,
+                                  ),
+                              itemCount: widget.data.landImages!.length)),
                     ],
                   ),
                 );

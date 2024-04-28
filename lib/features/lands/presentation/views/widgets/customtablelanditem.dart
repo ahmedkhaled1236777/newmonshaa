@@ -63,13 +63,14 @@ class customtablelanditem extends StatelessWidget {
                 style: textStyle,
                 textAlign: TextAlign.center,
               )),
-          Expanded(
-              flex: 3,
-              child: Text(
-                advertise_type,
-                style: textStyle,
-                textAlign: TextAlign.center,
-              )),
+          if (MediaQuery.sizeOf(context).width > 950)
+            Expanded(
+                flex: 3,
+                child: Text(
+                  advertise_type,
+                  style: textStyle,
+                  textAlign: TextAlign.center,
+                )),
           Expanded(
             child: edit,
             flex: 2,

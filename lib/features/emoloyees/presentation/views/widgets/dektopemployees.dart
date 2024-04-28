@@ -5,31 +5,21 @@ import 'package:ghhg/features/emoloyees/presentation/viewmodel/showemployeecuibt
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/addemployee.dart';
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/customtableemployees.dart';
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/emplyeesearch.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class desktopemployees extends StatelessWidget {
-  GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
-
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-          key: scafoldstate,
           backgroundColor: Appcolors.maincolor,
           appBar: AppBar(
-            leading: IconButton(
-              onPressed: () {
-                scafoldstate.currentState!.openDrawer();
-              },
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.white,
-              ),
+            leading: BackButton(
+              color: Colors.white,
             ),
             title: Text(
               'الموظفين',
@@ -60,7 +50,6 @@ class desktopemployees extends StatelessWidget {
               )
             ],
           ),
-          drawer: Dashboard(),
           body: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             padding:

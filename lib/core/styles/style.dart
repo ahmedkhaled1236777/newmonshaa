@@ -34,7 +34,7 @@ abstract class Appstyles {
         ? Appstyles.textStyle12b.copyWith(fontSize: 3.3.sp)
         : MediaQuery.of(context).size.width > 600
             ? Appstyles.textStyle12b.copyWith(fontSize: 5.5.sp)
-            : Appstyles.textStyle12b.copyWith(fontSize: 9.3.sp);
+            : Appstyles.textStyle12b.copyWith(fontSize: 9.8.sp);
   }
 
   static getheadertextstyle({required BuildContext context}) {
@@ -43,6 +43,6 @@ abstract class Appstyles {
         : MediaQuery.of(context).size.width < 950 &&
                 MediaQuery.of(context).size.width > 600
             ? Appstyles.textStyle13wd.copyWith(fontSize: 5.sp)
-            : Appstyles.textStyle13wd.copyWith(fontSize: 9.3.sp);
+            : Appstyles.textStyle13wd.copyWith(fontSize: 10.sp);
   }
 }

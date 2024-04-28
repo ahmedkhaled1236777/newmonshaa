@@ -1,3 +1,5 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/revenusreports.dart/presentation/view/revenusalertcontent.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +27,8 @@ class _revenusatsearchreportState extends State<revenusatsearchreport> {
                   alignment: Alignment.topLeft,
                   child: IconButton(
                       onPressed: () {
+                        BlocProvider.of<DateCubit>(context).cleardates();
+
                         Navigator.of(context).pop();
                       },
                       icon: Icon(Icons.close)),

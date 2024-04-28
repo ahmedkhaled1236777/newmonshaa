@@ -13,10 +13,13 @@ class DatelandCubit extends Cubit<DatelandState> {
   changedate(BuildContext context) async {
     emit(newchangeDatelandState());
     DateTime? date = await showDatePicker(
+      
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2000),
         lastDate: DateTime(3000));
+                locale: Locale('ar');
+
     if (date != null) {
       selectedDate = date;
       String month = date.month > 9 ? '${date.month}' : '0${date.month}';
@@ -24,6 +27,11 @@ class DatelandCubit extends Cubit<DatelandState> {
       date1 = '${date.year}-${month}-${day}';
     }
     ;
+    emit(changeDatelandState());
+  }
+
+  cleardata() {
+    date1 = "التاريخ";
     emit(changeDatelandState());
   }
 }
