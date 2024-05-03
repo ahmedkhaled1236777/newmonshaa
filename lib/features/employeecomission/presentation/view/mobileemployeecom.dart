@@ -65,7 +65,9 @@ class mobileemployeecoms extends StatelessWidget {
             ),
             body: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [customtableemployeecoms(MediaQuery.sizeOf(context).width)],
+              children: [
+                customtableemployeecoms(MediaQuery.sizeOf(context).width)
+              ],
             )),
       );
     });

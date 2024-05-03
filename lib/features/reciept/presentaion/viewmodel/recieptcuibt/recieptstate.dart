@@ -20,6 +20,8 @@ class editrecieptfailure extends recieptState {
 
 class showrecieptloadin extends recieptState {}
 
+class deleterecieptloading extends recieptState {}
+
 class deleterecieptsuccess extends recieptState {
   final String succes_message;
 

@@ -43,7 +43,7 @@ class contractCubit extends Cubit<contractState> {
  TextEditingController commessionvalue=TextEditingController();
  TextEditingController periodofdelay=TextEditingController();*/
   int? id;
-  int?tenantid;
+  int? tenantid;
   String? aqartype;
   String? commessiontype;
   cleardata() {
@@ -69,6 +69,7 @@ class contractCubit extends Cubit<contractState> {
 
     emit(cleardatastate());
   }
+
   mycleardatawithoutid() {
     aqartype = null;
     commessiontype = null;
@@ -134,6 +135,7 @@ class contractCubit extends Cubit<contractState> {
   }
 
   deletecontract({required String token, required int contractid}) async {
+    emit(deletecontractloading());
     var result =
         await contractrepo.deletecontract(token: token, contractid: contractid);
     result.fold((failure) {
@@ -146,13 +148,15 @@ class contractCubit extends Cubit<contractState> {
 
   updatecontract(
       {required String token,
-      Map<String,dynamic>?queryparm,
+      Map<String, dynamic>? queryparm,
       required int id,
       required contractmodelrequest contractmodel}) async {
     emit(editcontractloading());
     var result = await contractrepo.editcontract(
-      queryparm: queryparm,
-        token: token, id: id, contractmodel: contractmodel);
+        queryparm: queryparm,
+        token: token,
+        id: id,
+        contractmodel: contractmodel);
     result.fold((failure) {
       emit(editcontractfailure(error_message: failure.error_message));
     }, (success) {

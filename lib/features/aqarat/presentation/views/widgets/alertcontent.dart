@@ -1,5 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -25,6 +26,7 @@ class _alertcontentState extends State<alertcontent> {
   static final GlobalKey<FormState> minpricek = GlobalKey<FormState>();
   static final GlobalKey<FormState> maxpricek = GlobalKey<FormState>();
   TextEditingController adress = TextEditingController();
+  TextEditingController compoundname = TextEditingController();
 
   TextEditingController pricefrom = TextEditingController();
 
@@ -39,8 +41,7 @@ class _alertcontentState extends State<alertcontent> {
   void initState() {
     BlocProvider.of<addaqarcuibt>(context).cleardata();
     BlocProvider.of<addaqarcuibt>(context).employeename = null;
-      BlocProvider.of<addaqarcuibt>(context)
-                                    .employeeid = null;
+    BlocProvider.of<addaqarcuibt>(context).employeeid = null;
   }
 
   @override
@@ -71,6 +72,13 @@ class _alertcontentState extends State<alertcontent> {
                               textAlign: TextAlign.right),
                           const SizedBox(
                             height: 15,
+                          ),
+                          custommytextform(
+                            controller: compoundname,
+                            hintText: "اسم الكمبوند",
+                          ),
+                          const SizedBox(
+                            height: Appsizes.size10,
                           ),
                           custommytextform(
                             controller: adress,
@@ -158,6 +166,8 @@ class _alertcontentState extends State<alertcontent> {
                                 "شقه فارغه",
                                 "شقه مفروشه",
                                 "فيلا مفروشه",
+                                "مكتب اداري فارغ",
+                                "مكتب اداري مفروش",
                                 "محل"
                               ],
                               name: BlocProvider.of<addaqarcuibt>(context)
@@ -178,116 +188,31 @@ class _alertcontentState extends State<alertcontent> {
                             onPressed: () async {
                               if (minimumarea.text.isEmpty &&
                                   maximumarea.text.isNotEmpty) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        actions: [
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Center(
-                                            child:
-                                                Text("برجاء ادخال اقل مساحه"),
-                                          ),
-                                          SizedBox(
-                                            height: Appsizes.size15,
-                                          ),
-                                          Center(
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("تم")),
-                                          )
-                                        ],
-                                      );
-                                    });
+                                showdialogerror(
+                                    error: "برجاء ادخال اقل مساحه",
+                                    context: context);
                               } else if (minimumarea.text.isNotEmpty &&
                                   maximumarea.text.isEmpty) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        actions: [
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Center(
-                                            child:
-                                                Text("برجاء ادخال اعلي مساحه"),
-                                          ),
-                                          SizedBox(
-                                            height: Appsizes.size15,
-                                          ),
-                                          Center(
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("تم")),
-                                          )
-                                        ],
-                                      );
-                                    });
+                                showdialogerror(
+                                    error: "برجاء ادخال اعلي مساحه",
+                                    context: context);
                               } else if (pricefrom.text.isEmpty &&
                                   priceto.text.isNotEmpty) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        actions: [
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Center(
-                                            child: Text("برجاء ادخال اقل سعر"),
-                                          ),
-                                          const SizedBox(
-                                            height: Appsizes.size15,
-                                          ),
-                                          Center(
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("تم")),
-                                          )
-                                        ],
-                                      );
-                                    });
+                                showdialogerror(
+                                    error: "برجاء ادخال اقل سعر",
+                                    context: context);
                               } else if (priceto.text.isEmpty &&
                                   pricefrom.text.isNotEmpty) {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        actions: [
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Center(
-                                            child: Text("برجاء ادخال اعلي سعر"),
-                                          ),
-                                          SizedBox(
-                                            height: Appsizes.size15,
-                                          ),
-                                          Center(
-                                            child: ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Text("تم")),
-                                          )
-                                        ],
-                                      );
-                                    });
+                                showdialogerror(
+                                    error: "برجاء ادخال اعلي سعر",
+                                    context: context);
                               } else {
                                 BlocProvider.of<ShowaqaratCubit>(context)
                                     .queryParameters = {
                                   "real_state_type": request[
                                       BlocProvider.of<addaqarcuibt>(context)
                                           .aqartype],
+                                  "compound_name": compoundname.text,
                                   "real_state_address": adress.text,
                                   "code": advertisecode.text,
                                   "user_id":
@@ -309,7 +234,9 @@ class _alertcontentState extends State<alertcontent> {
                                 BlocProvider.of<ShowaqaratCubit>(context)
                                     .data
                                     .clear();
-                                       BlocProvider.of<DateCubit>(context)
+                                BlocProvider.of<addaqarcuibt>(context)
+                                    .cleardata();
+                                BlocProvider.of<DateCubit>(context)
                                     .cleardates();
                                 BlocProvider.of<addaqarcuibt>(context)
                                     .employeeid = null;
@@ -319,8 +246,6 @@ class _alertcontentState extends State<alertcontent> {
 
                                 await BlocProvider.of<ShowaqaratCubit>(context)
                                     .getallaqarat(token: generaltoken, page: 1);
-                               
-
                               }
                             },
                           )

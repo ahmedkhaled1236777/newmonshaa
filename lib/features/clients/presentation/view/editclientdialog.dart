@@ -95,22 +95,35 @@ class _editclientdialogState extends State<editclientdialog> {
                       height: 10,
                     ),
                     custommytextform(
-                       inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                          keyboardType: TextInputType.number,
-
-                        controller: clientphone, hintText: "رقم هاتف العميل"),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
+                        controller: clientphone,
+                        hintText: "رقم هاتف العميل"),
                     const SizedBox(
                       height: 10,
                     ),
+                     dropdownbutton(
+                          onchanged: (val) {
+                            BlocProvider.of<clientsCubit>(context)
+                                .changeclienttype(val);
+                          },
+                          items: [
+                            
+                            "عميل مباشر",
+                            "شركة عقارات",
+                          ],
+                          name: BlocProvider.of<clientsCubit>(context).clienttype,
+                          hint: "نوع العميل"),
+                          SizedBox(height: 10,),
                     custommytextform(
-                       inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                          keyboardType: TextInputType.number,
-
-                      controller: code, hintText: "الكود"),
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
+                        controller: code,
+                        hintText: "الكود"),
                     const SizedBox(
                       height: 10,
                     ),
@@ -187,19 +200,18 @@ class _editclientdialogState extends State<editclientdialog> {
                 BlocConsumer<clientsCubit, clientsState>(
                   listener: (context, state) {
                     if (state is editclientsfailure) {
-                    showdialogerror(error: state.error_message, context: context);
-
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editclientssuccess) {
                       BlocProvider.of<DateCubit>(context).cleardates();
                       BlocProvider.of<clientsCubit>(context).departement = null;
                       BlocProvider.of<clientsCubit>(context).status = null;
-                      
-                            
-                                   
-                                      Navigator.pop(context);
-                                        BlocProvider.of<clientsCubit>(context)
-        .getallclientss(token: generaltoken, page: 1);
+                      BlocProvider.of<clientsCubit>(context).clienttype = null;
+
+                      Navigator.pop(context);
+                      BlocProvider.of<clientsCubit>(context)
+                          .getallclientss(token: generaltoken, page: 1);
 
                       showsnack(
                           comment: state.success_message, context: context);
@@ -209,10 +221,17 @@ class _editclientdialogState extends State<editclientdialog> {
                     if (state is editclientsloading) return loading();
                     return custommaterialbutton(
                         onPressed: () async {
+                          print("iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
+                          print(clientstyperequest[
+                                                BlocProvider.of<clientsCubit>(context)
+                                                    .clienttype]);
                           BlocProvider.of<clientsCubit>(context).updateclients(
                               token: generaltoken,
                               id: widget.data.id!.toInt(),
                               clientsmodel: clientmodelrequest(
+                                client_type:  clientstyperequest[
+                                                BlocProvider.of<clientsCubit>(context)
+                                                    .clienttype],
                                   name: clientname.text,
                                   phone: clientphone.text,
                                   code: code.text.isEmpty ? "0" : code.text,
@@ -229,7 +248,7 @@ class _editclientdialogState extends State<editclientdialog> {
                                           : BlocProvider.of<DateCubit>(context)
                                               .date5,
                                   inspectiontimedate:
-                                      BlocProvider.of<DateCubit>(context).date5 ==
+                                      BlocProvider.of<DateCubit>(context).time ==
                                               "وقت المعاينه"
                                           ? ""
                                           : BlocProvider.of<DateCubit>(context)

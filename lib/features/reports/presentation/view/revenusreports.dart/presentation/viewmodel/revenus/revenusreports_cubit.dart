@@ -7,6 +7,7 @@ import '../../../../../../../revenus/data/model/revenumodel/datum.dart';
 part 'revenusreports_state.dart';
 
 class revenusatreportsCubit extends Cubit<revenusatreportsState> {
+  num? total;
   final showrevenusrepoimplementationreports showrevenusrepo;
   revenusatreportsCubit(this.showrevenusrepo)
       : super(revenusatreportsInitial());
@@ -35,6 +36,7 @@ class revenusatreportsCubit extends Cubit<revenusatreportsState> {
     result.fold((failue) {
       emit(revenusatreportsfailure(error_message: failue.error_message));
     }, (success) {
+      total = success.total;
       if (success.data!.links?.next == null) {
         loading = false;
       }

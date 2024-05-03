@@ -144,22 +144,22 @@ class _editemployeedialogState extends State<editemployeedialog> {
                   height: 10,
                 ),
                 custommytextform(
-                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                      keyboardType: TextInputType.number,
-
-                    controller: cardnumber, hintText: "رقم البطاقه"),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                    ],
+                    keyboardType: TextInputType.number,
+                    controller: cardnumber,
+                    hintText: "رقم البطاقه"),
                 const SizedBox(
                   height: 10,
                 ),
                 custommytextform(
-                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                      keyboardType: TextInputType.number,
-
-                  controller: phone, hintText: "رقم الهاتف"),
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                    ],
+                    keyboardType: TextInputType.number,
+                    controller: phone,
+                    hintText: "رقم الهاتف"),
                 const SizedBox(
                   height: 10,
                 ),
@@ -218,8 +218,8 @@ class _editemployeedialogState extends State<editemployeedialog> {
                 BlocConsumer<AddemployeeCubit, AddemployeeState>(
                   listener: (context, state) async {
                     if (state is updateemployeefailure) {
-                     showdialogerror(error: state.errormessage, context: context);
-
+                      showdialogerror(
+                          error: state.errormessage, context: context);
                     }
                     if (state is updateemployeesuccess) {
                       BlocProvider.of<AddemployeeCubit>(context).image = null;

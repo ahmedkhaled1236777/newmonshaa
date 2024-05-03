@@ -18,6 +18,8 @@ class editclientsfailure extends clientsState {
 
 class showclientsloadin extends clientsState {}
 
+class deleteclientsloading extends clientsState {}
+
 class deleteclientssuccess extends clientsState {
   final String successmessage;
 

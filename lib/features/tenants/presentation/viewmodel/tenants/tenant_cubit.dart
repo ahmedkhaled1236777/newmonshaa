@@ -1,9 +1,7 @@
 import 'package:ghhg/features/tenants/data/model/tenantmodel/datum.dart';
-import 'package:ghhg/features/tenants/data/model/tenantmodel/tenantmodel.dart';
 import 'package:ghhg/features/tenants/data/model/tenantmodelrequest.dart';
 import 'package:ghhg/features/tenants/data/repo/tenantrepoimplementation.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 part 'tenant_state.dart';
 
@@ -66,6 +64,7 @@ class TenantCubit extends Cubit<TenantState> {
   }
 
   deletetenant({required String token, required int tenantid}) async {
+    emit(deleteTenantloading());
     var result =
         await tenantrepo.deletetenant(token: token, tenantid: tenantid);
     result.fold((failure) {

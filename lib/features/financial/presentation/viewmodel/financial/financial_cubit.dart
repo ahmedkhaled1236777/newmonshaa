@@ -110,6 +110,7 @@ class financialCubit extends Cubit<financialState> {
   }
 
   deletefinancial({required String token, required int financialid}) async {
+    emit(deletefinancialloading());
     var result = await financialrepo.deletefinancial(
         token: token, financialid: financialid);
     result.fold((failure) {

@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -24,7 +25,6 @@ class editrevenuedialog extends StatefulWidget {
   final Datum data;
   final TextEditingController amount;
   final TextEditingController adress;
-  final TextEditingController tenantname;
   final TextEditingController ownername;
 
   const editrevenuedialog(
@@ -34,29 +34,21 @@ class editrevenuedialog extends StatefulWidget {
       required this.data,
       required this.amount,
       required this.adress,
-      required this.tenantname,
       required this.ownername});
 
   @override
   State<editrevenuedialog> createState() => _editrevenuedialogState(
-      amount: amount,
-      adress: adress,
-      tenantname: tenantname,
-      ownername: ownername);
+      amount: amount, adress: adress, ownername: ownername);
 }
 
 class _editrevenuedialogState extends State<editrevenuedialog> {
   static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController amount;
   final TextEditingController adress;
-  final TextEditingController tenantname;
   final TextEditingController ownername;
 
   _editrevenuedialogState(
-      {required this.amount,
-      required this.adress,
-      required this.tenantname,
-      required this.ownername});
+      {required this.amount, required this.adress, required this.ownername});
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +84,14 @@ class _editrevenuedialogState extends State<editrevenuedialog> {
                   child: Column(
                     children: [
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-  keyboardType: TextInputType.number,
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
+                          keyboardType: TextInputType.number,
                           val: "برجاء ادخال المبلغ",
                           controller: amount,
                           hintText: "المبلغ"),
@@ -106,13 +102,6 @@ class _editrevenuedialogState extends State<editrevenuedialog> {
                           val: "برجاء ادخال عنوان العقار",
                           controller: adress,
                           hintText: "عنوان العقار"),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      custommytextform(
-                          val: "برجاء ادخال اسم المستأجر",
-                          controller: tenantname,
-                          hintText: "اسم المستأجر"),
                       const SizedBox(
                         height: 10,
                       ),
@@ -146,18 +135,18 @@ class _editrevenuedialogState extends State<editrevenuedialog> {
               BlocConsumer<revenueCubit, revenueState>(
                 listener: (context, state) async {
                   if (state is editrevenuefailure) {
-showdialogerror(error: state.error_message, context: context);
+                    showdialogerror(
+                        error: state.error_message, context: context);
                   }
                   if (state is editrevenuesuccess) {
                     widget.amount.clear();
                     BlocProvider.of<revenueCubit>(context).cleardesctype();
                     BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
-                     await BlocProvider.of<revenueCubit>(context)
-        .getallrevenues(token: generaltoken, page: 1);
-Navigator.pop(context);
-            
-                    showsnack(
-                        comment: state.success_message, context: context);
+                    await BlocProvider.of<revenueCubit>(context)
+                        .getallrevenues(token: generaltoken, page: 1);
+                    Navigator.pop(context);
+
+                    showsnack(comment: state.success_message, context: context);
                   }
                 },
                 builder: (context, state) {
@@ -169,14 +158,13 @@ Navigator.pop(context);
                             id: widget.data.id!.toInt(),
                             revenuemodel: revenuesmodelupdaterequest(
                                 ownername: ownername.text,
-                                tenantname: tenantname.text,
                                 adress: adress.text,
                                 amount: amount.text,
                                 description:
                                     BlocProvider.of<revenueCubit>(context)
                                         .desctype!,
-                                date: BlocProvider.of<DateCubit>(context)
-                                    .date1));
+                                date:
+                                    BlocProvider.of<DateCubit>(context).date1));
                       },
                       button_name: "تعديل الايرادات",
                       buttonicon: Icons.edit);

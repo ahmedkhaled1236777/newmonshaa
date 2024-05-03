@@ -39,11 +39,13 @@ class addaqarcuibt extends Cubit<addaqarstate> {
     employeename = val;
     emit(addchangeemployeename());
   }
-clearemployeename(){
-  employeename=null;
-  employeeid=null;
+
+  clearemployeename() {
+    employeename = null;
+    employeeid = null;
     emit(addchangeemployeename());
-}
+  }
+
   changeaddaqardepartement(String val) {
     departement = val;
     emit(changedepartement());

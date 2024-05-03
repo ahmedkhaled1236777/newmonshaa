@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/navigation.dart';
@@ -16,7 +17,6 @@ import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/logi
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/loginstates.dart';
 import 'package:ghhg/features/auth/register/presentation/views/register.dart';
 import 'package:ghhg/features/home/presentation/views/home.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,8 +34,22 @@ class _DesktoplayoutState extends State<Desktoplayout> {
   bool obscureText = true;
 
   IconData passicon = Icons.visibility_off;
+
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
+   String? token;
+ /* gettoken() async {
+    FirebaseMessaging _firebaseMessaging =
+        FirebaseMessaging.instance; // Change here
+    await _firebaseMessaging.getToken().then((token) {
+      cashhelper.setdata(key: "devicetoken", value: token);
+      print(token);
+      this.token = token;
+    });
+  }*/
   @override
+  void initState() {
+ //   gettoken();
+  }
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
@@ -75,10 +89,11 @@ class _DesktoplayoutState extends State<Desktoplayout> {
                         height: Appsizes.size20,
                       ),
                       customtextform(
-                        keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ], // Only numbers can be entered,
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
                           prefixicon: Icons.phone,
@@ -125,7 +140,7 @@ inputFormatters: <TextInputFormatter>[
                                 await BlocProvider.of<logincuibt>(context)
                                     .loginpostdata(
                                         login: loginrequest(
-                                  token: "",
+                                  token: token==null?"":token!,
                                   device_type: "android",
                                   phone: phone.text.trim(),
                                   password: password.text.trim(),

@@ -5,9 +5,10 @@ import 'user.dart';
 class Datum extends Equatable {
   final num? id;
   final User? user;
+  final dynamic compoundName;
   final String? status;
   final List<dynamic>? realStateImages;
-  final String? buildingNumber;
+  final dynamic buildingNumber;
   final String? apartmentNumber;
   final String? realStateAddress;
   final String? realStateAddressDetails;
@@ -18,7 +19,8 @@ class Datum extends Equatable {
   final String? advertisedPhoneNumber;
   final num? realStateSpace;
   final num? realStatePrice;
-  final dynamic numberOfBathrooms;
+  final num? realStateSpacePrice;
+  final num? numberOfBathrooms;
   final num? numberOfRooms;
   final dynamic advertiseDetails;
   final String? createdAt;
@@ -27,6 +29,7 @@ class Datum extends Equatable {
   const Datum({
     this.id,
     this.user,
+    this.compoundName,
     this.status,
     this.realStateImages,
     this.buildingNumber,
@@ -40,6 +43,7 @@ class Datum extends Equatable {
     this.advertisedPhoneNumber,
     this.realStateSpace,
     this.realStatePrice,
+    this.realStateSpacePrice,
     this.numberOfBathrooms,
     this.numberOfRooms,
     this.advertiseDetails,
@@ -52,9 +56,10 @@ class Datum extends Equatable {
         user: json['user'] == null
             ? null
             : User.fromJson(Map<String, dynamic>.from(json['user'])),
+        compoundName: json['compound_name'],
         status: json['status']?.toString(),
         realStateImages: List<dynamic>.from(json['real_state_images'] ?? []),
-        buildingNumber: json['building_number']?.toString(),
+        buildingNumber: json['building_number'],
         apartmentNumber: json['apartment_number']?.toString(),
         realStateAddress: json['real_state_address']?.toString(),
         realStateAddressDetails: json['real_state_address_details']?.toString(),
@@ -65,7 +70,9 @@ class Datum extends Equatable {
         advertisedPhoneNumber: json['advertised_phone_number']?.toString(),
         realStateSpace: num.tryParse(json['real_state_space'].toString()),
         realStatePrice: num.tryParse(json['real_state_price'].toString()),
-        numberOfBathrooms: json['number_of_bathrooms'],
+        realStateSpacePrice:
+            num.tryParse(json['real_state_space_price'].toString()),
+        numberOfBathrooms: num.tryParse(json['number_of_bathrooms'].toString()),
         numberOfRooms: num.tryParse(json['number_of_rooms'].toString()),
         advertiseDetails: json['advertise_details'],
         createdAt: json['created_at']?.toString(),
@@ -75,6 +82,7 @@ class Datum extends Equatable {
   Map<String, dynamic> toJson() => {
         if (id != null) 'id': id,
         if (user != null) 'user': user?.toJson(),
+        if (compoundName != null) 'compound_name': compoundName,
         if (status != null) 'status': status,
         if (realStateImages != null) 'real_state_images': realStateImages,
         if (buildingNumber != null) 'building_number': buildingNumber,
@@ -90,6 +98,8 @@ class Datum extends Equatable {
           'advertised_phone_number': advertisedPhoneNumber,
         if (realStateSpace != null) 'real_state_space': realStateSpace,
         if (realStatePrice != null) 'real_state_price': realStatePrice,
+        if (realStateSpacePrice != null)
+          'real_state_space_price': realStateSpacePrice,
         if (numberOfBathrooms != null) 'number_of_bathrooms': numberOfBathrooms,
         if (numberOfRooms != null) 'number_of_rooms': numberOfRooms,
         if (advertiseDetails != null) 'advertise_details': advertiseDetails,
@@ -102,6 +112,7 @@ class Datum extends Equatable {
     return [
       id,
       user,
+      compoundName,
       status,
       realStateImages,
       buildingNumber,
@@ -115,6 +126,7 @@ class Datum extends Equatable {
       advertisedPhoneNumber,
       realStateSpace,
       realStatePrice,
+      realStateSpacePrice,
       numberOfBathrooms,
       numberOfRooms,
       advertiseDetails,

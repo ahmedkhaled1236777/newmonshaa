@@ -86,11 +86,10 @@ class _addclientsState extends State<addclients> {
                         height: 10,
                       ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
                         controller: clientphone,
                         hintText: "رقم هاتف العميل",
                         val: "برجاء ادخال رقم هاتف العميل",
@@ -98,12 +97,24 @@ class _addclientsState extends State<addclients> {
                       const SizedBox(
                         height: 10,
                       ),
+                       dropdownbutton(
+                          onchanged: (val) {
+                            BlocProvider.of<clientsCubit>(context)
+                                .changeclienttype(val);
+                          },
+                          items: [
+                            
+                            "عميل مباشر",
+                            "شركة عقارات",
+                          ],
+                          name: BlocProvider.of<clientsCubit>(context).clienttype,
+                          hint: "نوع العميل"),
+                          SizedBox(height: 10,),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
                         controller: code,
                         hintText: "الكود",
                       ),
@@ -206,7 +217,14 @@ class _addclientsState extends State<addclients> {
                           return custommaterialbutton(
                               onPressed: () async {
                                 if (widget.formkey.currentState!.validate()) {
-                                  if (BlocProvider.of<clientsCubit>(context)
+                                   if (BlocProvider.of<clientsCubit>(context)
+                                          .clienttype ==
+                                      null) {
+                                    showdialogerror(
+                                        error: "برجاء اختيار نوع العميل",
+                                        context: context);
+                                  }
+                                 else if (BlocProvider.of<clientsCubit>(context)
                                           .departement ==
                                       null) {
                                     showdialogerror(
@@ -226,6 +244,9 @@ class _addclientsState extends State<addclients> {
                                     await BlocProvider.of<clientsCubit>(context).addclients(
                                         token: generaltoken,
                                         clients: clientmodelrequest(
+                                          client_type: clientstyperequest[
+                                                BlocProvider.of<clientsCubit>(context)
+                                                    .clienttype] ,
                                             name: clientname.text,
                                             phone: clientphone.text,
                                             code: code.text.isEmpty

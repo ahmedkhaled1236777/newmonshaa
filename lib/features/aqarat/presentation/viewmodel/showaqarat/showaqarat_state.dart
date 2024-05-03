@@ -16,6 +16,8 @@ class Showaqaratfailure extends ShowaqaratState {
   Showaqaratfailure({required this.error_message});
 }
 
+class deleteaqarloading extends ShowaqaratState {}
+
 class deleteaqarsuccess extends ShowaqaratState {
   final String successmessage;
 

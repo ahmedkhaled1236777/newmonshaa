@@ -1,6 +1,7 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -106,69 +107,82 @@ class _customtableexpensesState extends State<customtableexpenses> {
                                               .transactionDate!,
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  expenseCubit, expenseState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deleteexpensesuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    expenseCubit, expenseState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleteexpensesuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .success_message,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deleteexpensefailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .success_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleteexpensefailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await await BlocProvider
-                                                                .of<expenseCubit>(
-                                                                    context)
-                                                            .deleteexpense(
-                                                                token:
-                                                                    generaltoken,
-                                                                expenseid: BlocProvider.of<
-                                                                            expenseCubit>(
-                                                                        context)
-                                                                    .expensedata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف المصروف ؟",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleteexpenseloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await await BlocProvider
+                                                                  .of<expenseCubit>(
+                                                                      context)
+                                                              .deleteexpense(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  expenseid: BlocProvider.of<
+                                                                              expenseCubit>(
+                                                                          context)
+                                                                      .expensedata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle: "هل تريد حذف المصروف ؟",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,
@@ -268,7 +282,18 @@ class _customtableexpensesState extends State<customtableexpenses> {
                             : BlocProvider.of<expenseCubit>(context)
                                 .expensedata
                                 .length));
-          }))
+          })),
+          Divider(
+            color: Colors.black,
+          ),
+          BlocBuilder<expenseCubit, expenseState>(builder: (context, state) {
+            return SizedBox(
+              height: 40,
+              child: Center(
+                  child: Text(
+                      "الاجمالى : ${BlocProvider.of<expenseCubit>(context).total == null ? 0 : BlocProvider.of<expenseCubit>(context).total}")),
+            );
+          })
         ]));
   }
 }

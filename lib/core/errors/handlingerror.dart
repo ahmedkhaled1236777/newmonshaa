@@ -37,7 +37,8 @@ class requestfailure extends failure {
         return requestfailure(error_message: "انتهي وقت محاولة الاتصال");
 
       case DioExceptionType.connectionError:
-print(dioException)   ;     return requestfailure(error_message: "يوجد مشكله في الاتصال");
+        print(dioException);
+        return requestfailure(error_message: "يوجد مشكله في الاتصال");
 
       case DioExceptionType.unknown:
         if (dioException.message != null) {
@@ -46,11 +47,12 @@ print(dioException)   ;     return requestfailure(error_message: "يوجد مش�
                 error_message: "يوجد مشكله في الاتصال بالانترنت");
           } else {
             return requestfailure(
-                error_message: "يوجد خطأ برجاء المحاوله مره اخري");
+                error_message:
+                    "الاتصال بالانترنت ضعيف برجاء المحاوله مره اخري");
           }
         } else {
           return requestfailure(
-              error_message: "يوجد خطأ برجاء المحاوله مره اخري");
+              error_message: "الاتصال بالانترنت ضعيف برجاء المحاوله مره اخري");
         }
       default:
         return requestfailure(

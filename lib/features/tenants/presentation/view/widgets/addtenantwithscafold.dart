@@ -13,7 +13,6 @@ class addtenantwithscafold extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-           
             color: Colors.white,
           ),
           backgroundColor: Appcolors.maincolor,

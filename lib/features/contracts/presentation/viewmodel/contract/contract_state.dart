@@ -10,6 +10,8 @@ class cleardatastate extends contractState {}
 
 class getmoneystate extends contractState {}
 
+class deletecontractloading extends contractState {}
+
 class editcontractloading extends contractState {}
 
 class editcontractsuccess extends contractState {

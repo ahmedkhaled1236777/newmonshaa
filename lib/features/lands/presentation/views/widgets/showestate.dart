@@ -407,23 +407,22 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                   
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        "التكلفه الكليه : ${widget.data.totalCost.toString()}",
-                                        style: TextStyle(
-                                            fontSize: 12.5,
-                                            color: Colors.blueGrey,
-                                            fontWeight: FontWeight.w100),
-                                      ),
-                                    ],
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "التكلفه الكليه : ${widget.data.totalCost.toString()}",
+                                          style: TextStyle(
+                                              fontSize: 12.5,
+                                              color: Colors.blueGrey,
+                                              fontWeight: FontWeight.w100),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                 const SizedBox(
-                                  height: 15,
-                                ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                   Container(
                                     child: Row(
                                       children: [

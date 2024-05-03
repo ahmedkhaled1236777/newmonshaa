@@ -22,7 +22,6 @@ import 'package:ghhg/features/aqarat/presentation/viewmodel/edit/edit_cubit.dart
 import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
 import 'package:ghhg/features/auth/login/data/repos/loginrepo/loginrepoimplementation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:ghhg/features/auth/login/presentation/views/login.dart';
 import 'package:ghhg/features/auth/login/presentation/viewsmodel/logincuibt/logincuibt.dart';
 import 'package:ghhg/features/auth/profile/data/repo/profilerepoimplementation.dart';
 import 'package:ghhg/features/auth/profile/presentation/viewmodel/cubit/profile_cubit.dart';
@@ -33,6 +32,7 @@ import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cub
 import 'package:ghhg/features/employeecomission/data/repos/employeecomrepoimp.dart';
 import 'package:ghhg/features/employeecomission/presentation/view/employeecom.dart';
 import 'package:ghhg/features/employeecomission/presentation/viewmodel/employeecomcuibt/employeecocuibt.dart';
+import 'package:ghhg/features/pooo.dart';
 import 'package:ghhg/features/technical%20support/data/repo/connectrepoimp.dart';
 import 'package:ghhg/features/technical%20support/presentation/viewmodel/connect/connectcuibt.dart';
 import 'package:ghhg/features/contracts/data/repos/contractrepoimplementation.dart';
@@ -83,9 +83,20 @@ import 'package:month_year_picker/month_year_picker.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await cashhelper.initcashhelper();
- 
+
 // Replace with actual values
-    if (Platform.isAndroid) {
+///////////////////forweb
+/*  await Firebase.initializeApp(
+      options: FirebaseOptions(
+    apiKey: "AIzaSyDRQB5lSBFcr_dlzCLNVKOCjtoYetp97k8",
+    appId: "1:849173214576:web:15af575abc82c4b6874bb5",
+    messagingSenderId: "849173214576",
+    projectId: "mymonshaa",
+    storageBucket: "mymonshaa.appspot.com",
+  ));*/
+
+  //for..........................mobile
+   if (Platform.isAndroid) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
 

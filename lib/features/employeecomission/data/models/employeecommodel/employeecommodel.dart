@@ -7,8 +7,15 @@ class Employeecommodel extends Equatable {
   final num? code;
   final String? message;
   final bool? status;
+  final num? total;
 
-  const Employeecommodel({this.data, this.code, this.message, this.status});
+  const Employeecommodel({
+    this.data,
+    this.code,
+    this.message,
+    this.status,
+    this.total,
+  });
 
   factory Employeecommodel.fromJson(Map<String, dynamic> json) {
     return Employeecommodel(
@@ -18,6 +25,7 @@ class Employeecommodel extends Equatable {
       code: num.tryParse(json['code'].toString()),
       message: json['message']?.toString(),
       status: json['status']?.toString().contains("true"),
+      total: num.tryParse(json['total'].toString()),
     );
   }
 
@@ -26,8 +34,9 @@ class Employeecommodel extends Equatable {
         if (code != null) 'code': code,
         if (message != null) 'message': message,
         if (status != null) 'status': status,
+        if (total != null) 'total': total,
       };
 
   @override
-  List<Object?> get props => [data, code, message, status];
+  List<Object?> get props => [data, code, message, status, total];
 }

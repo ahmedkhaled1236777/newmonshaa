@@ -1,6 +1,7 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -13,7 +14,6 @@ import 'package:ghhg/features/revenus/presentation/views/editrevenudialog.dart';
 import 'package:ghhg/features/revenus/presentation/views/showrevenuedialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtablerevenues extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -107,69 +107,82 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                                               .transactionDate!,
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  revenueCubit, revenueState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deleterevenuesuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    revenueCubit, revenueState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleterevenuesuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .succes_message,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deleterevenuefailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .succes_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleterevenuefailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await BlocProvider.of<
-                                                                    revenueCubit>(
-                                                                context)
-                                                            .deleterevenue(
-                                                                token:
-                                                                    generaltoken,
-                                                                revenueid: BlocProvider.of<
-                                                                            revenueCubit>(
-                                                                        context)
-                                                                    .revenuedata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف الايراد ؟",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleterevenueloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      revenueCubit>(
+                                                                  context)
+                                                              .deleterevenue(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  revenueid: BlocProvider.of<
+                                                                              revenueCubit>(
+                                                                          context)
+                                                                      .revenuedata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle: "هل تريد حذف الايراد ؟",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,
@@ -201,7 +214,6 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                                               context: context,
                                               builder: (_) {
                                                 return AlertDialog(
-                                                
                                                   title: Container(
                                                     alignment:
                                                         Alignment.topLeft,
@@ -249,20 +261,15 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                                                             .revenuedata[index]
                                                             .totalMoney!
                                                             .toString()),
-                                                    tenantname: TextEditingController(
-                                                        text: BlocProvider.of<
-                                                                    revenueCubit>(
-                                                                context)
-                                                            .revenuedata[index]
-                                                            .tenantName!
-                                                            .toString()),
-                                                    ownername: TextEditingController(
-                                                        text: BlocProvider.of<
-                                                                    revenueCubit>(
-                                                                context)
-                                                            .revenuedata[index]
-                                                            .ownerName!
-                                                            .toString()),
+                                                    ownername:
+                                                        TextEditingController(
+                                                            text: BlocProvider
+                                                                    .of<revenueCubit>(
+                                                                        context)
+                                                                .revenuedata[
+                                                                    index]
+                                                                .ownerName!
+                                                                .toString()),
                                                     adress: TextEditingController(
                                                         text: BlocProvider.of<
                                                                     revenueCubit>(
@@ -288,7 +295,18 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                             : BlocProvider.of<revenueCubit>(context)
                                 .revenuedata
                                 .length));
-          }))
+          })),
+          Divider(
+            color: Colors.black,
+          ),
+          BlocBuilder<revenueCubit, revenueState>(builder: (context, state) {
+            return SizedBox(
+              height: 40,
+              child: Center(
+                  child: Text(
+                      "الاجمالى : ${BlocProvider.of<revenueCubit>(context).total == null ? 0 : BlocProvider.of<revenueCubit>(context).total}")),
+            );
+          })
         ]));
   }
 }

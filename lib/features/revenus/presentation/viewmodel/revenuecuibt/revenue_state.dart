@@ -20,6 +20,8 @@ class editrevenuefailure extends revenueState {
 
 class showrevenueloadin extends revenueState {}
 
+class deleterevenueloading extends revenueState {}
+
 class deleterevenuesuccess extends revenueState {
   final String succes_message;
 

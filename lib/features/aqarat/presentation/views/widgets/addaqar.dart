@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
@@ -46,6 +45,7 @@ class _addaqarState extends State<addaqar> {
   TextEditingController details = TextEditingController();
   TextEditingController adressdetails = TextEditingController();
   TextEditingController area = TextEditingController();
+  TextEditingController compoundname = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
   @override
   void initState() {
@@ -91,46 +91,69 @@ class _addaqarState extends State<addaqar> {
                           const SizedBox(
                             height: Appsizes.size15,
                           ),
+                          custommytextform(
+                              controller: compoundname,
+                              hintText:  "اسم الكمبوند (في حالة وجود العقار داخل الكمبوند)"),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Form(
                             key: formkey,
                             child: Column(
                               children: [
                                 custommytextform(
-                                    val: "برجاء ادخال اسم المالك او الوسيط",
-                                    controller: advertiser_name,
-                                    hintText: "اسم المالك او الوسيط"),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                custommytextform(
                                     val: "برجاء ادخال عنوان العقار",
                                     controller: adress,
-                                    hintText: "عنوان العقار"),
+                                    hintText: "عنوان العقار (المدينه)"),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 custommytextform(
                                     val: "برجاء ادخال عنوان العقار بالتفصيل",
                                     controller: adressdetails,
-                                    hintText: "عنوان العقار بالتفصيل"),
+                                    hintText:
+                                        "عنوان العقار بالتفصيل (الحي او الشارع)"),
                                 const SizedBox(
                                   height: 10,
                                 ),
-                                custommytextform(
-                                  inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                    keyboardType: TextInputType.number,
-                                    val: "برجاء ادخال عدد الغرف",
-                                    controller: roomsnumber,
-                                    hintText: "عدد الغرف"),
+                                dropdownbutton(
+                                  items: [
+                                    "فيلا فارغه",
+                                    "شقه فارغه",
+                                    "شقه مفروشه",
+                                    "فيلا مفروشه",
+                                    "مكتب اداري فارغ",
+                                    "مكتب اداري مفروش",
+                                    "محل",
+                                  ],
+                                  hint: "نوع العقار",
+                                  name: BlocProvider.of<addaqarcuibt>(context)
+                                      .aqartype,
+                                  onchanged: (val) {
+                                    BlocProvider.of<addaqarcuibt>(context)
+                                        .changeaddaqartype(val);
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: Appsizes.size10,
+                                ),
+                                dropdownbutton(
+                                    onchanged: (val) {
+                                      BlocProvider.of<addaqarcuibt>(context)
+                                          .changeaddaqardepartement(val);
+                                    },
+                                    items: ["بيع", "ايجار"],
+                                    name: BlocProvider.of<addaqarcuibt>(context)
+                                        .departement,
+                                    hint: "القسم"),
                                 const SizedBox(
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
-                                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال المساحه",
                                     controller: area,
@@ -139,9 +162,10 @@ class _addaqarState extends State<addaqar> {
                                   height: 10,
                                 ),
                                 custommytextform(
-                                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال السعر",
                                     controller: price,
@@ -150,9 +174,91 @@ class _addaqarState extends State<addaqar> {
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
-                                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
+                                    keyboardType: TextInputType.number,
+                                    controller: aqarnumber,
+                                    hintText: "رقم العماره"),
+                                const SizedBox(
+                                  height: Appsizes.size10,
+                                ),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  custommytextform(
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9-.]")),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      controller: housenumber,
+                                      hintText: "رقم الشقه"),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  custommytextform(
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9-.]")),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      controller: roomsnumber,
+                                      hintText: "عدد الغرف"),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  const SizedBox(
+                                    height: Appsizes.size10,
+                                  ),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  custommytextform(
+                                      inputFormatters: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp("[0-9-.]")),
+                                      ],
+                                      keyboardType: TextInputType.number,
+                                      controller: toilletsnumber,
+                                      hintText: "عدد الحمامات"),
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .aqartype !=
+                                    "محل")
+                                  const SizedBox(
+                                    height: Appsizes.size10,
+                                  ),
+                                dropdownbutton(
+                                    onchanged: (val) {
+                                      BlocProvider.of<addaqarcuibt>(context)
+                                          .changeaddaqaradvistortype(val);
+                                    },
+                                    name: BlocProvider.of<addaqarcuibt>(context)
+                                        .advistor_type,
+                                    items: ["صاحب عقار", "شركة عقارات"],
+                                    hint: "نوع المعلن"),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                custommytextform(
+                                    val: "برجاء ادخال اسم المالك او الوسيط",
+                                    controller: advertiser_name,
+                                    hintText: "اسم المالك او الوسيط"),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                custommytextform(
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال رقم الهاتف",
                                     controller: phone,
@@ -160,79 +266,6 @@ class _addaqarState extends State<addaqar> {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: Appsizes.size10,
-                          ),
-                          custommytextform(
-                             inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                              keyboardType: TextInputType.number,
-                              controller: aqarnumber,
-                              hintText: "رقم العماره"),
-                          const SizedBox(
-                            height: Appsizes.size10,
-                          ),
-                          custommytextform(
-                             inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                              keyboardType: TextInputType.number,
-                              controller: housenumber,
-                              hintText: "رقم الشقه"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          dropdownbutton(
-                            items: [
-                              "فيلا فارغه",
-                              "شقه فارغه",
-                              "شقه مفروشه",
-                              "فيلا مفروشه",
-                              "محل"
-                            ],
-                            hint: "نوع العقار",
-                            name:
-                                BlocProvider.of<addaqarcuibt>(context).aqartype,
-                            onchanged: (val) {
-                              BlocProvider.of<addaqarcuibt>(context)
-                                  .changeaddaqartype(val);
-                            },
-                          ),
-                          const SizedBox(
-                            height: Appsizes.size10,
-                          ),
-                          dropdownbutton(
-                              onchanged: (val) {
-                                BlocProvider.of<addaqarcuibt>(context)
-                                    .changeaddaqardepartement(val);
-                              },
-                              items: ["بيع", "ايجار"],
-                              name: BlocProvider.of<addaqarcuibt>(context)
-                                  .departement,
-                              hint: "القسم"),
-                          const SizedBox(
-                            height: Appsizes.size10,
-                          ),
-                          dropdownbutton(
-                              onchanged: (val) {
-                                BlocProvider.of<addaqarcuibt>(context)
-                                    .changeaddaqaradvistortype(val);
-                              },
-                              name: BlocProvider.of<addaqarcuibt>(context)
-                                  .advistor_type,
-                              items: ["صاحب عقار", "شركة عقارات"],
-                              hint: "نوع المعلن"),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          custommytextform(
-                             inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                              keyboardType: TextInputType.number,
-                              controller: toilletsnumber,
-                              hintText: "عدد الحمامات"),
                           const SizedBox(
                             height: Appsizes.size10,
                           ),
@@ -286,30 +319,33 @@ class _addaqarState extends State<addaqar> {
                             if (state is addaaqarloading) return loading();
                             return custommaterialbutton(
                                 onPressed: () async {
-                                  
                                   if (formkey.currentState!.validate()) {
                                     if (BlocProvider.of<addaqarcuibt>(context)
                                             .aqartype ==
                                         null) {
                                       showdialogerror(
-                                          error: "برجاء اختيار نوع العقار",context: context);
+                                          error: "برجاء اختيار نوع العقار",
+                                          context: context);
                                     } else if (BlocProvider.of<addaqarcuibt>(
                                                 context)
                                             .departement ==
                                         null) {
-                                      showdialogerror(context:  context,
+                                      showdialogerror(
+                                          context: context,
                                           error: "برجاء اختيار القسم");
                                     } else if (BlocProvider.of<addaqarcuibt>(
                                                 context)
                                             .advistor_type ==
                                         null) {
-                                      showdialogerror(context:  context,
+                                      showdialogerror(
+                                          context: context,
                                           error: "برجاء اختيار نوع المعلن");
                                     } else if (BlocProvider.of<DateCubit>(
                                                 context)
                                             .date1 ==
                                         "التاريخ") {
-                                      showdialogerror(context:  context,
+                                      showdialogerror(
+                                          context: context,
                                           error: "برجاء اختيار التاريخ");
                                     } else {
                                       if (BlocProvider.of<addaqarcuibt>(context)
@@ -322,10 +358,14 @@ class _addaqarState extends State<addaqar> {
 
                                       await BlocProvider.of<addaqarcuibt>(context).addaqar(
                                           myaddaqarrequest: addaqarrequest(
+                                              coumpound_name: compoundname.text.isEmpty
+                                                  ? ""
+                                                  : compoundname.text,
                                               advertiser_name:
                                                   advertiser_name.text,
-                                              real_state_images: BlocProvider.of<addaqarcuibt>(context)
-                                                  .images,
+                                              real_state_images:
+                                                  BlocProvider.of<addaqarcuibt>(context)
+                                                      .images,
                                               real_state_address: adress.text,
                                               real_state_address_details:
                                                   adressdetails.text,
@@ -335,17 +375,16 @@ class _addaqarState extends State<addaqar> {
                                               department: request[
                                                   BlocProvider.of<addaqarcuibt>(context)
                                                       .departement],
-                                              advertiser_type: request[
-                                                  BlocProvider.of<addaqarcuibt>(context)
-                                                      .advistor_type],
+                                              advertiser_type:
+                                                  request[BlocProvider.of<addaqarcuibt>(context).advistor_type],
                                               advertised_phone_number: phone.text,
                                               real_state_space: area.text,
                                               real_state_price: price.text,
-                                              number_of_bathrooms: toilletsnumber.text,
-                                              number_of_rooms: int.parse(roomsnumber.text),
+                                              number_of_bathrooms: toilletsnumber.text.isEmpty ? "0" : toilletsnumber.text,
+                                              number_of_rooms: roomsnumber.text.isEmpty ? "0" : roomsnumber.text,
                                               advertise_details: details.text,
                                               state_date_register: BlocProvider.of<DateCubit>(context).date1,
-                                              apartment_number: housenumber.text,
+                                              apartment_number: housenumber.text.isEmpty ? "0" : housenumber.text,
                                               building_number: aqarnumber.text),
                                           token: generaltoken);
                                     }

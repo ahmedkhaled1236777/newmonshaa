@@ -59,6 +59,7 @@ class ShowaqaratCubit extends Cubit<ShowaqaratState> {
   }
 
   deleteaqar({required String token, required int aqarnumber}) async {
+    emit(deleteaqarloading());
     var result =
         await showaqar.deleteaqar(token: token, aqarnumber: aqarnumber);
     result.fold((failure) {

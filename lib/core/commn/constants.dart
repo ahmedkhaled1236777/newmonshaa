@@ -9,7 +9,9 @@ Map show = {
   "rent": "ايجار",
   "sale": "بيع",
   "real_state_owner": "صاحب عقار",
-  "real_state_company": "شركة عقارات"
+  "real_state_company": "شركة عقارات",
+  "empty_office": "مكتب اداري فارغ",
+  "furnished_office": "مكتب اداري مفروش"
 };
 Map request = {
   "شقه مفروشه": "furnished_apartment",
@@ -21,8 +23,9 @@ Map request = {
   "بيع": "sale",
   "صاحب عقار": "real_state_owner",
   "شركة عقارات": "real_state_company",
-    "صاحب الارض": "real_state_owner"
-
+  "صاحب الارض": "real_state_owner",
+  "مكتب اداري فارغ": "empty_office",
+  "مكتب اداري مفروش": "furnished_office"
 };
 Map requestland = {
   "شركة عقارات": "real_state_company",
@@ -59,3 +62,11 @@ Map clientsdepartementresponse = {
 var refreshicon = Icons.refresh;
 bool inhome = false;
 bool insplash = true;
+Map clientstyperesponsr = {
+  "client": "عميل مباشر",
+  "company": "شركة عقارات",
+};
+Map  clientstyperequest = {
+  "عميل مباشر":"client",
+ "شركة عقارات":"company",
+};

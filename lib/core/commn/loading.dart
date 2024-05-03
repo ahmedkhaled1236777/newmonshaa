@@ -11,3 +11,19 @@ class loading extends StatelessWidget {
     );
   }
 }
+
+class deleteloading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: 32,
+        width: 32,
+        child: CircularProgressIndicator(
+          strokeWidth: 3,
+          color: Colors.green,
+        ),
+      ),
+    );
+  }
+}

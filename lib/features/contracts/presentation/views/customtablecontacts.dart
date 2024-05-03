@@ -3,6 +3,7 @@ import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -16,7 +17,6 @@ import 'package:ghhg/features/contracts/presentation/views/rent_contract.dart';
 import 'package:ghhg/features/contracts/presentation/views/showcontractdialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtablecontracts extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -120,6 +120,7 @@ class _customtablecontractsState extends State<customtablecontracts> {
                                           onPressed: () {
                                             navigateto(
                                                 navigationscreen: PdfViewContract(
+                                                   
                                                     data: BlocProvider.of<
                                                                 contractCubit>(
                                                             context)
@@ -129,69 +130,83 @@ class _customtablecontractsState extends State<customtablecontracts> {
                                           icon: Icon(Icons.print_rounded)),
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  contractCubit, contractState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deletecontractsuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    contractCubit,
+                                                    contractState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deletecontractsuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .success_message,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deletecontractfailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .success_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deletecontractfailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await BlocProvider.of<
-                                                                    contractCubit>(
-                                                                context)
-                                                            .deletecontract(
-                                                                token:
-                                                                    generaltoken,
-                                                                contractid: BlocProvider.of<
-                                                                            contractCubit>(
-                                                                        context)
-                                                                    .contractdata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف العقد",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deletecontractloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      contractCubit>(
+                                                                  context)
+                                                              .deletecontract(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  contractid: BlocProvider.of<
+                                                                              contractCubit>(
+                                                                          context)
+                                                                      .contractdata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle: "هل تريد حذف العقد",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,
@@ -211,7 +226,10 @@ class _customtablecontractsState extends State<customtablecontracts> {
                                             BlocProvider.of<contractCubit>(
                                                         context)
                                                     .tenantid =
-                                                contract[index].tenant!.id!.toInt();
+                                                contract[index]
+                                                    .tenant!
+                                                    .id!
+                                                    .toInt();
                                             BlocProvider.of<contractCubit>(
                                                     context)
                                                 .havemoney = contract[index]

@@ -82,10 +82,10 @@ class _addtenantState extends State<addtenant> {
                         height: 10,
                       ),
                       custommytextform(
- keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
                         controller: phone,
                         hintText: "رقم الهاتف",
                         val: "برجاء ادخال رقم الهاتف",
@@ -94,10 +94,10 @@ class _addtenantState extends State<addtenant> {
                         height: 10,
                       ),
                       custommytextform(
- keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
                         controller: cardnumber,
                         hintText: "رقم البطاقه",
                         val: "برجاء ادخال رقم البطاقه",

@@ -107,11 +107,11 @@ class _addemplyeeState extends State<addemplyee> {
                           height: 10,
                         ),
                         custommytextform(
-                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                              keyboardType: TextInputType.number,
-
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
+                          keyboardType: TextInputType.number,
                           controller: cardnumber,
                           hintText: "رقم البطاقه",
                           val: "برجاء ادخال رقم البطاقه",
@@ -120,11 +120,11 @@ class _addemplyeeState extends State<addemplyee> {
                           height: 10,
                         ),
                         custommytextform(
-                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                              keyboardType: TextInputType.number,
-
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
+                          keyboardType: TextInputType.number,
                           controller: phone,
                           hintText: "رقم الهاتف",
                           val: "برجاء ادخال رقم الهاتف",

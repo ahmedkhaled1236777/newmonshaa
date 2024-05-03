@@ -15,7 +15,7 @@ class employeecomsearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-                BlocProvider.of<addaqarcuibt>(context).clearemployeename();
+        BlocProvider.of<addaqarcuibt>(context).clearemployeename();
 
         BlocProvider.of<DateCubit>(context).cleardates();
         showDialog(
@@ -65,63 +65,73 @@ class employeecomsearch extends StatelessWidget {
                                   const SizedBox(
                                     height: 15,
                                   ),
-                                   BlocBuilder<addaqarcuibt, addaqarstate>(
-                                    builder: (context, state) {
-                                      return  dropdownbutton(
-                                                                   items: BlocProvider.of<addaqarcuibt>(context)
-                                            .allemployeesmodel ==
-                                        null
-                                                                       ? []
-                                                                       : BlocProvider.of<addaqarcuibt>(context)
-                                        .allemployeesmodel!
-                                        .data!
-                                        .map((e) => e.name!)
-                                        .toList(),
-                                                                   hint: "اسم الموظف",
-                                                                   name: BlocProvider.of<addaqarcuibt>(context)
-                                                                       .employeename,
-                                                                   onchanged: (val) {
-                                                                     BlocProvider.of<addaqarcuibt>(context)
-                                                                         .changeemployeename(val);
-                                                                   },
-                                                                 );
-                                     }
-                                   ),
-                          SizedBox(height: 15,),
+                                  BlocBuilder<addaqarcuibt, addaqarstate>(
+                                      builder: (context, state) {
+                                    return dropdownbutton(
+                                      items:
+                                          BlocProvider.of<addaqarcuibt>(context)
+                                                      .allemployeesmodel ==
+                                                  null
+                                              ? []
+                                              : BlocProvider.of<addaqarcuibt>(
+                                                      context)
+                                                  .allemployeesmodel!
+                                                  .data!
+                                                  .map((e) => e.name!)
+                                                  .toList(),
+                                      hint: "اسم الموظف",
+                                      name:
+                                          BlocProvider.of<addaqarcuibt>(context)
+                                              .employeename,
+                                      onchanged: (val) {
+                                        BlocProvider.of<addaqarcuibt>(context)
+                                            .changeemployeename(val);
+                                      },
+                                    );
+                                  }),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
                                   choosedateemployeecom(),
                                   SizedBox(
                                     height: 20,
                                   ),
                                   custommaterialbutton(
                                       onPressed: () async {
-                                     
-                                        
-                                          BlocProvider.of<employeecomCubit>(context)
-                                              .queryParameters = {
-                                                "employee_id":BlocProvider.of<addaqarcuibt>(context).employeeid,
-                            if(   BlocProvider.of<DateCubit>(
-                                                        context)
-                                                    .date6!="التاريخ من")                "date_from":
+                                        BlocProvider.of<employeecomCubit>(
+                                                context)
+                                            .queryParameters = {
+                                          "employee_id":
+                                              BlocProvider.of<addaqarcuibt>(
+                                                      context)
+                                                  .employeeid,
+                                          if (BlocProvider.of<DateCubit>(
+                                                      context)
+                                                  .date6 !=
+                                              "التاريخ من")
+                                            "date_from":
                                                 BlocProvider.of<DateCubit>(
                                                         context)
                                                     .date6,
-                             if(   BlocProvider.of<DateCubit>(
-                                                        context)
-                                                    .date6!="التاريخ الى")                        "date_to":
+                                          if (BlocProvider.of<DateCubit>(
+                                                      context)
+                                                  .date6 !=
+                                              "التاريخ الى")
+                                            "date_to":
                                                 BlocProvider.of<DateCubit>(
                                                         context)
                                                     .date7,
-                                          };
-                                          BlocProvider.of<addaqarcuibt>(context).employeename=null;
-                                          
-                                          BlocProvider.of<DateCubit>(context)
-                                              .cleardates();
-                                          Navigator.pop(context);
-                                          await BlocProvider.of<employeecomCubit>(
-                                                  context)
-                                              .getallemployeecoms(
-                                                  token: generaltoken, page: 1);
-                                        
+                                        };
+                                        BlocProvider.of<addaqarcuibt>(context)
+                                            .employeename = null;
+
+                                        BlocProvider.of<DateCubit>(context)
+                                            .cleardates();
+                                        Navigator.pop(context);
+                                        await BlocProvider.of<employeecomCubit>(
+                                                context)
+                                            .getallemployeecoms(
+                                                token: generaltoken, page: 1);
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

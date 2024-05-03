@@ -26,9 +26,14 @@ class clientsCubit extends Cubit<clientsState> {
   bool loading = false;
   int page = 1;
   String? status;
+  String? clienttype;
   String? departement;
   changestatus(String val) {
     status = val;
+    emit(changestatusstate());
+  }
+  changeclienttype(String val) {
+    clienttype = val;
     emit(changestatusstate());
   }
 
@@ -40,6 +45,7 @@ class clientsCubit extends Cubit<clientsState> {
   cleardata() {
     departement = null;
     status = null;
+    clienttype = null;
     emit(changestatusstate());
   }
 
@@ -90,6 +96,7 @@ class clientsCubit extends Cubit<clientsState> {
   }
 
   deleteclients({required String token, required int clientsid}) async {
+    emit(deleteclientsloading());
     var result =
         await clientsrepo.deleteclients(token: token, clientsid: clientsid);
     result.fold((failure) {

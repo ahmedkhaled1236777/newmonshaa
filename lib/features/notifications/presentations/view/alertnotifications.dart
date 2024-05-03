@@ -24,7 +24,7 @@ class _alernotificationsmobilenotificationslayoutState
     extends State<alernotifications> {
   @override
   initscroll() async {
- if(widget.counter>0)   await BlocProvider.of<NotificationsCubit>(context)
+    await BlocProvider.of<NotificationsCubit>(context)
         .getallnotifications(token: generaltoken, page: 1);
 
     widget.scrollController.addListener(() async {

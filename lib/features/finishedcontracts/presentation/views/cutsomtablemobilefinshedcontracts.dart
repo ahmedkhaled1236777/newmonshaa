@@ -124,21 +124,23 @@ class _customtableallmobilefinishedcontractssState
                                                       .length
                                               ? loading()
                                               : showfinishedcontractdialog(
-                                                index: index,
-                                                child: customtablefinishedcontractsitem(
+                                                  index: index,
+                                                  child:
+                                                      customtablefinishedcontractsitem(
                                                     delet: IconButton(
                                                         onPressed: () async {
                                                           awsomdialogerror(
                                                             mywidget: BlocConsumer<
                                                                 finishedcontractsCubit,
                                                                 finishedcontractsState>(
-                                                              listener: (context,
-                                                                  state) {
+                                                              listener:
+                                                                  (context,
+                                                                      state) {
                                                                 if (state
                                                                     is deletefinishedcontractssuccess) {
                                                                   Navigator.pop(
                                                                       context);
-                                                
+
                                                                   showsnack(
                                                                       comment: state
                                                                           .succes_message,
@@ -149,7 +151,7 @@ class _customtableallmobilefinishedcontractssState
                                                                     is deletefinishedcontractsfailure) {
                                                                   Navigator.pop(
                                                                       context);
-                                                
+
                                                                   showsnack(
                                                                       comment: state
                                                                           .errormessage,
@@ -162,12 +164,11 @@ class _customtableallmobilefinishedcontractssState
                                                                 return ElevatedButton(
                                                                     style:
                                                                         const ButtonStyle(
-                                                                      backgroundColor:
-                                                                          MaterialStatePropertyAll(Color.fromARGB(
-                                                                              255,
-                                                                              37,
-                                                                              163,
-                                                                              42)),
+                                                                      backgroundColor: MaterialStatePropertyAll(Color.fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
                                                                     ),
                                                                     onPressed:
                                                                         () async {
@@ -185,8 +186,8 @@ class _customtableallmobilefinishedcontractssState
                                                                       style: TextStyle(
                                                                           fontSize:
                                                                               12,
-                                                                          color: Colors
-                                                                              .white),
+                                                                          color:
+                                                                              Colors.white),
                                                                       textAlign:
                                                                           TextAlign
                                                                               .center,
@@ -229,7 +230,7 @@ class _customtableallmobilefinishedcontractssState
                                                             index]
                                                         .contractDateTo!,
                                                   ),
-                                              );
+                                                );
                                         },
                                         separatorBuilder: (context, index) =>
                                             const Divider(),

@@ -99,7 +99,7 @@ class contractsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
-                                           tenantcard.clear();
+                                        tenantcard.clear();
                                         tenantphone.clear();
                                         ownercard.clear();
                                         ownerphone.clear();
@@ -109,7 +109,6 @@ class contractsearch extends StatelessWidget {
                                                 context)
                                             .getallcontracts(
                                                 token: generaltoken, page: 1);
-                                     
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

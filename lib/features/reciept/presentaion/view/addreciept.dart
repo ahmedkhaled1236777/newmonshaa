@@ -160,11 +160,11 @@ class _addrecieptState extends State<addreciept> {
                         BlocBuilder<contractCubit, contractState>(
                           builder: (context, state) {
                             return custommytextform(
-                                inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                  keyboardType: TextInputType.number,
-
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.allow(
+                                    RegExp("[0-9-.]")),
+                              ],
+                              keyboardType: TextInputType.number,
                               controller: BlocProvider.of<recieptCubit>(context)
                                   .companyamola,
                               hintText: BlocProvider.of<contractCubit>(context)
@@ -237,13 +237,14 @@ class _addrecieptState extends State<addreciept> {
                             if (state is Addrecieptloading) return loading();
                             return custommaterialbutton(
                                 onPressed: () async {
-                                    if ( BlocProvider.of<contractCubit>(context)
-                                                      .commessiontype ==
-                                        null) {
-                                      showdialogerror(
-                                          error: "برجاء اختيار نوع العموله ",
-                                          context: context);}
-                                else  if (widget.formkey.currentState!.validate()) {
+                                  if (BlocProvider.of<contractCubit>(context)
+                                          .commessiontype ==
+                                      null) {
+                                    showdialogerror(
+                                        error: "برجاء اختيار نوع العموله ",
+                                        context: context);
+                                  } else if (widget.formkey.currentState!
+                                      .validate()) {
                                     if (BlocProvider.of<DateCubit>(context)
                                             .date1 ==
                                         "التاريخ") {

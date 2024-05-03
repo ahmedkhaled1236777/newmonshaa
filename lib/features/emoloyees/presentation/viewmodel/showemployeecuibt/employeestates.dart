@@ -2,6 +2,8 @@ abstract class showemployeesstates {}
 
 class showemployeesintial extends showemployeesstates {}
 
+class deleteemployeeloading extends showemployeesstates {}
+
 class deleteemployeesuccess extends showemployeesstates {
   final String succes_message;
 

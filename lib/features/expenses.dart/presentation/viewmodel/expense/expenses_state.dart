@@ -18,6 +18,8 @@ class editexpensefailure extends expenseState {
 
 class showexpenseloadin extends expenseState {}
 
+class deleteexpenseloading extends expenseState {}
+
 class deleteexpensesuccess extends expenseState {
   final String success_message;
 

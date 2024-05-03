@@ -52,7 +52,8 @@ class desktopemployeecoms extends StatelessWidget {
                   formkey: formkey,
                   width: MediaQuery.of(context).size.width * 0.27,
                 ),
-                customtableemployeecoms((MediaQuery.of(context).size.width * 0.70)),
+                customtableemployeecoms(
+                    (MediaQuery.of(context).size.width * 0.70)),
               ],
             ),
           )),

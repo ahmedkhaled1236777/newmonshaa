@@ -4,13 +4,11 @@ import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/customprofititem.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/viewmodel/cubit/profit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableallmobileprofitatreportss extends StatefulWidget {
   @override
@@ -126,6 +124,13 @@ class _customtableallmobileprofitatreportssState
                                     itemCount: 1));
                           },
                         ),
+                      ),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: Center(child: Text("الاجمالى : 255055")),
                       )
                     ]))));
   }

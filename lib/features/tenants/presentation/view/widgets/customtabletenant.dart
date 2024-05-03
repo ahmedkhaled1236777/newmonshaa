@@ -1,4 +1,5 @@
 import 'package:ghhg/core/commn/dialogerror.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/contracts/presentation/views/addcontractwithscafold.dart';
@@ -119,7 +120,7 @@ class _customtabletenantsState extends State<customtabletenants> {
                                                       .tenantdata[index]
                                                       .id!
                                                       .toInt();
-                                                       BlocProvider.of<contractCubit>(
+                                              BlocProvider.of<contractCubit>(
                                                           context)
                                                       .id =
                                                   BlocProvider.of<TenantCubit>(
@@ -127,15 +128,17 @@ class _customtabletenantsState extends State<customtabletenants> {
                                                       .tenantdata[index]
                                                       .id!
                                                       .toInt();
-                                                      print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-                                                      print(  BlocProvider.of<TenantCubit>(
+                                              print(
+                                                  "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+                                              print(
+                                                  BlocProvider.of<TenantCubit>(
                                                           context)
                                                       .tenantdata[index]
                                                       .id!
                                                       .toInt());
-                                                      print(  BlocProvider.of<contractCubit>(
-                                                          context)
-                                                      .id);
+                                              print(BlocProvider.of<
+                                                      contractCubit>(context)
+                                                  .id);
                                               navigateto(
                                                   navigationscreen:
                                                       addcontractwithscafold(
@@ -199,16 +202,7 @@ class _customtabletenantsState extends State<customtabletenants> {
                                                       .tenantdata[index]
                                                       .id!
                                                       .toInt();
-                                                      print("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-                                                      print(  BlocProvider.of<TenantCubit>(
-                                                          context)
-                                                      .tenantdata[index]
-                                                      .id!
-                                                      .toInt());
-                                                      print(  BlocProvider.of<contractCubit>(
-                                                          context)
-                                                      .id);
-                                                      
+
                                               navigateto(
                                                   navigationscreen: Contract(
                                                       tenantname: TextEditingController(
@@ -272,69 +266,83 @@ class _customtabletenantsState extends State<customtabletenants> {
                                               color: Color(0xff00416A))),
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  TenantCubit, TenantState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deleteTenantsuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    TenantCubit, TenantState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleteTenantsuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .succes_message,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deleteTenantfailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .succes_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleteTenantfailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await BlocProvider.of<
-                                                                    TenantCubit>(
-                                                                context)
-                                                            .deletetenant(
-                                                                token:
-                                                                    generaltoken,
-                                                                tenantid: BlocProvider.of<
-                                                                            TenantCubit>(
-                                                                        context)
-                                                                    .tenantdata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف المستأجر ؟",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleteTenantloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      TenantCubit>(
+                                                                  context)
+                                                              .deletetenant(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  tenantid: BlocProvider.of<
+                                                                              TenantCubit>(
+                                                                          context)
+                                                                      .tenantdata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle:
+                                                    "هل تريد حذف المستأجر ؟",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,

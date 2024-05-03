@@ -4,9 +4,8 @@ import 'user.dart';
 
 class Datum extends Equatable {
   final num? id;
-  final dynamic realStateAddress;
-  final dynamic tenantName;
-  final dynamic ownerName;
+  final String? realStateAddress;
+  final String? ownerName;
   final num? totalMoney;
   final User? user;
   final String? description;
@@ -17,7 +16,6 @@ class Datum extends Equatable {
   const Datum({
     this.id,
     this.realStateAddress,
-    this.tenantName,
     this.ownerName,
     this.totalMoney,
     this.user,
@@ -29,9 +27,8 @@ class Datum extends Equatable {
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: num.tryParse(json['id'].toString()),
-        realStateAddress: json['real_state_address'],
-        tenantName: json['tenant_name'],
-        ownerName: json['owner_name'],
+        realStateAddress: json['real_state_address']?.toString(),
+        ownerName: json['owner_name']?.toString(),
         totalMoney: num.tryParse(json['total_money'].toString()),
         user: json['user'] == null
             ? null
@@ -45,7 +42,6 @@ class Datum extends Equatable {
   Map<String, dynamic> toJson() => {
         if (id != null) 'id': id,
         if (realStateAddress != null) 'real_state_address': realStateAddress,
-        if (tenantName != null) 'tenant_name': tenantName,
         if (ownerName != null) 'owner_name': ownerName,
         if (totalMoney != null) 'total_money': totalMoney,
         if (user != null) 'user': user?.toJson(),
@@ -60,7 +56,6 @@ class Datum extends Equatable {
     return [
       id,
       realStateAddress,
-      tenantName,
       ownerName,
       totalMoney,
       user,

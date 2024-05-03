@@ -20,6 +20,8 @@ class editemployeecomfailure extends employeecomState {
 
 class showemployeecomloadin extends employeecomState {}
 
+class deleteemployeecomloading extends employeecomState {}
+
 class deleteemployeecomsuccess extends employeecomState {
   final String succes_message;
 

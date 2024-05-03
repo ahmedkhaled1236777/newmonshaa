@@ -23,13 +23,10 @@ class showaqqarrepoimplementation extends showaqarrepo {
               "تم الحصول على بيانات جميع العقارات بنجاح") {
         showstate = Showstate.fromJson(response.data);
         return right(showstate);
-      }  else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      else {
-                return left(requestfailure(error_message: response.data["message"]));
-
+      } else {
+        return left(requestfailure(error_message: response.data["message"]));
       }
     } catch (e) {
       print(e.toString());

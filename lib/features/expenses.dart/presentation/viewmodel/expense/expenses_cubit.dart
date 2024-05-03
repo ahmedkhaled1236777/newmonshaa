@@ -8,6 +8,7 @@ import 'package:equatable/equatable.dart';
 
 class expenseCubit extends Cubit<expenseState> {
   final expenserepoimplementation expenserepo;
+  num? total;
   expenseCubit(this.expenserepo) : super(expenseInitial());
   List<String> headertabel = [
     "المبلغ",
@@ -56,6 +57,7 @@ class expenseCubit extends Cubit<expenseState> {
     result.fold((l) {
       emit(showexpensefailure(errorr_message: l.error_message));
     }, (r) {
+      total = r.total;
       expensedata.clear();
 
       expensedata.addAll(r.data!.data!);
@@ -65,6 +67,7 @@ class expenseCubit extends Cubit<expenseState> {
   }
 
   deleteexpense({required String token, required int expenseid}) async {
+    emit(deleteexpenseloading());
     var result =
         await expenserepo.deleteexpense(token: token, expenseid: expenseid);
     result.fold((failure) {

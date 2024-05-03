@@ -4,7 +4,6 @@ import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/moneyreports/presentation/view/custommonetrablereports.dart';
 import 'package:ghhg/features/reports/presentation/view/moneyreports/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/moneyreports/presentation/viewmodel/expenses/expenswsreports_cubit.dart';
@@ -158,7 +157,19 @@ class _customtabledesktopmoneyatreportsState
                                               .data
                                               .length));
                         },
-                      ))
+                      )),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      BlocBuilder<moneyatreportsCubit, moneyatreportsState>(
+                          builder: (context, state) {
+                        return SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: Text(
+                                  "الاجمالى : ${BlocProvider.of<moneyatreportsCubit>(context).total == null ? 0 : BlocProvider.of<moneyatreportsCubit>(context).total}")),
+                        );
+                      })
                     ]))));
   }
 }

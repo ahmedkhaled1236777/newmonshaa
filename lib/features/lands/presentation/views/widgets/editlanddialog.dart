@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -112,6 +113,9 @@ class _editlanddialogState extends State<editlanddialog> {
                   child: Column(
                     children: [
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "برجاء ادخال عنوان الارض",
                           controller: adress,
                           hintText: "العنوان"),
@@ -119,6 +123,9 @@ class _editlanddialogState extends State<editlanddialog> {
                         height: 10,
                       ),
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "برجاء ادخال تفاصيل العنوان",
                           controller: adressdetails,
                           hintText: "عنوان الارض بالتفصيل"),
@@ -126,6 +133,9 @@ class _editlanddialogState extends State<editlanddialog> {
                         height: 10,
                       ),
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "يرجي ادخال اسم المالك او الوسيط",
                           controller: clientname,
                           hintText: "اسم المالك او الوسيط"),
@@ -134,11 +144,9 @@ class _editlanddialogState extends State<editlanddialog> {
                       ),
                       custommytextform(
                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                        
-                        
-
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال المساحه",
                           controller: area,
@@ -148,8 +156,9 @@ class _editlanddialogState extends State<editlanddialog> {
                       ),
                       custommytextform(
                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال سعر المتر",
                           controller: price,
@@ -158,9 +167,13 @@ class _editlanddialogState extends State<editlanddialog> {
                         height: Appsizes.size10,
                       ),
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال رقم هاتف المالك او الوسيط",
                           controller: phone,
@@ -210,12 +223,13 @@ class _editlanddialogState extends State<editlanddialog> {
                 BlocConsumer<EditlandCubit, EditlandState>(
                   listener: (context, state) async {
                     if (state is editlandfailure) {
-showdialogerror(error: state.error_message, context: context);
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editlandsuccess) {
-                    await BlocProvider.of<ShowlandsCubit>(context)
-        .getallalands(token: generaltoken, page: 1);
-Navigator.pop(context);
+                      await BlocProvider.of<ShowlandsCubit>(context)
+                          .getallalands(token: generaltoken, page: 1);
+                      Navigator.pop(context);
                       showsnack(
                           comment: state.successmessage, context: context);
                     }

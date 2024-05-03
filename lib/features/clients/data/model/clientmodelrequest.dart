@@ -7,18 +7,21 @@ class clientmodelrequest {
   final String inspectiontimedate;
   final String notes;
   final String status;
+  final String client_type;
 
   clientmodelrequest(
       {required this.name,
       required this.phone,
       required this.inspectiontimedate,
       required this.code,
+      required this.client_type,
       required this.departement,
       required this.inspectiondate,
       required this.notes,
       required this.status});
   tojson() => {
         "name": this.name,
+        "client_type":client_type,
         "phone": this.phone,
         "notes": this.notes,
         "code": this.code,

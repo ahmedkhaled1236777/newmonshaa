@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -78,11 +79,14 @@ class _editexpensedialogState extends State<editexpensedialog> {
                   child: Column(
                     children: [
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
+                          keyboardType: TextInputType.number,
                           val: "برجاء ادخال المبلغ",
                           controller: amount,
                           hintText: "المبلغ"),
@@ -107,14 +111,14 @@ class _editexpensedialogState extends State<editexpensedialog> {
                 BlocConsumer<expenseCubit, expenseState>(
                   listener: (context, state) async {
                     if (state is editexpensefailure) {
-showdialogerror(error: state.error_message, context: context);
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editexpensesuccess) {
                       BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
                       await BlocProvider.of<expenseCubit>(context)
-        .getallexpenses(token: generaltoken, page: 1);
-                  Navigator.pop(context);
-
+                          .getallexpenses(token: generaltoken, page: 1);
+                      Navigator.pop(context);
 
                       showsnack(
                           comment: state.success_message, context: context);

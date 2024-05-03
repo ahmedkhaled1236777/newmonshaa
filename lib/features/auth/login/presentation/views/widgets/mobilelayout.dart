@@ -38,6 +38,7 @@ class _MobilelayoutState extends State<Mobilelayout> {
       cashhelper.setdata(key: "devicetoken", value: token);
       print(token);
       this.token = token;
+      print(token);
     });
   }
 
@@ -92,10 +93,10 @@ class _MobilelayoutState extends State<Mobilelayout> {
                   height: Appsizes.size20,
                 ),
                 customtextform(
-keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                    ], // Only numbers can be entered,
                     val: "برجاء ادخال رقم الهاتف",
                     controller: phone,
                     prefixicon: Icons.phone,

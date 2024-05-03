@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/features/contracts/presentation/views/contract.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
@@ -98,8 +99,10 @@ class _addcontractState extends State<addcontract> {
               ),
               width: MediaQuery.of(context).size.width * 0.27,
               child: Container(
-                  padding:widget.is_edit==true?const EdgeInsets.all(0):
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  padding: widget.is_edit == true
+                      ? const EdgeInsets.all(0)
+                      : const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 20),
                   child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(children: [
@@ -135,11 +138,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.tenanphone,
                                 hintText: "رقم هاتف المستاجر",
                                 val: "برجاء ادخال رقم هاتف المستأجر",
@@ -148,11 +151,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.tenantcard,
                                 hintText: "رقم بطاقة المستاجر",
                                 val: "برجاء ادخال رقم بطاقة المستأجر",
@@ -193,11 +196,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.ownerphone,
                                 hintText: "رقم هاتف المالك",
                                 val: "برجاء ادخال رقم هاتف المالك",
@@ -214,11 +217,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.ownercard,
                                 hintText: "رقم بطاقة المالك",
                                 val: "برجاء ادخال رقم بطاقة المالك",
@@ -291,11 +294,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.area,
                                 hintText: " مساحة العقار",
                                 val: "برجاء ادخال مساحة العقار",
@@ -304,11 +307,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.emaranumber,
                                 hintText: "رقم العماره",
                                 val: "برجاء ادخال رقم العماره",
@@ -317,11 +320,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.housenumber,
                                 hintText: "رقم الشقه",
                                 val: "برجاء ادخال رقم الشقه",
@@ -375,11 +378,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.insuranceval,
                                 hintText: "التأمين",
                                 val: "برجاء ادخال قيمة التامين",
@@ -388,11 +391,11 @@ class _addcontractState extends State<addcontract> {
                                 height: 10,
                               ),
                               custommytextform(
-                                 inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                                    keyboardType: TextInputType.number,
-
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp("[0-9-.]")),
+                                ],
+                                keyboardType: TextInputType.number,
                                 controller: widget.totalvalue,
                                 hintText: "قيمة الايجار",
                                 val: "برجاء ادخال قيمة الايجار",
@@ -404,8 +407,12 @@ class _addcontractState extends State<addcontract> {
                                 builder: (context, state) {
                                   return dropdownbutton(
                                       onchanged: (val) {
-                                        BlocProvider.of<contractCubit>(context)
-                                            .changecommessiontype(val);
+                                        if (cashhelper.getdata(key: "role") ==
+                                                "manager" &&
+                                            widget.is_edit == true)
+                                          BlocProvider.of<contractCubit>(
+                                                  context)
+                                              .changecommessiontype(val);
                                       },
                                       items: [
                                         "العموله بالمبلغ",
@@ -423,10 +430,16 @@ class _addcontractState extends State<addcontract> {
                               BlocBuilder<contractCubit, contractState>(
                                 builder: (context, state) {
                                   return custommytextform(
+                                    readonly: cashhelper.getdata(key: "role") !=
+                                                "manager" &&
+                                            widget.is_edit == true
+                                        ? true
+                                        : false,
                                     keyboardType: TextInputType.number,
-                                     inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     controller: widget.commessionvalue,
                                     hintText:
                                         BlocProvider.of<contractCubit>(context)
@@ -460,8 +473,8 @@ class _addcontractState extends State<addcontract> {
                                 showsnack(
                                     comment: state.success_message,
                                     context: context);
-   BlocProvider.of<contractCubit>(context)
-                                  .id=null;
+                                BlocProvider.of<contractCubit>(context).id =
+                                    null;
                                 BlocProvider.of<contractCubit>(context)
                                     .cleardata();
                                 BlocProvider.of<DateCubit>(context).date1 =
@@ -521,20 +534,17 @@ class _addcontractState extends State<addcontract> {
                               if (state is Addcontractloading) return loading();
                               return custommaterialbutton(
                                   onPressed: () {
-                                  
                                     if (widget.formkey.currentState!
                                         .validate()) {
-                                              if (BlocProvider
-                                                          .of<contractCubit>(
-                                                              context)
-                                                      .aqartype ==
+                                      if (BlocProvider.of<contractCubit>(
+                                                  context)
+                                              .aqartype ==
                                           null) {
                                         showdialogerror(
-                                            error:
-                                                "برجاء اختيار نوع العقار",
+                                            error: "برجاء اختيار نوع العقار",
                                             context: context);
-                                      }
-                                else    if (BlocProvider.of<DateCubit>(context)
+                                      } else if (BlocProvider.of<DateCubit>(
+                                                  context)
                                               .date1 ==
                                           "التاريخ") {
                                         showdialogerror(
@@ -548,10 +558,7 @@ class _addcontractState extends State<addcontract> {
                                             error:
                                                 "برجاء ادخال تاريخ الايجار من",
                                             context: context);
-                                      }
-                                   
-                                      
-                                       else if (BlocProvider.of<DateCubit>(
+                                      } else if (BlocProvider.of<DateCubit>(
                                                   context)
                                               .date4 ==
                                           "الايجار الي") {
@@ -559,29 +566,22 @@ class _addcontractState extends State<addcontract> {
                                             error:
                                                 "برجاء ادخال تاريخ الايجار الي",
                                             context: context);
-                                      }
-                                         else if (BlocProvider
-                                                              .of<contractCubit>(
-                                                                  context)
-                                                          .commessiontype ==
+                                      } else if (BlocProvider.of<contractCubit>(
+                                                  context)
+                                              .commessiontype ==
                                           null) {
                                         showdialogerror(
-                                            error:
-                                                "برجاء اختيار نوع العموله",
+                                            error: "برجاء اختيار نوع العموله",
                                             context: context);
-                                      }
-                                         else if (BlocProvider.of<contractCubit>(
-                                                      context)
-                                                  .havemoney ==
+                                      } else if (BlocProvider.of<contractCubit>(
+                                                  context)
+                                              .havemoney ==
                                           null) {
                                         showdialogerror(
                                             error:
                                                 "برجاء اختيار تحصيل الايجار من خلال",
                                             context: context);
-                                      }
-
-                                 else     if (true) {
-
+                                      } else if (true) {
                                         BlocProvider.of<contractCubit>(context)
                                             .addcontract(
                                                 id: BlocProvider.of<
@@ -677,8 +677,8 @@ class _addcontractState extends State<addcontract> {
                           BlocConsumer<contractCubit, contractState>(
                               listener: (context, state) async {
                             if (state is editcontractfailure) {
-                            showdialogerror(error: state.error_message, context: context);
-
+                              showdialogerror(
+                                  error: state.error_message, context: context);
                             }
                             if (state is editcontractsuccess) {
                               BlocProvider.of<contractCubit>(context)
@@ -688,8 +688,7 @@ class _addcontractState extends State<addcontract> {
                                       token: generaltoken, page: 1);
                               BlocProvider.of<contractCubit>(context)
                                   .mycleardata();
-                              BlocProvider.of<contractCubit>(context)
-                                  .id=null;
+                              BlocProvider.of<contractCubit>(context).id = null;
                               BlocProvider.of<DateCubit>(context).cleardates();
 
                               Navigator.pop(context);
@@ -705,14 +704,13 @@ class _addcontractState extends State<addcontract> {
                               button_name: "تعديل البيانات",
                               buttonicon: Icons.edit,
                               onPressed: () {
-                               
                                 BlocProvider.of<contractCubit>(context)
                                     .updatecontract(
-                                      queryparm: {
-                                        "id": BlocProvider.of<contractCubit>(
-                                                context)
-                                            .tenantid
-                                      },
+                                        queryparm: {
+                                      "id": BlocProvider.of<contractCubit>(
+                                              context)
+                                          .tenantid
+                                    },
                                         id: BlocProvider.of<contractCubit>(
                                                 context)
                                             .id!,

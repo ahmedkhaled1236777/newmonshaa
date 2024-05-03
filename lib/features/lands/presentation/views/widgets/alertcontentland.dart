@@ -294,14 +294,13 @@ class _landalertcontentState extends State<landalertcontent> {
                                     .data
                                     .clear();
 
-                              
                                 BlocProvider.of<addaqarcuibt>(context)
                                     .employeeid = null;
                                 BlocProvider.of<DateCubit>(context)
                                     .cleardates();
 
                                 Navigator.pop(context);
-                                  BlocProvider.of<ShowlandsCubit>(context)
+                                BlocProvider.of<ShowlandsCubit>(context)
                                     .getallalands(
                                   token: generaltoken,
                                   page: 1,

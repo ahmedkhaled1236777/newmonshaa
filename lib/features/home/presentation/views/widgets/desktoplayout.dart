@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ghhg/core/color/appcolors.dart';
+import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/toast.dart';
@@ -16,6 +20,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
+
 // ignore: camel_case_types, use_key_in_widget_constructors
 class desktoplayout extends StatefulWidget {
   GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
@@ -25,10 +31,40 @@ class desktoplayout extends StatefulWidget {
 }
 
 class _desktoplayoutState extends State<desktoplayout> {
+   /*void notificationhandle() {
+    inhome = true;
+    if (BlocProvider.of<HomeCubit>(context).firstfirebasenotifications &&
+        this.mounted) {
+      FirebaseMessaging.onBackgroundMessage(
+          _firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        if (inhome && this.mounted) {
+          BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
+        }
+        AwesomeNotifications()
+            .createNotification(
+                content: NotificationContent(
+                    id: Random().nextInt(1000),
+                    channelKey: "newas",
+                    body: message.notification!.body,
+                    title: message.notification!.title))
+            .then((value) {})
+            .onError((error, stackTrace) {
+          print(error);
+          showsnack(comment: error.toString(), context: context);
+        }).catchError((e) {
+          showsnack(comment: e.toString(), context: context);
+        });
+      });
+      BlocProvider.of<HomeCubit>(context).firstfirebasenotifications = false;
+    }
+  }*/
   int x = 0;
   Timer? timer;
   @override
   void initState() {
+  //  notificationhandle();
+
     /*if (context.mounted)
       timer = Timer.periodic(
           Duration(seconds: 15),

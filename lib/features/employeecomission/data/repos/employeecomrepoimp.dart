@@ -11,20 +11,17 @@ import 'package:ghhg/features/employeecomission/data/repos/employeecomrepo.dart'
 class employeecomrepoimplementation extends employeecomrepo {
   @override
   Future<Either<failure, String>> addemployeecom(
-      {required String token, required employeecommodelrequest employeecom}) async {
+      {required String token,
+      required employeecommodelrequest employeecom}) async {
     // ignore: curly_braces_in_flow_control_structures
     try {
       Response response = await Postdata.postdata(
           path: urls.addemployeecom, token: token, data: employeecom.tojson());
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
-      }
-      else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-    
-    else  if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else {
         return left(requestfailure(error_message: response.data["data"][0]));
@@ -50,12 +47,9 @@ class employeecomrepoimplementation extends employeecomrepo {
       if (response.statusCode == 200 && response.data["code"] == 200) {
         employeecommodel = Employeecommodel.fromJson(response.data);
         return right(employeecommodel);
-      } else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      
-      else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["message"]));
@@ -75,13 +69,9 @@ class employeecomrepoimplementation extends employeecomrepo {
           path: "/employee-commissions/delete/${employeecomid}", token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      }
-      else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-       else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(
@@ -107,13 +97,9 @@ class employeecomrepoimplementation extends employeecomrepo {
           token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      }else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-      
-       else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));

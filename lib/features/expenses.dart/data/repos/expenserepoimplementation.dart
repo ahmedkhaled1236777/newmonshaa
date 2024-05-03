@@ -19,13 +19,9 @@ class expenserepoimplementation extends expenserepo {
           path: urls.add_expense, token: token, data: expense.tojson());
       if (response.statusCode == 200 && response.data["status"] == true) {
         return right(response.data["message"]);
-      }
-      else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      else
-      if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else {
         return left(requestfailure(error_message: response.data["message"]));
@@ -96,12 +92,9 @@ class expenserepoimplementation extends expenserepo {
           token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      } else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-      else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["message"]));

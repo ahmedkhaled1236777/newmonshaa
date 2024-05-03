@@ -18,13 +18,9 @@ class addlandrepoimplementation extends landrepo {
           response.data["message"] == "تم اضافه البيانات بنجاح") {
         print(response.data);
         return right("تمت اضافة البيانات بنجاح");
-      }else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      
-      
-       else {
+      } else {
         return left(requestfailure(error_message: response.data["data"][0]));
       }
     } catch (e) {

@@ -93,9 +93,9 @@ class _mobilelayoutState extends State<mobilelayout> {
                     ),
                     customtextform(
                       keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                      ], // Only numbers can be entered,
                       controller: compenyphone,
                       prefixicon: Icons.phone,
                       hintText: "رقم هاتف الشركه",
@@ -115,9 +115,9 @@ inputFormatters: <TextInputFormatter>[
                     ),
                     customtextform(
                       keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                      ], // Only numbers can be entered,
                       controller: phone,
                       prefixicon: Icons.phone,
                       hintText: "رقم هاتف المدير",

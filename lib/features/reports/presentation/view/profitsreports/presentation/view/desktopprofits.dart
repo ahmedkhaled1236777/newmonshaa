@@ -3,7 +3,6 @@ import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/customprofititem.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/viewmodel/cubit/profit_cubit.dart';
@@ -123,7 +122,14 @@ class _customtabledesktopprofitatreportsState
                                       const Divider(),
                                   itemCount: 1));
                         },
-                      ))
+                      )),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      SizedBox(
+                        height: 50,
+                        child: Center(child: Text("الاجمالى : 255055")),
+                      )
                     ]))));
   }
 }

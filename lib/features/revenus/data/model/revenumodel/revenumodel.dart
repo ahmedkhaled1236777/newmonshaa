@@ -7,8 +7,15 @@ class Revenumodel extends Equatable {
   final num? code;
   final String? message;
   final bool? status;
+  final num? total;
 
-  const Revenumodel({this.data, this.code, this.message, this.status});
+  const Revenumodel({
+    this.data,
+    this.code,
+    this.message,
+    this.status,
+    this.total,
+  });
 
   factory Revenumodel.fromJson(Map<String, dynamic> json) => Revenumodel(
         data: json['data'] == null
@@ -17,6 +24,7 @@ class Revenumodel extends Equatable {
         code: num.tryParse(json['code'].toString()),
         message: json['message']?.toString(),
         status: json['status']?.toString().contains("true"),
+        total: num.tryParse(json['total'].toString()),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,8 +32,9 @@ class Revenumodel extends Equatable {
         if (code != null) 'code': code,
         if (message != null) 'message': message,
         if (status != null) 'status': status,
+        if (total != null) 'total': total,
       };
 
   @override
-  List<Object?> get props => [data, code, message, status];
+  List<Object?> get props => [data, code, message, status, total];
 }

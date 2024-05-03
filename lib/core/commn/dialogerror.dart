@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:lottie/lottie.dart';
 
 awsomdialogerror({
   required BuildContext context,
@@ -24,19 +24,30 @@ awsomdialogerror({
               AlertDialog(
                 contentPadding: EdgeInsets.all(0),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
+                    borderRadius: BorderRadius.circular(20)),
                 content: SizedBox(
                   width: MediaQuery.sizeOf(context).width > 950
                       ? MediaQuery.sizeOf(context).width * 0.25
                       : MediaQuery.sizeOf(context).width > 650
                           ? MediaQuery.sizeOf(context).width * 0.55
                           : MediaQuery.sizeOf(context).width,
-                  height: 150,
+                  height: 190,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(height: 15,),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      Text(
+                        "! تنبيــــه",
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
                       Text(
                         tittle,
                         style: const TextStyle(fontSize: 12),
@@ -52,8 +63,8 @@ awsomdialogerror({
                           children: [
                             ElevatedButton(
                                 style: const ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(Colors.red),
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      Color(0xffc21a15)),
                                 ),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -79,16 +90,10 @@ awsomdialogerror({
                 child: CircleAvatar(
                   radius: 40,
                   backgroundColor: Colors.white,
-                  child: CircleAvatar(
-                    radius: 38,
-                    backgroundColor: Colors.amber,
-                    child: Text(
-                      "!",
-                      style: TextStyle(fontSize: 40, color: Colors.white),
-                    ),
-                  ),
+                  child:
+                      Lottie.asset(width: 78, height: 78, "images/sasa.json"),
                 ),
-                top: (MediaQuery.sizeOf(context).height - 100) / 2 - 70,
+                top: (MediaQuery.sizeOf(context).height - 125) / 2 - 70,
               )
             ],
           ),

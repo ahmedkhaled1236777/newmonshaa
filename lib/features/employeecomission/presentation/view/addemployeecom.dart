@@ -32,17 +32,14 @@ class addemployeecom extends StatefulWidget {
 class _addemployeecomState extends State<addemployeecom> {
   TextEditingController amount = TextEditingController();
   TextEditingController adress = TextEditingController();
-  TextEditingController tenantname = TextEditingController();
   TextEditingController ownername = TextEditingController();
   TextEditingController desc = TextEditingController();
-  
+
   @override
   void initState() {
-
     BlocProvider.of<DateCubit>(context).cleardates();
     BlocProvider.of<addaqarcuibt>(context).clearemployeename();
     BlocProvider.of<employeecomCubit>(context).cleardesctype();
-    
   }
 
   @override
@@ -57,14 +54,13 @@ class _addemployeecomState extends State<addemployeecom> {
             Form(
                 key: widget.formkey,
                 child: Container(
-                                width: MediaQuery.of(context).size.width * 0.27,
-
-                    decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(0),
-                  color: Colors.white,
-                ),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  width: MediaQuery.of(context).size.width * 0.27,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    color: Colors.white,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: SingleChildScrollView(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -86,35 +82,35 @@ class _addemployeecomState extends State<addemployeecom> {
                       const SizedBox(
                         height: 15,
                       ),
-                       BlocBuilder<addaqarcuibt, addaqarstate>(
-                        builder: (context, state) {
-                           return dropdownbutton(
-                                      items: BlocProvider.of<addaqarcuibt>(context)
-                                                  .allemployeesmodel ==
-                                              null
-                                          ? []
-                                          : BlocProvider.of<addaqarcuibt>(context)
-                                              .allemployeesmodel!
-                                              .data!
-                                              .map((e) => e.name!)
-                                              .toList(),
-                                      hint: "اسم الموظف",
-                                      name: BlocProvider.of<addaqarcuibt>(context)
-                                          .employeename,
-                                      onchanged: (val) {
-                                        BlocProvider.of<addaqarcuibt>(context)
-                                            .changeemployeename(val);
-                                      },
-                                    );
-                         }
-                       ),
-                                SizedBox(height: 10,),
+                      BlocBuilder<addaqarcuibt, addaqarstate>(
+                          builder: (context, state) {
+                        return dropdownbutton(
+                          items: BlocProvider.of<addaqarcuibt>(context)
+                                      .allemployeesmodel ==
+                                  null
+                              ? []
+                              : BlocProvider.of<addaqarcuibt>(context)
+                                  .allemployeesmodel!
+                                  .data!
+                                  .map((e) => e.name!)
+                                  .toList(),
+                          hint: "اسم الموظف",
+                          name: BlocProvider.of<addaqarcuibt>(context)
+                              .employeename,
+                          onchanged: (val) {
+                            BlocProvider.of<addaqarcuibt>(context)
+                                .changeemployeename(val);
+                          },
+                        );
+                      }),
+                      SizedBox(
+                        height: 10,
+                      ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
                         controller: amount,
                         hintText: "المبلغ",
                         val: "برجاء ادخال المبلغ",
@@ -122,15 +118,16 @@ class _addemployeecomState extends State<addemployeecom> {
                       const SizedBox(
                         height: 10,
                       ),
-                       BlocBuilder<employeecomCubit, employeecomState>(
+                      BlocBuilder<employeecomCubit, employeecomState>(
                         builder: (context, state) {
                           return dropdownbutton(
                               onchanged: (val) {
                                 BlocProvider.of<employeecomCubit>(context)
                                     .changedesctype(val);
                               },
-                              items: [ "عمولة عقد ايجار", "عمولة عقد بيع"],
-                              name: BlocProvider.of<employeecomCubit>(context).desctype,
+                              items: ["عمولة عقد ايجار", "عمولة عقد بيع"],
+                              name: BlocProvider.of<employeecomCubit>(context)
+                                  .desctype,
                               hint: "الوصف");
                         },
                       ),
@@ -146,14 +143,6 @@ class _addemployeecomState extends State<addemployeecom> {
                         height: 10,
                       ),
                       custommytextform(
-                        controller: tenantname,
-                        hintText: "اسم المستأجر",
-                        val: "برجاء ادخال اسم المستأجر",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      custommytextform(
                         controller: ownername,
                         hintText: "اسم المالك",
                         val: "برجاء ادخال اسم المالك",
@@ -161,7 +150,6 @@ class _addemployeecomState extends State<addemployeecom> {
                       const SizedBox(
                         height: 10,
                       ),
-                     
                       choosedate(),
                       const SizedBox(
                         height: Appsizes.size10,
@@ -172,87 +160,95 @@ class _addemployeecomState extends State<addemployeecom> {
                       BlocConsumer<employeecomCubit, employeecomState>(
                         listener: (context, state) async {
                           if (state is Addemployeecomfailure)
-                            showsnack(comment: state.error_message, context: context);
+                            showsnack(
+                                comment: state.error_message, context: context);
                           if (state is Addemployeecomsuccess) {
-                              sound.playsound();
-                            tenantname.clear();
+                            sound.playsound();
                             ownername.clear();
                             adress.clear();
                             amount.clear();
-                            BlocProvider.of<employeecomCubit>(context).cleardesctype();
-                  BlocProvider.of<addaqarcuibt>(context).clearemployeename();
-                            BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
+                            BlocProvider.of<employeecomCubit>(context)
+                                .cleardesctype();
+                            BlocProvider.of<addaqarcuibt>(context)
+                                .clearemployeename();
+                            BlocProvider.of<DateCubit>(context).date1 =
+                                "التاريخ";
                             MediaQuery.sizeOf(context).width > 950
                                 ? navigateandfinish(
-                                    navigationscreen: employeecoms(), context: context)
+                                    navigationscreen: employeecoms(),
+                                    context: context)
                                 : {
-                                    await BlocProvider.of<employeecomCubit>(context)
-                                        .getallemployeecoms(token: generaltoken, page: 1),
+                                    await BlocProvider.of<employeecomCubit>(
+                                            context)
+                                        .getallemployeecoms(
+                                            token: generaltoken, page: 1),
                                     Navigator.pop(context),
                                   };
-                              
+
                             showsnack(
-                                comment: state.success_message, context: context);
+                                comment: state.success_message,
+                                context: context);
                           }
                         },
                         builder: (context, state) {
                           if (state is Addemployeecomloading) return loading();
                           return custommaterialbutton(
                               onPressed: () async {
-                                 if (BlocProvider.of<addaqarcuibt>(context)
-                                                .employeeid ==
-                                      null) {
-                                    showdialogerror(
-                                        error: "برجاء اختيار اسم الموظف",
-                                        context: context);
-                                  } 
-                                  else  if (  BlocProvider.of<employeecomCubit>(
-                                                            context)
-                                                        .desctype ==
-                                      null) {
-                                    showdialogerror(
-                                        error: "برجاء اختيار الوصف",
-                                        context: context);
-                                  } 
-                              else  if (widget.formkey.currentState!.validate()) {
-                                  if (BlocProvider.of<DateCubit>(context).date1 ==
+                                if (BlocProvider.of<addaqarcuibt>(context)
+                                        .employeeid ==
+                                    null) {
+                                  showdialogerror(
+                                      error: "برجاء اختيار اسم الموظف",
+                                      context: context);
+                                } else if (BlocProvider.of<employeecomCubit>(
+                                            context)
+                                        .desctype ==
+                                    null) {
+                                  showdialogerror(
+                                      error: "برجاء اختيار الوصف",
+                                      context: context);
+                                } else if (widget.formkey.currentState!
+                                    .validate()) {
+                                  if (BlocProvider.of<DateCubit>(context)
+                                          .date1 ==
                                       "التاريخ") {
                                     showdialogerror(
                                         error: "برجاء اختيار التاريخ",
                                         context: context);
-                                  } 
-                                else  if ( BlocProvider.of<addaqarcuibt>(context)
-                                                .employeeid==null
-                                     ) {
+                                  } else if (BlocProvider.of<addaqarcuibt>(
+                                              context)
+                                          .employeeid ==
+                                      null) {
                                     showdialogerror(
                                         error: "برجاء اختيار اسم الموظف",
                                         context: context);
-                                  }
-                                else  if (    BlocProvider.of<employeecomCubit>(
-                                                            context)
-                                                        .desctype ==null
-                                     ) {
+                                  } else if (BlocProvider.of<employeecomCubit>(
+                                              context)
+                                          .desctype ==
+                                      null) {
                                     showdialogerror(
                                         error: "برجاء اختيار الوصف ",
                                         context: context);
                                   } else {
-                                    await BlocProvider.of<employeecomCubit>(context)
+                                    await BlocProvider.of<employeecomCubit>(
+                                            context)
                                         .addemployeecom(
                                             token: generaltoken,
                                             employeecom: employeecommodelrequest(
-                                                employeeid:  BlocProvider.of<addaqarcuibt>(context)
-                                                .employeeid!,
+                                                employeeid: BlocProvider.of<
+                                                        addaqarcuibt>(context)
+                                                    .employeeid!,
                                                 ownername: ownername.text,
-                                                tenantname: tenantname.text,
                                                 adress: adress.text,
                                                 totalmoney: amount.text,
-                                                desc:
-                                                    BlocProvider.of<employeecomCubit>(
-                                                            context)
-                                                        .desctype!,
-                                                date: BlocProvider.of<DateCubit>(
+                                                desc: BlocProvider.of<
+                                                            employeecomCubit>(
                                                         context)
-                                                    .date1));
+                                                    .desctype!,
+                                                date:
+                                                    BlocProvider.of<DateCubit>(
+                                                            context)
+                                                        .date1));
                                   }
                                 }
                               },

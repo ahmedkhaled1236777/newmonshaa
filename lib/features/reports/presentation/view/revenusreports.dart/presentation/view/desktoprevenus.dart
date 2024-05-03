@@ -4,7 +4,6 @@ import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/moneyreports/presentation/view/custommonetrablereports.dart';
 import 'package:ghhg/features/reports/presentation/view/revenusreports.dart/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/revenusreports.dart/presentation/viewmodel/revenus/revenusreports_cubit.dart';
@@ -161,7 +160,19 @@ class _customtabledesktoprevenusatreportsState
                                               .data
                                               .length));
                         },
-                      ))
+                      )),
+                      Divider(
+                        color: Colors.black,
+                      ),
+                      BlocBuilder<revenusatreportsCubit, revenusatreportsState>(
+                          builder: (context, state) {
+                        return SizedBox(
+                          height: 40,
+                          child: Center(
+                              child: Text(
+                                  "الاجمالى : ${BlocProvider.of<revenusatreportsCubit>(context).total == null ? 0 : BlocProvider.of<revenusatreportsCubit>(context).total}")),
+                        );
+                      })
                     ]))));
   }
 }

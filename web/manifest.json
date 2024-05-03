@@ -1,6 +1,6 @@
 {
-    "name": "ghhg",
-    "short_name": "ghhg",
+    "name": "monshaa",
+    "short_name": "monshaa",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
@@ -8,6 +8,10 @@
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
+    "permissions": {
+        "network": {}
+    },
+    
     "icons": [
         {
             "src": "icons/Icon-192.png",
@@ -32,4 +36,5 @@
             "purpose": "maskable"
         }
     ]
+    
 }

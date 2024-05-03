@@ -105,8 +105,7 @@ class _edittenantdialogState extends State<edittenantdialog> {
                         height: 10,
                       ),
                       custommytextform(
-                                                            keyboardType: TextInputType.number,
-
+                          keyboardType: TextInputType.number,
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
                           hintText: "رقم الهاتف"),
@@ -114,8 +113,7 @@ class _edittenantdialogState extends State<edittenantdialog> {
                         height: 10,
                       ),
                       custommytextform(
-                                                            keyboardType: TextInputType.number,
-
+                          keyboardType: TextInputType.number,
                           val: "برجاء ادخال رقم البطاقه",
                           controller: cardnumber,
                           hintText: "رقم البطاقه"),
@@ -149,12 +147,13 @@ class _edittenantdialogState extends State<edittenantdialog> {
                 BlocConsumer<TenantCubit, TenantState>(
                   listener: (context, state) async {
                     if (state is editTenantfailure) {
-showdialogerror(error: state.error_message, context: context);
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editTenantsuccess) {
-                       await BlocProvider.of<TenantCubit>(context)
-        .getalltenants(token: generaltoken, page: 1);
-Navigator.pop(context);
+                      await BlocProvider.of<TenantCubit>(context)
+                          .getalltenants(token: generaltoken, page: 1);
+                      Navigator.pop(context);
 
                       showsnack(
                           comment: state.success_message, context: context);

@@ -70,7 +70,6 @@ class HomeCubit extends Cubit<HomeState> {
       "page": MyHomePage(),
       "count": 0
     },
-    
     {
       "name": "العقارات",
       "name_en": "states",
@@ -310,12 +309,12 @@ class HomeCubit extends Cubit<HomeState> {
         "count": 0
       },
       {
-      "name": "عموله الموظفين",
-      "name_en": "employee_commission",
-      "icon": Icons.home,
-      "page": employeecoms(),
-      "count": 0
-    },
+        "name": "عموله الموظفين",
+        "name_en": "employee_commission",
+        "icon": Icons.home,
+        "page": employeecoms(),
+        "count": 0
+      },
       {
         "name": "الايردات",
         "name_en": "revenues",

@@ -67,6 +67,7 @@ class finishedcontractsCubit extends Cubit<finishedcontractsState> {
 
   deletefinishedcontracts(
       {required String token, required int finishedcontractsid}) async {
+    emit(deletefinishedcontractsloading());
     var result = await finishedcontractsrepo.deletecontract(
         token: token, contractid: finishedcontractsid);
     result.fold((failure) {

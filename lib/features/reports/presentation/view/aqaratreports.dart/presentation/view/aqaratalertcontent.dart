@@ -1,4 +1,5 @@
 import 'package:ghhg/core/color/appcolors.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
@@ -68,23 +69,39 @@ class aqaratalertcontent extends StatelessWidget {
                               height: 15,
                             ),
                             custommaterialbutton(
-                              button_name: "بحث",
-                              buttonicon: Icons.search,
-                              onPressed: () {
-                                BlocProvider.of<AqaratreportsCubit>(context)
-                                    .queryParameters = {
-                                  "date_from":
-                                      BlocProvider.of<DateCubit>(context).date6,
-                                  "date_to":
-                                      BlocProvider.of<DateCubit>(context).date7
-                                };
-                                BlocProvider.of<DateCubit>(context)
-                                    .cleardates();
-                                Navigator.pop(context);
-                                BlocProvider.of<AqaratreportsCubit>(context)
-                                    .getallaqarat(token: generaltoken, page: 1);
-                              },
-                            )
+                                button_name: "بحث",
+                                buttonicon: Icons.search,
+                                onPressed: () {
+                                  if (BlocProvider.of<DateCubit>(context)
+                                          .date6 ==
+                                      "التاريخ من")
+                                    showdialogerror(
+                                        error: "برجاء اختيار التاريخ من",
+                                        context: context);
+                                  else if (BlocProvider.of<DateCubit>(context)
+                                          .date7 ==
+                                      "التاريخ الي")
+                                    showdialogerror(
+                                        error: "برجاء اختيار التاريخ الي",
+                                        context: context);
+                                  else {
+                                    BlocProvider.of<AqaratreportsCubit>(context)
+                                        .queryParameters = {
+                                      "date_from":
+                                          BlocProvider.of<DateCubit>(context)
+                                              .date6,
+                                      "date_to":
+                                          BlocProvider.of<DateCubit>(context)
+                                              .date7
+                                    };
+                                    BlocProvider.of<DateCubit>(context)
+                                        .cleardates();
+                                    Navigator.pop(context);
+                                    BlocProvider.of<AqaratreportsCubit>(context)
+                                        .getallaqarat(
+                                            token: generaltoken, page: 1);
+                                  }
+                                })
                           ]))))
             ])));
   }

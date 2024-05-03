@@ -50,14 +50,13 @@ class _addrevenueState extends State<addrevenue> {
             child: ListView(
               children: [
                 Container(
-                                width: MediaQuery.of(context).size.width * 0.27,
-                
-                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(0),
-                      color: Colors.white,
-                    ),
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                  width: MediaQuery.of(context).size.width * 0.27,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(0),
+                    color: Colors.white,
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                   child: SingleChildScrollView(
                       child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -81,11 +80,10 @@ class _addrevenueState extends State<addrevenue> {
                       ),
                       custommytextform(
                         controller: amount,
-                          inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        keyboardType: TextInputType.number,
                         hintText: "المبلغ",
                         val: "برجاء ادخال المبلغ",
                       ),
@@ -96,14 +94,6 @@ class _addrevenueState extends State<addrevenue> {
                         controller: adress,
                         hintText: "عنوان العقار",
                         val: "برجاء ادخال عنوان العقار",
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      custommytextform(
-                        controller: tenantname,
-                        hintText: "اسم المستأجر",
-                        val: "برجاء ادخال اسم المستأجر",
                       ),
                       const SizedBox(
                         height: 10,
@@ -124,7 +114,8 @@ class _addrevenueState extends State<addrevenue> {
                                     .changedesctype(val);
                               },
                               items: ["عقد ايجار", "عقد بيع", "سند صرف"],
-                              name: BlocProvider.of<revenueCubit>(context).desctype,
+                              name: BlocProvider.of<revenueCubit>(context)
+                                  .desctype,
                               hint: "الوصف");
                         },
                       ),
@@ -141,26 +132,32 @@ class _addrevenueState extends State<addrevenue> {
                       BlocConsumer<revenueCubit, revenueState>(
                         listener: (context, state) async {
                           if (state is Addrevenuefailure)
-                            showsnack(comment: state.error_message, context: context);
+                            showsnack(
+                                comment: state.error_message, context: context);
                           if (state is Addrevenuesuccess) {
                             sound.playsound();
-                                tenantname.clear();
+                            tenantname.clear();
                             ownername.clear();
                             adress.clear();
                             amount.clear();
-                            BlocProvider.of<revenueCubit>(context).cleardesctype();
-                            BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
+                            BlocProvider.of<revenueCubit>(context)
+                                .cleardesctype();
+                            BlocProvider.of<DateCubit>(context).date1 =
+                                "التاريخ";
                             MediaQuery.sizeOf(context).width > 950
                                 ? navigateandfinish(
-                                    navigationscreen: revenues(), context: context)
+                                    navigationscreen: revenues(),
+                                    context: context)
                                 : {
                                     await BlocProvider.of<revenueCubit>(context)
-                                        .getallrevenues(token: generaltoken, page: 1),
+                                        .getallrevenues(
+                                            token: generaltoken, page: 1),
                                     Navigator.pop(context),
                                   };
-                  
+
                             showsnack(
-                                comment: state.success_message, context: context);
+                                comment: state.success_message,
+                                context: context);
                           }
                         },
                         builder: (context, state) {
@@ -168,15 +165,15 @@ class _addrevenueState extends State<addrevenue> {
                           return custommaterialbutton(
                               onPressed: () async {
                                 if (widget.formkey.currentState!.validate()) {
-                                   if (   BlocProvider.of<revenueCubit>(
-                                                            context)
-                                                        .desctype ==
+                                  if (BlocProvider.of<revenueCubit>(context)
+                                          .desctype ==
                                       null) {
                                     showdialogerror(
                                         error: "برجاء اختيار الوصف",
                                         context: context);
                                   }
-                                  if (BlocProvider.of<DateCubit>(context).date1 ==
+                                  if (BlocProvider.of<DateCubit>(context)
+                                          .date1 ==
                                       "التاريخ") {
                                     showdialogerror(
                                         error: "برجاء اختيار التاريخ",
@@ -188,16 +185,15 @@ class _addrevenueState extends State<addrevenue> {
                                             revenue: revenuesmodelrequest(
                                                 type: "revenue",
                                                 ownernamr: ownername.text,
-                                                tenentname: tenantname.text,
                                                 adress: adress.text,
                                                 amount: amount.text,
-                                                description:
-                                                    BlocProvider.of<revenueCubit>(
+                                                description: BlocProvider.of<
+                                                        revenueCubit>(context)
+                                                    .desctype!,
+                                                date:
+                                                    BlocProvider.of<DateCubit>(
                                                             context)
-                                                        .desctype!,
-                                                date: BlocProvider.of<DateCubit>(
-                                                        context)
-                                                    .date1));
+                                                        .date1));
                                   }
                                 }
                               },

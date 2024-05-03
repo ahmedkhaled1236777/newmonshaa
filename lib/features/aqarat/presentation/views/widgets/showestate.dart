@@ -19,8 +19,6 @@ class ShowEstateState extends State<mShowEstate> {
 
   @override
   Widget build(BuildContext context) {
-    print("oopkpkplplplplplplpl");
-    print(widget.data!.realStateImages!.length);
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
@@ -68,6 +66,31 @@ class ShowEstateState extends State<mShowEstate> {
                                 const SizedBox(
                                   height: 20,
                                 ),
+                                if (widget.data.compoundName != null)
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "اسم الكمبوند : ",
+                                          style: TextStyle(
+                                              fontSize: 12.5,
+                                              color: Colors.blueGrey,
+                                              fontWeight: FontWeight.w100),
+                                        ),
+                                        Text(
+                                          widget.data.compoundName,
+                                          style: TextStyle(
+                                              fontSize: 12.5,
+                                              color: Colors.blueGrey,
+                                              fontWeight: FontWeight.w100),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                if (widget.data.compoundName != null)
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                 Container(
                                   child: Row(
                                     children: [
@@ -299,13 +322,13 @@ class ShowEstateState extends State<mShowEstate> {
                                 Container(
                                   child: Row(
                                     children: [
-                                     Text(
-                                               "رقم هاتف المالك او الوسيط",
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                color: Colors.blueGrey,
-                                                fontWeight: FontWeight.w100),
-                                          ),
+                                      Text(
+                                        "رقم هاتف المالك او الوسيط",
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.blueGrey,
+                                            fontWeight: FontWeight.w100),
+                                      ),
                                       SizedBox(
                                         width: 10,
                                       ),
@@ -428,6 +451,31 @@ class ShowEstateState extends State<mShowEstate> {
                                     SizedBox(
                                       height: 20,
                                     ),
+                                    if (widget.data.compoundName != null)
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              "اسم الكمبوند : ",
+                                              style: TextStyle(
+                                                  fontSize: 12.5,
+                                                  color: Colors.blueGrey,
+                                                  fontWeight: FontWeight.w100),
+                                            ),
+                                            Text(
+                                              widget.data.compoundName,
+                                              style: TextStyle(
+                                                  fontSize: 12.5,
+                                                  color: Colors.blueGrey,
+                                                  fontWeight: FontWeight.w100),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    if (widget.data.compoundName != null)
+                                      const SizedBox(
+                                        height: 15,
+                                      ),
                                     Container(
                                       child: Row(
                                         children: [
@@ -668,7 +716,7 @@ class ShowEstateState extends State<mShowEstate> {
                                       child: Row(
                                         children: [
                                           Text(
-                                               "رقم هاتف المالك او الوسيط",
+                                            "رقم هاتف المالك او الوسيط",
                                             style: TextStyle(
                                                 fontSize: 13,
                                                 color: Colors.blueGrey,

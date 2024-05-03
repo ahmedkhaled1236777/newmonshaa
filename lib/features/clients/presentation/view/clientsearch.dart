@@ -132,7 +132,7 @@ class clientsearch extends StatelessWidget {
                                                       context)
                                                   .status],
                                         };
- BlocProvider.of<DateCubit>(context)
+                                        BlocProvider.of<DateCubit>(context)
                                             .cleardates();
                                         phone.clear();
                                         BlocProvider.of<clientsCubit>(context)
@@ -142,7 +142,6 @@ class clientsearch extends StatelessWidget {
                                                 context)
                                             .getallclientss(
                                                 token: generaltoken, page: 1);
-                                       
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

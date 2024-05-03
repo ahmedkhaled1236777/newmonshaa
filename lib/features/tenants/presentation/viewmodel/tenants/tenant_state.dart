@@ -20,6 +20,8 @@ class editTenantfailure extends TenantState {
 
 class showTenantloadin extends TenantState {}
 
+class deleteTenantloading extends TenantState {}
+
 class deleteTenantsuccess extends TenantState {
   final String succes_message;
 

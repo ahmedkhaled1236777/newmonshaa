@@ -114,6 +114,7 @@ class recieptCubit extends Cubit<recieptState> {
   }
 
   deletereciept({required String token, required int recieptid}) async {
+    emit(deleterecieptloading());
     var result =
         await recieptrepo.deletereciept(token: token, recieptid: recieptid);
     result.fold((failure) {

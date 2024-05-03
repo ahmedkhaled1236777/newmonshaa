@@ -4,9 +4,7 @@ import 'package:dio/dio.dart';
 class Apiservice {
   static late Dio dio;
   static initdio() {
-    dio = Dio(BaseOptions(
-      
-      baseUrl: urls.baseurl));
+    dio = Dio(BaseOptions(baseUrl: urls.baseurl));
   }
 }
 

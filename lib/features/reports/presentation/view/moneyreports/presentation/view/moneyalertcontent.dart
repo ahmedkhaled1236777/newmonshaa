@@ -1,4 +1,5 @@
 import 'package:ghhg/core/color/appcolors.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
@@ -71,19 +72,34 @@ class moneyatalertcontent extends StatelessWidget {
                               button_name: "بحث",
                               buttonicon: Icons.search,
                               onPressed: () {
-                                BlocProvider.of<moneyatreportsCubit>(context)
-                                    .queryParameters = {
-                                  "date_from":
-                                      BlocProvider.of<DateCubit>(context).date6,
-                                  "date_to":
-                                      BlocProvider.of<DateCubit>(context).date7
-                                };
-                                BlocProvider.of<DateCubit>(context)
-                                    .cleardates();
-                                Navigator.pop(context);
-                                BlocProvider.of<moneyatreportsCubit>(context)
-                                    .getallmoneyat(
-                                        token: generaltoken, page: 1);
+                                if (BlocProvider.of<DateCubit>(context).date6 ==
+                                    "التاريخ من")
+                                  showdialogerror(
+                                      error: "برجاء اختيار التاريخ من",
+                                      context: context);
+                                else if (BlocProvider.of<DateCubit>(context)
+                                        .date7 ==
+                                    "التاريخ الي")
+                                  showdialogerror(
+                                      error: "برجاء اختيار التاريخ الي",
+                                      context: context);
+                                else {
+                                  BlocProvider.of<moneyatreportsCubit>(context)
+                                      .queryParameters = {
+                                    "date_from":
+                                        BlocProvider.of<DateCubit>(context)
+                                            .date6,
+                                    "date_to":
+                                        BlocProvider.of<DateCubit>(context)
+                                            .date7
+                                  };
+                                  BlocProvider.of<DateCubit>(context)
+                                      .cleardates();
+                                  Navigator.pop(context);
+                                  BlocProvider.of<moneyatreportsCubit>(context)
+                                      .getallmoneyat(
+                                          token: generaltoken, page: 1);
+                                }
                               },
                             )
                           ]))))

@@ -1,4 +1,3 @@
-
 import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -15,7 +14,7 @@ class custommytextform extends StatefulWidget {
   int? maxlines;
   bool? readonly;
   String? suffixtext;
-List<TextInputFormatter>? inputFormatters;
+  List<TextInputFormatter>? inputFormatters;
   custommytextform(
       {super.key,
       this.readonly = false,
@@ -49,7 +48,6 @@ class _custommytextformState extends State<custommytextform> {
                 height: 10,
               ),
               TextFormField(
-                
                 inputFormatters: widget.inputFormatters,
                 style: TextStyle(fontSize: 13),
                 validator: (value) {
@@ -98,7 +96,6 @@ class _custommytextformState extends State<custommytextform> {
               ),
               TextFormField(
                 inputFormatters: widget.inputFormatters,
-
                 style: TextStyle(fontSize: 13),
                 validator: (value) {
                   if (value!.isEmpty) {

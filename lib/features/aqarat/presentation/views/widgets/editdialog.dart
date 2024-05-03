@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
-import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -13,7 +13,6 @@ import 'package:ghhg/features/aqarat/presentation/viewmodel/addaqarcuibt/addaqar
 import 'package:ghhg/features/aqarat/presentation/viewmodel/date/date_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/edit/edit_cubit.dart';
 import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
-import 'package:ghhg/features/aqarat/presentation/views/estate.dart';
 import 'package:ghhg/core/commn/widgets/customchoosedate.dart';
 import 'package:ghhg/features/aqarat/presentation/views/widgets/customgridimages.dart';
 import 'package:ghhg/core/commn/widgets/custommytextform.dart';
@@ -38,9 +37,11 @@ class editdialog extends StatefulWidget {
   final TextEditingController details;
   final TextEditingController adressdetails;
   final TextEditingController area;
+  final TextEditingController compoundname;
 
   editdialog(
       {super.key,
+      required this.compoundname,
       required this.width,
       required this.advertiser_name,
       required this.height,
@@ -58,6 +59,7 @@ class editdialog extends StatefulWidget {
 
   @override
   State<editdialog> createState() => _editdialogState(
+        compoundname: compoundname,
         adress: adress,
         adressdetails: adressdetails,
         advertiser_name: advertiser_name,
@@ -83,12 +85,14 @@ class _editdialogState extends State<editdialog> {
   final TextEditingController toilletsnumber;
   final TextEditingController details;
   final TextEditingController adressdetails;
+  final TextEditingController compoundname;
   final TextEditingController area;
   static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
   _editdialogState(
       {required this.aqarnumber,
       required this.advertiser_name,
+      required this.compoundname,
       required this.housenumber,
       required this.adress,
       required this.phone,
@@ -128,11 +132,19 @@ class _editdialogState extends State<editdialog> {
                 const SizedBox(
                   height: Appsizes.size15,
                 ),
+                custommytextform(
+                    controller: compoundname, hintText: "اسم الكمبوند"),
+                const SizedBox(
+                  height: 10,
+                ),
                 Form(
                   key: formkey,
                   child: Column(
                     children: [
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "برجاء ادخال اسم المالك او الوسيط",
                           controller: advertiser_name,
                           hintText: "اسم المالك او الوسيط"),
@@ -140,6 +152,9 @@ class _editdialogState extends State<editdialog> {
                         height: 10,
                       ),
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "برجاء ادخال عنوان العقار",
                           controller: adress,
                           hintText: "عنوان العقار"),
@@ -147,27 +162,36 @@ class _editdialogState extends State<editdialog> {
                         height: 10,
                       ),
                       custommytextform(
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
                           val: "برجاء ادخال عنوان العقار بالتفصيل",
                           controller: adressdetails,
                           hintText: "عنوان العقار بالتفصيل"),
                       const SizedBox(
                         height: 10,
                       ),
+                      if (BlocProvider.of<addaqarcuibt>(context).aqartype !=
+                          "محل")
+                        custommytextform(
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                  RegExp("[0-9-.]")),
+                            ],
+                            keyboardType: TextInputType.number,
+                            val: "برجاء ادخال عدد الغرف",
+                            controller: roomsnumber,
+                            hintText: "عدد الغرف"),
+                      if (BlocProvider.of<addaqarcuibt>(context).aqartype !=
+                          "محل")
+                        const SizedBox(
+                          height: Appsizes.size10,
+                        ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                          keyboardType: TextInputType.number,
-                          val: "برجاء ادخال عدد الغرف",
-                          controller: roomsnumber,
-                          hintText: "عدد الغرف"),
-                      const SizedBox(
-                        height: Appsizes.size10,
-                      ),
-                      custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال المساحه",
                           controller: area,
@@ -176,9 +200,10 @@ class _editdialogState extends State<editdialog> {
                         height: 10,
                       ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال السعر",
                           controller: price,
@@ -187,9 +212,13 @@ class _editdialogState extends State<editdialog> {
                         height: Appsizes.size10,
                       ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                          readonly: cashhelper.getdata(key: "role") != "manager"
+                              ? true
+                              : false,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
                           keyboardType: TextInputType.number,
                           val: "برجاء ادخال رقم الهاتف",
                           controller: phone,
@@ -201,31 +230,35 @@ class _editdialogState extends State<editdialog> {
                   height: Appsizes.size10,
                 ),
                 custommytextform(
-                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                    ],
                     keyboardType: TextInputType.number,
                     controller: aqarnumber,
                     hintText: "رقم العماره"),
                 const SizedBox(
                   height: Appsizes.size10,
                 ),
-                custommytextform(
-                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                    keyboardType: TextInputType.number,
-                    controller: housenumber,
-                    hintText: "رقم الشقه"),
-                const SizedBox(
-                  height: 10,
-                ),
+                if (BlocProvider.of<addaqarcuibt>(context).aqartype != "محل")
+                  custommytextform(
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                      ],
+                      keyboardType: TextInputType.number,
+                      controller: housenumber,
+                      hintText: "رقم الشقه"),
+                if (BlocProvider.of<addaqarcuibt>(context).aqartype != "محل")
+                  const SizedBox(
+                    height: 10,
+                  ),
                 dropdownbutton(
                   items: [
                     "فيلا فارغه",
                     "شقه فارغه",
                     "شقه مفروشه",
                     "فيلا مفروشه",
+                    "مكتب اداري فارغ",
+                    "مكتب اداري مفروش",
                     "محل"
                   ],
                   hint: "نوع العقار",
@@ -301,16 +334,16 @@ class _editdialogState extends State<editdialog> {
                 BlocConsumer<EditCubit, EditState>(
                   listener: (context, state) {
                     if (state is editfailure) {
-showdialogerror(error: state.error_message, context: context);
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editsuccess) {
                       BlocProvider.of<DateCubit>(context).cleardates();
                       BlocProvider.of<addaqarcuibt>(context).cleardata();
-                     
-                                      Navigator.pop(context);
-                                        BlocProvider.of<ShowaqaratCubit>(context)
-        .getallaqarat(token: generaltoken, page: 1);
-                                    
+
+                      Navigator.pop(context);
+                      BlocProvider.of<ShowaqaratCubit>(context)
+                          .getallaqarat(token: generaltoken, page: 1);
 
                       showsnack(
                           comment: state.successmessage, context: context);
@@ -330,6 +363,7 @@ showdialogerror(error: state.error_message, context: context);
                               token: generaltoken,
                               id: widget.data.id!.toInt(),
                               add_aqar: addaqarrequest(
+                                  coumpound_name: compoundname.text,
                                   advertiser_name: advertiser_name.text,
                                   real_state_address: adress.text,
                                   real_state_images:
@@ -353,8 +387,8 @@ showdialogerror(error: state.error_message, context: context);
                                           : request[BlocProvider.of<EditCubit>(context).advistor_type!],
                                   advertised_phone_number: phone.text,
                                   real_state_space: area.text,
-                                  real_state_price:price.text,
-                                  number_of_rooms: int.parse(roomsnumber.text),
+                                  real_state_price: price.text,
+                                  number_of_rooms: roomsnumber.text,
                                   state_date_register: BlocProvider.of<DateCubit>(context).date1,
                                   advertise_details: details.text,
                                   apartment_number: housenumber.text,

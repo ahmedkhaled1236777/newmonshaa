@@ -20,12 +20,9 @@ class editlandrepoimplementation extends editlandrepo {
       if (response.statusCode == 200 &&
           response.data["message"] == "تم تعديل بيانات الارض  بنجاح") {
         return right("تم تعديل بيانات الارض  بنجاح");
-      }else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-       else
+      } else
         return left(requestfailure(error_message: response.data["data"][0]));
     } catch (e) {
       if (e is DioException) {

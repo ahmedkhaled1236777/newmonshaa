@@ -111,24 +111,6 @@ class showemployeecomdialog extends StatelessWidget {
                                 color: Color(0xff2BA4C8), width: 0.5),
                             borderRadius: BorderRadius.circular(5)),
                         child: Text(
-                          'اسم المستأجر : ${BlocProvider.of<employeecomCubit>(context).employeecomdata[index].tenantName!}',
-                          textAlign: TextAlign.right,
-                          style:
-                              TextStyle(fontSize: 12.5, color: Colors.black87),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 7),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Color(0xff2BA4C8), width: 0.5),
-                            borderRadius: BorderRadius.circular(5)),
-                        child: Text(
                           'اسم المالك : ${BlocProvider.of<employeecomCubit>(context).employeecomdata[index].ownerName!}',
                           textAlign: TextAlign.right,
                           style:
@@ -153,7 +135,6 @@ class showemployeecomdialog extends StatelessWidget {
                               TextStyle(fontSize: 12.5, color: Colors.black87),
                         ),
                       ),
-                     
                       SizedBox(
                         height: 10,
                       )

@@ -201,6 +201,20 @@ class _customtableaqarState extends State<customtableaqar> {
                                                                   context)
                                                               .height *
                                                           0.85,
+                                                      compoundname: TextEditingController(
+                                                          text: BlocProvider.of<
+                                                                              ShowaqaratCubit>(
+                                                                          context)
+                                                                      .data[
+                                                                          index]
+                                                                      .compoundName ==
+                                                                  null
+                                                              ? ""
+                                                              : BlocProvider.of<
+                                                                          ShowaqaratCubit>(
+                                                                      context)
+                                                                  .data[index]
+                                                                  .compoundName),
                                                       advertiser_name:
                                                           TextEditingController(
                                                               text: BlocProvider
@@ -310,68 +324,79 @@ class _customtableaqarState extends State<customtableaqar> {
                                           size: 24,
                                         ),
                                         onPressed: () {
-                                          awsomdialogerror(
-                                            mywidget: BlocConsumer<
-                                                ShowaqaratCubit,
-                                                ShowaqaratState>(
-                                              listener: (context, state) {
-                                                if (state
-                                                    is deleteaqarsuccess) {
-                                                  Navigator.pop(context);
+                                          if (cashhelper.getdata(key: "role") !=
+                                              "manager")
+                                            showsnack(
+                                                comment:
+                                                    "ليس لديك صلاحية الوصول للرابط",
+                                                context: context);
+                                          else
+                                            awsomdialogerror(
+                                              mywidget: BlocConsumer<
+                                                  ShowaqaratCubit,
+                                                  ShowaqaratState>(
+                                                listener: (context, state) {
+                                                  if (state
+                                                      is deleteaqarsuccess) {
+                                                    Navigator.pop(context);
 
-                                                  showsnack(
-                                                      comment:
-                                                          state.successmessage,
-                                                      context: context);
-                                                }
-                                                if (state
-                                                    is deleteaqarfailure) {
-                                                  Navigator.pop(context);
+                                                    showsnack(
+                                                        comment: state
+                                                            .successmessage,
+                                                        context: context);
+                                                  }
+                                                  if (state
+                                                      is deleteaqarfailure) {
+                                                    Navigator.pop(context);
 
-                                                  showsnack(
-                                                      comment:
-                                                          state.error_message,
-                                                      context: context);
-                                                }
-                                              },
-                                              builder: (context, state) {
-                                                return ElevatedButton(
-                                                    style: const ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  37,
-                                                                  163,
-                                                                  42)),
-                                                    ),
-                                                    onPressed: () async {
-                                                      await BlocProvider.of<
-                                                                  ShowaqaratCubit>(
-                                                              context)
-                                                          .deleteaqar(
-                                                              token:
-                                                                  generaltoken,
-                                                              aqarnumber: BlocProvider
-                                                                      .of<ShowaqaratCubit>(
-                                                                          context)
-                                                                  .data[index]
-                                                                  .id!
-                                                                  .toInt());
-                                                    },
-                                                    child: const Text(
-                                                      "تاكيد",
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.white),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ));
-                                              },
-                                            ),
-                                            context: context,
-                                            tittle: "هل تريد حذف العقار",
-                                          );
+                                                    showsnack(
+                                                        comment:
+                                                            state.error_message,
+                                                        context: context);
+                                                  }
+                                                },
+                                                builder: (context, state) {
+                                                  if (state
+                                                      is deleteaqarloading)
+                                                    return deleteloading();
+                                                  return ElevatedButton(
+                                                      style: const ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll(
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    37,
+                                                                    163,
+                                                                    42)),
+                                                      ),
+                                                      onPressed: () async {
+                                                        await BlocProvider.of<
+                                                                    ShowaqaratCubit>(
+                                                                context)
+                                                            .deleteaqar(
+                                                                token:
+                                                                    generaltoken,
+                                                                aqarnumber: BlocProvider.of<
+                                                                            ShowaqaratCubit>(
+                                                                        context)
+                                                                    .data[index]
+                                                                    .id!
+                                                                    .toInt());
+                                                      },
+                                                      child: const Text(
+                                                        "تاكيد",
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ));
+                                                },
+                                              ),
+                                              context: context,
+                                              tittle: "هل تريد حذف العقار",
+                                            );
                                         },
                                       )));
                         },

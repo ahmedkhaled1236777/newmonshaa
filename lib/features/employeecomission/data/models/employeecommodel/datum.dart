@@ -10,7 +10,6 @@ class Datum extends Equatable {
   final num? totalMoney;
   final String? description;
   final String? realStateAddress;
-  final String? tenantName;
   final String? ownerName;
   final String? transactionDate;
 
@@ -21,7 +20,6 @@ class Datum extends Equatable {
     this.totalMoney,
     this.description,
     this.realStateAddress,
-    this.tenantName,
     this.ownerName,
     this.transactionDate,
   });
@@ -37,7 +35,6 @@ class Datum extends Equatable {
         totalMoney: num.tryParse(json['total_money'].toString()),
         description: json['description']?.toString(),
         realStateAddress: json['real_state_address']?.toString(),
-        tenantName: json['tenant_name']?.toString(),
         ownerName: json['owner_name']?.toString(),
         transactionDate: json['transaction_date']?.toString(),
       );
@@ -49,7 +46,6 @@ class Datum extends Equatable {
         if (totalMoney != null) 'total_money': totalMoney,
         if (description != null) 'description': description,
         if (realStateAddress != null) 'real_state_address': realStateAddress,
-        if (tenantName != null) 'tenant_name': tenantName,
         if (ownerName != null) 'owner_name': ownerName,
         if (transactionDate != null) 'transaction_date': transactionDate,
       };
@@ -63,7 +59,6 @@ class Datum extends Equatable {
       totalMoney,
       description,
       realStateAddress,
-      tenantName,
       ownerName,
       transactionDate,
     ];

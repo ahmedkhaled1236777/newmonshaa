@@ -39,10 +39,14 @@ class _mobilelayoutState extends State<mobilelayout> {
     inhome = true;
     if (BlocProvider.of<HomeCubit>(context).firstfirebasenotifications &&
         this.mounted) {
+     
       FirebaseMessaging.onBackgroundMessage(
           _firebaseMessagingBackgroundHandler);
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (inhome && this.mounted) {
+           print(
+          "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+
           BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
         }
         AwesomeNotifications()
@@ -86,14 +90,13 @@ class _mobilelayoutState extends State<mobilelayout> {
           centerTitle: true,
           actions: [
             customappbaractions(onTapnotific: () {
-               navigateto(
+              navigateto(
                   navigationscreen: mobilenotificationslayout(
                     tablet_or_mobile: "mobile",
                     counter: BlocProvider.of<HomeCubit>(context).sidebar[13]
                         ["count"],
                   ),
                   context: context);
-            
             }, onTapmessage: () {
               navigateto(navigationscreen: Connect(), context: context);
             }),

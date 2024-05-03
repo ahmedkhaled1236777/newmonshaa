@@ -7,13 +7,13 @@ import 'package:ghhg/features/employeecomission/presentation/viewmodel/employeec
 class employeecomCubit extends Cubit<employeecomState> {
   final employeecomrepoimplementation employeecomrepo;
   employeecomCubit(this.employeecomrepo) : super(employeecomInitial());
- 
+  num? total;
   String? desctype;
   Map<String, dynamic>? queryParameters;
   List<Datum> employeecomdata = [];
   bool loading = false;
   int page = 1;
-   List<String> headertabel = [
+  List<String> headertabel = [
     "اسم الموظف",
     "المبلغ",
     "الوصف",
@@ -32,9 +32,11 @@ class employeecomCubit extends Cubit<employeecomState> {
   }
 
   addemployeecom(
-      {required String token, required employeecommodelrequest employeecom}) async {
+      {required String token,
+      required employeecommodelrequest employeecom}) async {
     emit(Addemployeecomloading());
-    var result = await employeecomrepo.addemployeecom(token: token, employeecom: employeecom);
+    var result = await employeecomrepo.addemployeecom(
+        token: token, employeecom: employeecom);
     result.fold((failure) {
       emit(Addemployeecomfailure(error_message: failure.error_message));
     }, (success) {
@@ -67,6 +69,7 @@ class employeecomCubit extends Cubit<employeecomState> {
     result.fold((l) {
       emit(showemployeecomfailure(errorr_message: l.error_message));
     }, (r) {
+      total = r.total;
       employeecomdata.clear();
 
       employeecomdata.addAll(r.data!.data!);
@@ -76,8 +79,9 @@ class employeecomCubit extends Cubit<employeecomState> {
   }
 
   deleteemployeecom({required String token, required int employeecomid}) async {
-    var result =
-        await employeecomrepo.deleteemployeecom(token: token, employeecomid: employeecomid);
+    emit(deleteemployeecomloading());
+    var result = await employeecomrepo.deleteemployeecom(
+        token: token, employeecomid: employeecomid);
     result.fold((failure) {
       emit(deleteemployeecomfailure(errormessage: failure.error_message));
     }, (success) {

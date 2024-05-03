@@ -4,6 +4,8 @@ class finishedcontractsInitial extends finishedcontractsState {}
 
 class showfinishedcontractsloadin extends finishedcontractsState {}
 
+class deletefinishedcontractsloading extends finishedcontractsState {}
+
 class deletefinishedcontractssuccess extends finishedcontractsState {
   final String succes_message;
 

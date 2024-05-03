@@ -96,14 +96,15 @@ class _addlandState extends State<addland> {
                                 custommytextform(
                                     val: "برجاء ادخال عنوان الارض",
                                     controller: adress,
-                                    hintText: "العنوان"),
+                                    hintText: "العنوان (المدينه)"),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 custommytextform(
                                     val: "برجاء ادخال عنوان الارض بالتفصيل",
                                     controller: adressdetails,
-                                    hintText: "عنوان الارض بالتفصيل"),
+                                    hintText:
+                                        "عنوان الارض بالتفصيل (الحي او الشارع)"),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -115,9 +116,10 @@ class _addlandState extends State<addland> {
                                   height: 10,
                                 ),
                                 custommytextform(
- inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال المساحه",
                                     controller: area,
@@ -126,9 +128,10 @@ class _addlandState extends State<addland> {
                                   height: 10,
                                 ),
                                 custommytextform(
-                                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال سعر المتر",
                                     controller: price,
@@ -137,9 +140,10 @@ class _addlandState extends State<addland> {
                                   height: Appsizes.size10,
                                 ),
                                 custommytextform(
-                                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
+                                    inputFormatters: <TextInputFormatter>[
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp("[0-9-.]")),
+                                    ],
                                     keyboardType: TextInputType.number,
                                     val: "برجاء ادخال رقم الهاتف",
                                     controller: phone,
@@ -217,13 +221,15 @@ class _addlandState extends State<addland> {
                                     if (BlocProvider.of<addlandcuibt>(context)
                                             .advistor_type ==
                                         null) {
-                                      showdialogerror(context:  context,
+                                      showdialogerror(
+                                          context: context,
                                           error: "برجاء اختيار نوع المعلن");
                                     } else if (BlocProvider.of<DatelandCubit>(
                                                 context)
                                             .date1 ==
                                         "التاريخ") {
-                                      showdialogerror(context:  context,
+                                      showdialogerror(
+                                          context: context,
                                           error: "برجاء اختيار التاريخ");
                                     } else {
                                       if (BlocProvider.of<addlandcuibt>(context)

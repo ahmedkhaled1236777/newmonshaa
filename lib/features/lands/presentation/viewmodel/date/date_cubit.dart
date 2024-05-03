@@ -13,12 +13,12 @@ class DatelandCubit extends Cubit<DatelandState> {
   changedate(BuildContext context) async {
     emit(newchangeDatelandState());
     DateTime? date = await showDatePicker(
-      
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2000),
         lastDate: DateTime(3000));
-                locale: Locale('ar');
+    locale:
+    Locale('ar');
 
     if (date != null) {
       selectedDate = date;

@@ -23,6 +23,8 @@ class editfinancialfailure extends financialState {
 
 class showfinancialloadin extends financialState {}
 
+class deletefinancialloading extends financialState {}
+
 class deletefinancialsuccess extends financialState {
   final String succes_message;
 

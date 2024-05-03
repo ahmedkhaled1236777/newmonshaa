@@ -81,15 +81,13 @@ class allrecieptsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
-                                           ownercard.clear();
+                                        ownercard.clear();
                                         ownerphone.clear();
                                         Navigator.pop(context);
                                         await BlocProvider.of<recieptCubit>(
                                                 context)
                                             .getallreciepts(
                                                 token: generaltoken, page: 1);
-
-                                     
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

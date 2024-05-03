@@ -12,12 +12,12 @@ class customtextform extends StatelessWidget {
   bool obscureText;
   Widget? suffixIcon;
   String? val;
-    TextInputType keyboardType;
+  TextInputType keyboardType;
 
-List<TextInputFormatter>? inputFormatters;
+  List<TextInputFormatter>? inputFormatters;
   customtextform(
       {super.key,
-      this.keyboardType=TextInputType.text,
+      this.keyboardType = TextInputType.text,
       this.inputFormatters,
       required this.controller,
       required this.prefixicon,
@@ -30,7 +30,7 @@ List<TextInputFormatter>? inputFormatters;
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
-       inputFormatters:inputFormatters,
+      inputFormatters: inputFormatters,
       validator: (value) {
         if (value!.isEmpty) {
           return val;

@@ -109,9 +109,10 @@ class _DesktoplayoutState extends State<Desktoplayout> {
                         ),
                         customtextform(
                           keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ], // Only numbers can be entered,
                           controller: companyphone,
                           prefixicon: Icons.phone,
                           hintText: "رقم هاتف الشركه",
@@ -131,9 +132,10 @@ inputFormatters: <TextInputFormatter>[
                         ),
                         customtextform(
                           keyboardType: TextInputType.number,
-inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], // Only numbers can be entered,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ], // Only numbers can be entered,
                           controller: phone,
                           prefixicon: Icons.phone,
                           hintText: "رقم هاتف المدير",

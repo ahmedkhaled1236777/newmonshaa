@@ -2,6 +2,7 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -12,10 +13,8 @@ import 'package:ghhg/features/clients/presentation/view/editclientdialog.dart';
 import 'package:ghhg/features/clients/presentation/view/showclientdialog.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_state.dart';
-import 'package:ghhg/features/expenses.dart/presentation/views/editexpenseialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableclientss extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -110,69 +109,82 @@ class _customtableclientssState extends State<customtableclientss> {
                                               .status!],
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  clientsCubit, clientsState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deleteclientssuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    clientsCubit, clientsState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleteclientssuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .successmessage,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deleteclientsfailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .successmessage,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleteclientsfailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await BlocProvider.of<
-                                                                    clientsCubit>(
-                                                                context)
-                                                            .deleteclients(
-                                                                token:
-                                                                    generaltoken,
-                                                                clientsid: BlocProvider.of<
-                                                                            clientsCubit>(
-                                                                        context)
-                                                                    .clientsdata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف العميل",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleteclientsloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      clientsCubit>(
+                                                                  context)
+                                                              .deleteclients(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  clientsid: BlocProvider.of<
+                                                                              clientsCubit>(
+                                                                          context)
+                                                                      .clientsdata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle: "هل تريد حذف العميل",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,
@@ -216,6 +228,13 @@ class _customtableclientssState extends State<customtableclientss> {
                                                           context)
                                                       .clientsdata[index]
                                                       .status];
+                                          BlocProvider.of<clientsCubit>(context)
+                                                  .clienttype =
+                                              clientstyperesponsr[
+                                                  BlocProvider.of<clientsCubit>(
+                                                          context)
+                                                      .clientsdata[index].clientType
+                                                      ];
                                           BlocProvider.of<clientsCubit>(context)
                                                   .departement =
                                               clientsdepartementresponse[

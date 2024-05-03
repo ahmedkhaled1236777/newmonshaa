@@ -131,11 +131,12 @@ class _updatecompanyprofileState extends State<updatecompanyprofile> {
                       height: 10,
                     ),
                     custommytextform(
-                      keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                      controller: phone, hintText: "الهاتف"),
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        controller: phone,
+                        hintText: "الهاتف"),
                     const SizedBox(
                       height: 10,
                     ),
@@ -145,11 +146,12 @@ class _updatecompanyprofileState extends State<updatecompanyprofile> {
                       height: 10,
                     ),
                     custommytextform(
-                       keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.number,
                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                        controller: company_phone, hintText: "هاتف الشركه"),
+                          FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                        ],
+                        controller: company_phone,
+                        hintText: "هاتف الشركه"),
                     const SizedBox(
                       height: 10,
                     ),

@@ -25,7 +25,6 @@ class editemployeecomdialog extends StatefulWidget {
   final Datum data;
   final TextEditingController amount;
   final TextEditingController adress;
-  final TextEditingController tenantname;
   final TextEditingController ownername;
 
   const editemployeecomdialog(
@@ -35,29 +34,21 @@ class editemployeecomdialog extends StatefulWidget {
       required this.data,
       required this.amount,
       required this.adress,
-      required this.tenantname,
       required this.ownername});
 
   @override
   State<editemployeecomdialog> createState() => _editemployeecomdialogState(
-      amount: amount,
-      adress: adress,
-      tenantname: tenantname,
-      ownername: ownername);
+      amount: amount, adress: adress, ownername: ownername);
 }
 
 class _editemployeecomdialogState extends State<editemployeecomdialog> {
   static final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController amount;
   final TextEditingController adress;
-  final TextEditingController tenantname;
   final TextEditingController ownername;
 
   _editemployeecomdialogState(
-      {required this.amount,
-      required this.adress,
-      required this.tenantname,
-      required this.ownername});
+      {required this.amount, required this.adress, required this.ownername});
 
   @override
   Widget build(BuildContext context) {
@@ -92,35 +83,36 @@ class _editemployeecomdialogState extends State<editemployeecomdialog> {
                   key: formkey,
                   child: Column(
                     children: [
-                         BlocBuilder<addaqarcuibt, addaqarstate>(
+                      BlocBuilder<addaqarcuibt, addaqarstate>(
                           builder: (context, state) {
-                            return dropdownbutton(
-                                items: BlocProvider.of<addaqarcuibt>(context)
-                                            .allemployeesmodel ==
-                                        null
-                                    ? []
-                                    : BlocProvider.of<addaqarcuibt>(context)
-                                        .allemployeesmodel!
-                                        .data!
-                                        .map((e) => e.name!)
-                                        .toList(),
-                                hint: "اسم الموظف",
-                                name: BlocProvider.of<addaqarcuibt>(context)
-                                    .employeename,
-                                onchanged: (val) {
-                                  BlocProvider.of<addaqarcuibt>(context)
-                                      .changeemployeename(val);
-                                },
-                              );
-                           }
-                         ),
-                          SizedBox(height: 10,),
+                        return dropdownbutton(
+                          items: BlocProvider.of<addaqarcuibt>(context)
+                                      .allemployeesmodel ==
+                                  null
+                              ? []
+                              : BlocProvider.of<addaqarcuibt>(context)
+                                  .allemployeesmodel!
+                                  .data!
+                                  .map((e) => e.name!)
+                                  .toList(),
+                          hint: "اسم الموظف",
+                          name: BlocProvider.of<addaqarcuibt>(context)
+                              .employeename,
+                          onchanged: (val) {
+                            BlocProvider.of<addaqarcuibt>(context)
+                                .changeemployeename(val);
+                          },
+                        );
+                      }),
+                      SizedBox(
+                        height: 10,
+                      ),
                       custommytextform(
-                         inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                            keyboardType: TextInputType.number,
-
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                                RegExp("[0-9-.]")),
+                          ],
+                          keyboardType: TextInputType.number,
                           val: "برجاء ادخال المبلغ",
                           controller: amount,
                           hintText: "المبلغ"),
@@ -135,31 +127,25 @@ class _editemployeecomdialogState extends State<editemployeecomdialog> {
                         height: 10,
                       ),
                       custommytextform(
-                          val: "برجاء ادخال اسم المستأجر",
-                          controller: tenantname,
-                          hintText: "اسم المستأجر"),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      custommytextform(
                           val: "برجاء ادخال اسم المالك",
                           controller: ownername,
                           hintText: "اسم المالك"),
                       const SizedBox(
                         height: 10,
                       ),
-                     BlocBuilder<employeecomCubit, employeecomState>(
-                  builder: (context, state) {
-                    return dropdownbutton(
-                        onchanged: (val) {
-                          BlocProvider.of<employeecomCubit>(context)
-                              .changedesctype(val);
+                      BlocBuilder<employeecomCubit, employeecomState>(
+                        builder: (context, state) {
+                          return dropdownbutton(
+                              onchanged: (val) {
+                                BlocProvider.of<employeecomCubit>(context)
+                                    .changedesctype(val);
+                              },
+                              items: ["عمولة عقد ايجار", "عمولة عقد بيع"],
+                              name: BlocProvider.of<employeecomCubit>(context)
+                                  .desctype,
+                              hint: "الوصف");
                         },
-                        items: [ "عمولة عقد ايجار", "عمولة عقد بيع"],
-                        name: BlocProvider.of<employeecomCubit>(context).desctype,
-                        hint: "الوصف");
-                  },
-                ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -173,20 +159,22 @@ class _editemployeecomdialogState extends State<editemployeecomdialog> {
                 BlocConsumer<employeecomCubit, employeecomState>(
                   listener: (context, state) {
                     if (state is editemployeecomfailure) {
-showdialogerror(error: state.error_message, context: context);
+                      showdialogerror(
+                          error: state.error_message, context: context);
                     }
                     if (state is editemployeecomsuccess) {
                       widget.amount.clear();
-                      widget.tenantname.clear();
                       widget.adress.clear();
                       widget.ownername.clear();
-                          BlocProvider.of<addaqarcuibt>(context).clearemployeename();
+                      BlocProvider.of<addaqarcuibt>(context)
+                          .clearemployeename();
 
-                      BlocProvider.of<employeecomCubit>(context).cleardesctype();
+                      BlocProvider.of<employeecomCubit>(context)
+                          .cleardesctype();
                       BlocProvider.of<DateCubit>(context).date1 = "التاريخ";
-                     Navigator.pop(context);
-  BlocProvider.of<employeecomCubit>(context)
-        .getallemployeecoms(token: generaltoken, page: 1);
+                      Navigator.pop(context);
+                      BlocProvider.of<employeecomCubit>(context)
+                          .getallemployeecoms(token: generaltoken, page: 1);
                       showsnack(
                           comment: state.success_message, context: context);
                     }
@@ -195,22 +183,22 @@ showdialogerror(error: state.error_message, context: context);
                     if (state is editemployeecomloading) return loading();
                     return custommaterialbutton(
                         onPressed: () async {
-                      
-                          BlocProvider.of<employeecomCubit>(context).updateemployeecom(
-                              token: generaltoken,
-                              id: widget.data.id!.toInt(),
-                              employeecommodel: employeecommodelrequest(
-                                employeeid:  BlocProvider.of<addaqarcuibt>(context)
-                                          .employeeid!,
-                                  ownername: ownername.text,
-                                  tenantname: tenantname.text,
-                                  adress: adress.text,
-                                  totalmoney: amount.text,
-                                  desc:
-                                      BlocProvider.of<employeecomCubit>(context)
+                          BlocProvider.of<employeecomCubit>(context)
+                              .updateemployeecom(
+                                  token: generaltoken,
+                                  id: widget.data.id!.toInt(),
+                                  employeecommodel: employeecommodelrequest(
+                                      employeeid:
+                                          BlocProvider.of<addaqarcuibt>(context)
+                                              .employeeid!,
+                                      ownername: ownername.text,
+                                      adress: adress.text,
+                                      totalmoney: amount.text,
+                                      desc: BlocProvider.of<employeecomCubit>(
+                                              context)
                                           .desctype!,
-                                  date: BlocProvider.of<DateCubit>(context)
-                                      .date1));
+                                      date: BlocProvider.of<DateCubit>(context)
+                                          .date1));
                         },
                         button_name: "تعديل عمولة الموظف",
                         buttonicon: Icons.edit);

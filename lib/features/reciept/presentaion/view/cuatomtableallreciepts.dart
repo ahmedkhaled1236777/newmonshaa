@@ -2,11 +2,11 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reciept/presentaion/view/customtableallrecieptsitem.dart';
 import 'package:ghhg/features/reciept/presentaion/view/receipt_print.dart';
 import 'package:ghhg/features/reciept/presentaion/viewmodel/recieptcuibt/recieptcuibt.dart';
@@ -126,72 +126,82 @@ class _customtableallrecieptsState extends State<customtableallreciepts> {
                                             )),
                                         delete: IconButton(
                                             onPressed: () {
-                                              awsomdialogerror(
-                                                mywidget: BlocConsumer<
-                                                    recieptCubit, recieptState>(
-                                                  listener: (context, state) {
-                                                    if (state
-                                                        is deleterecieptsuccess) {
-                                                      Navigator.pop(context);
+                                              if (cashhelper.getdata(
+                                                      key: "role") !=
+                                                  "manager")
+                                                showsnack(
+                                                    comment:
+                                                        "ليس لديك صلاحية الوصول للرابط",
+                                                    context: context);
+                                              else
+                                                awsomdialogerror(
+                                                  mywidget: BlocConsumer<
+                                                      recieptCubit,
+                                                      recieptState>(
+                                                    listener: (context, state) {
+                                                      if (state
+                                                          is deleterecieptsuccess) {
+                                                        Navigator.pop(context);
 
-                                                      showsnack(
-                                                          comment: state
-                                                              .succes_message,
-                                                          context: context);
-                                                    }
-                                                    if (state
-                                                        is deleterecieptfailure) {
-                                                      Navigator.pop(context);
+                                                        showsnack(
+                                                            comment: state
+                                                                .succes_message,
+                                                            context: context);
+                                                      }
+                                                      if (state
+                                                          is deleterecieptfailure) {
+                                                        Navigator.pop(context);
 
-                                                      showsnack(
-                                                          comment: state
-                                                              .errormessage,
-                                                          context: context);
-                                                    }
-                                                  },
-                                                  builder: (context, state) {
-                                                    return ElevatedButton(
-                                                        style:
-                                                            const ButtonStyle(
-                                                          backgroundColor:
-                                                              MaterialStatePropertyAll(
-                                                                  Color
-                                                                      .fromARGB(
-                                                                          255,
-                                                                          37,
-                                                                          163,
-                                                                          42)),
-                                                        ),
-                                                        onPressed: () async {
-                                                          await BlocProvider.of<
-                                                                      recieptCubit>(
-                                                                  context)
-                                                              .deletereciept(
-                                                                  token:
-                                                                      generaltoken,
-                                                                  recieptid: BlocProvider.of<
-                                                                              recieptCubit>(
-                                                                          context)
-                                                                      .reciepts[
-                                                                          index]
-                                                                      .id!
-                                                                      .toInt());
-                                                        },
-                                                        child: const Text(
-                                                          "تاكيد",
-                                                          style: TextStyle(
-                                                              fontSize: 12,
-                                                              color:
-                                                                  Colors.white),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        ));
-                                                  },
-                                                ),
-                                                context: context,
-                                                tittle:
-                                                    "هل تريد حذف سند الصرف ؟",
-                                              );
+                                                        showsnack(
+                                                            comment: state
+                                                                .errormessage,
+                                                            context: context);
+                                                      }
+                                                    },
+                                                    builder: (context, state) {
+                                                      if (state
+                                                          is deleterecieptloading)
+                                                        return deleteloading();
+                                                      return ElevatedButton(
+                                                          style:
+                                                              const ButtonStyle(
+                                                            backgroundColor:
+                                                                MaterialStatePropertyAll(
+                                                                    Color.fromARGB(
+                                                                        255,
+                                                                        37,
+                                                                        163,
+                                                                        42)),
+                                                          ),
+                                                          onPressed: () async {
+                                                            await BlocProvider
+                                                                    .of<recieptCubit>(
+                                                                        context)
+                                                                .deletereciept(
+                                                                    token:
+                                                                        generaltoken,
+                                                                    recieptid: BlocProvider.of<recieptCubit>(
+                                                                            context)
+                                                                        .reciepts[
+                                                                            index]
+                                                                        .id!
+                                                                        .toInt());
+                                                          },
+                                                          child: const Text(
+                                                            "تاكيد",
+                                                            style: TextStyle(
+                                                                fontSize: 12,
+                                                                color: Colors
+                                                                    .white),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ));
+                                                    },
+                                                  ),
+                                                  context: context,
+                                                  tittle:
+                                                      "هل تريد حذف سند الصرف ؟",
+                                                );
                                             },
                                             icon: const Icon(
                                               Icons.delete_outline_outlined,

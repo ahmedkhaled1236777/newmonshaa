@@ -11,7 +11,6 @@ import 'package:ghhg/features/home/presentation/views/widgets/mobilelayout.dart'
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ghhg/features/notifications/presentations/viewmodel/notifications/notifications_cubit.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -22,7 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
   GlobalKey<ScaffoldState> scafoldstate = GlobalKey<ScaffoldState>();
   @override
   intializedata() async {
-   if (BlocProvider.of<HomeCubit>(context).first_time_interner == true) {
+    if (BlocProvider.of<HomeCubit>(context).first_time_interner == true) {
       var result = await Connectivity().checkConnectivity();
       if (result == ConnectivityResult.none) {
         navigateto(navigationscreen: nointernet(), context: context);
@@ -31,9 +30,8 @@ class _MyHomePageState extends State<MyHomePage> {
       BlocProvider.of<HomeCubit>(context).first_time_interner = false;
     }
     await BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
-    await BlocProvider.of<NotificationsCubit>(context)
-        .getallnotifications(token: generaltoken, page: 1);
-    insplash=false;
+
+    insplash = false;
   }
 
   void initState() {

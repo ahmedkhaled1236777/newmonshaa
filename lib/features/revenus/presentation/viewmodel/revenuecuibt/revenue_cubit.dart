@@ -8,6 +8,7 @@ import '../../../data/model/revenumodel/datum.dart';
 
 class revenueCubit extends Cubit<revenueState> {
   final revenuerepoimplementation revenuerepo;
+  num? total;
   revenueCubit(this.revenuerepo) : super(revenueInitial());
   List<String> headertabel = [
     "المبلغ",
@@ -67,6 +68,7 @@ class revenueCubit extends Cubit<revenueState> {
     result.fold((l) {
       emit(showrevenuefailure(errorr_message: l.error_message));
     }, (r) {
+      total = r.total;
       revenuedata.clear();
 
       revenuedata.addAll(r.data!.data!);
@@ -76,6 +78,7 @@ class revenueCubit extends Cubit<revenueState> {
   }
 
   deleterevenue({required String token, required int revenueid}) async {
+    emit(deleterevenueloading());
     var result =
         await revenuerepo.deleterevenue(token: token, revenueid: revenueid);
     result.fold((failure) {

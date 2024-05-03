@@ -91,11 +91,11 @@ class expensesearch extends StatelessWidget {
                                                         context)
                                                     .date7,
                                           };
-                                         
+
                                           BlocProvider.of<DateCubit>(context)
                                               .cleardates();
                                           Navigator.pop(context);
-                                           await BlocProvider.of<expenseCubit>(
+                                          await BlocProvider.of<expenseCubit>(
                                                   context)
                                               .getallexpenses(
                                                   token: generaltoken, page: 1);

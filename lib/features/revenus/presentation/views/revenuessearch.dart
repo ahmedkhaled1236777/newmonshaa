@@ -91,11 +91,11 @@ class revenuesearch extends StatelessWidget {
                                                         context)
                                                     .date7,
                                           };
-                                         
+
                                           BlocProvider.of<DateCubit>(context)
                                               .cleardates();
                                           Navigator.pop(context);
-                                           await BlocProvider.of<revenueCubit>(
+                                          await BlocProvider.of<revenueCubit>(
                                                   context)
                                               .getallrevenues(
                                                   token: generaltoken, page: 1);

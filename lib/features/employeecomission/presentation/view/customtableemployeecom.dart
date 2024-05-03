@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
@@ -21,7 +22,8 @@ class customtableemployeecoms extends StatefulWidget {
   customtableemployeecoms(this.width);
 
   @override
-  State<customtableemployeecoms> createState() => _customtableemployeecomsState();
+  State<customtableemployeecoms> createState() =>
+      _customtableemployeecomsState();
 }
 
 class _customtableemployeecomsState extends State<customtableemployeecoms> {
@@ -74,7 +76,9 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
           }, builder: (context, state) {
             if (state is showemployeecomloadin) return loading();
             if (state is showemployeecomfailure) return SizedBox();
-            return BlocProvider.of<employeecomCubit>(context).employeecomdata.isEmpty
+            return BlocProvider.of<employeecomCubit>(context)
+                    .employeecomdata
+                    .isEmpty
                 ? nodata()
                 : SingleChildScrollView(
                     controller: widget.scrollController,
@@ -92,88 +96,106 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                   child: customtableemployeecomitem(
                                       textStyle: Appstyles.gettabletextstyle(
                                           context: context),
-                                          employeename:  BlocProvider.of<employeecomCubit>(context)
+                                      employeename:
+                                          BlocProvider.of<employeecomCubit>(
+                                                  context)
                                               .employeecomdata[index]
-                                              .employee!.name!
+                                              .employee!
+                                              .name!
                                               .toString(),
-                                      amount:
-                                          BlocProvider.of<employeecomCubit>(context)
-                                              .employeecomdata[index]
-                                              .totalMoney
-                                              .toString()!,
+                                      amount: BlocProvider.of<employeecomCubit>(
+                                              context)
+                                          .employeecomdata[index]
+                                          .totalMoney
+                                          .toString()!,
                                       descrip:
-                                          BlocProvider.of<employeecomCubit>(context)
+                                          BlocProvider.of<employeecomCubit>(
+                                                  context)
                                               .employeecomdata[index]
                                               .description!,
-                                      date:
-                                          BlocProvider.of<employeecomCubit>(context)
-                                              .employeecomdata[index]
-                                              .transactionDate!,
+                                      date: BlocProvider.of<employeecomCubit>(
+                                              context)
+                                          .employeecomdata[index]
+                                          .transactionDate!,
                                       delet: IconButton(
                                           onPressed: () async {
-                                            awsomdialogerror(
-                                              mywidget: BlocConsumer<
-                                                  employeecomCubit, employeecomState>(
-                                                listener: (context, state) {
-                                                  if (state
-                                                      is deleteemployeecomsuccess) {
-                                                    Navigator.pop(context);
+                                            if (cashhelper.getdata(
+                                                    key: "role") !=
+                                                "manager")
+                                              showsnack(
+                                                  comment:
+                                                      "ليس لديك صلاحية الوصول للرابط",
+                                                  context: context);
+                                            else
+                                              awsomdialogerror(
+                                                mywidget: BlocConsumer<
+                                                    employeecomCubit,
+                                                    employeecomState>(
+                                                  listener: (context, state) {
+                                                    if (state
+                                                        is deleteemployeecomsuccess) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment: state
-                                                            .succes_message,
-                                                        context: context);
-                                                  }
-                                                  if (state
-                                                      is deleteemployeecomfailure) {
-                                                    Navigator.pop(context);
+                                                      showsnack(
+                                                          comment: state
+                                                              .succes_message,
+                                                          context: context);
+                                                    }
+                                                    if (state
+                                                        is deleteemployeecomfailure) {
+                                                      Navigator.pop(context);
 
-                                                    showsnack(
-                                                        comment:
-                                                            state.errormessage,
-                                                        context: context);
-                                                  }
-                                                },
-                                                builder: (context, state) {
-                                                  return ElevatedButton(
-                                                      style: const ButtonStyle(
-                                                        backgroundColor:
-                                                            MaterialStatePropertyAll(
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    37,
-                                                                    163,
-                                                                    42)),
-                                                      ),
-                                                      onPressed: () async {
-                                                        await BlocProvider.of<
-                                                                    employeecomCubit>(
-                                                                context)
-                                                            .deleteemployeecom(
-                                                                token:
-                                                                    generaltoken,
-                                                                employeecomid: BlocProvider.of<
-                                                                            employeecomCubit>(
-                                                                        context)
-                                                                    .employeecomdata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                      },
-                                                      child: const Text(
-                                                        "تاكيد",
-                                                        style: TextStyle(
-                                                            fontSize: 12,
-                                                            color:
-                                                                Colors.white),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ));
-                                                },
-                                              ),
-                                              context: context,
-                                              tittle: "هل تريد حذف الايراد ؟",
-                                            );
+                                                      showsnack(
+                                                          comment: state
+                                                              .errormessage,
+                                                          context: context);
+                                                    }
+                                                  },
+                                                  builder: (context, state) {
+                                                    if (state
+                                                        is deleteemployeecomloading)
+                                                      return deleteloading();
+                                                    return ElevatedButton(
+                                                        style:
+                                                            const ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStatePropertyAll(
+                                                                  Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          37,
+                                                                          163,
+                                                                          42)),
+                                                        ),
+                                                        onPressed: () async {
+                                                          await BlocProvider.of<
+                                                                      employeecomCubit>(
+                                                                  context)
+                                                              .deleteemployeecom(
+                                                                  token:
+                                                                      generaltoken,
+                                                                  employeecomid: BlocProvider.of<
+                                                                              employeecomCubit>(
+                                                                          context)
+                                                                      .employeecomdata[
+                                                                          index]
+                                                                      .id!
+                                                                      .toInt());
+                                                        },
+                                                        child: const Text(
+                                                          "تاكيد",
+                                                          style: TextStyle(
+                                                              fontSize: 12,
+                                                              color:
+                                                                  Colors.white),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ));
+                                                  },
+                                                ),
+                                                context: context,
+                                                tittle: "هل تريد حذف الايراد ؟",
+                                              );
                                           },
                                           icon: const Icon(
                                             size: 24,
@@ -186,7 +208,8 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                           size: 29,
                                         ),
                                         onPressed: () {
-                                          BlocProvider.of<employeecomCubit>(context)
+                                          BlocProvider.of<employeecomCubit>(
+                                                      context)
                                                   .desctype =
                                               BlocProvider.of<employeecomCubit>(
                                                       context)
@@ -197,13 +220,16 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                               BlocProvider.of<employeecomCubit>(
                                                       context)
                                                   .employeecomdata[index]
-                                                  .employee!.name!;
+                                                  .employee!
+                                                  .name!;
                                           BlocProvider.of<addaqarcuibt>(context)
                                                   .employeeid =
                                               BlocProvider.of<employeecomCubit>(
                                                       context)
                                                   .employeecomdata[index]
-                                                  .employee!.id!.toInt();
+                                                  .employee!
+                                                  .id!
+                                                  .toInt();
                                           BlocProvider.of<DateCubit>(context)
                                                   .date1 =
                                               BlocProvider.of<employeecomCubit>(
@@ -235,7 +261,8 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                                           BorderRadius.circular(
                                                               0)),
                                                   scrollable: false,
-                                                  content: editemployeecomdialog(
+                                                  content:
+                                                      editemployeecomdialog(
                                                     width:
                                                         MediaQuery.sizeOf(
                                                                         context)
@@ -261,32 +288,24 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                                         text: BlocProvider.of<
                                                                     employeecomCubit>(
                                                                 context)
-                                                            .employeecomdata[index]
+                                                            .employeecomdata[
+                                                                index]
                                                             .totalMoney!
                                                             .toString()),
-                                                    tenantname:
-                                                        TextEditingController(
-                                                            text: BlocProvider
-                                                                    .of<employeecomCubit>(
-                                                                        context)
-                                                                .employeecomdata[
-                                                                    index]
-                                                                .tenantName!
-                                                                .toString()),
-                                                    ownername:
-                                                        TextEditingController(
-                                                            text: BlocProvider
-                                                                    .of<employeecomCubit>(
-                                                                        context)
-                                                                .employeecomdata[
-                                                                    index]
-                                                                .ownerName!
-                                                                .toString()),
+                                                    ownername: TextEditingController(
+                                                        text: BlocProvider.of<
+                                                                    employeecomCubit>(
+                                                                context)
+                                                            .employeecomdata[
+                                                                index]
+                                                            .ownerName!
+                                                            .toString()),
                                                     adress: TextEditingController(
                                                         text: BlocProvider.of<
                                                                     employeecomCubit>(
                                                                 context)
-                                                            .employeecomdata[index]
+                                                            .employeecomdata[
+                                                                index]
                                                             .realStateAddress!
                                                             .toString()),
                                                   ),
@@ -307,7 +326,19 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                             : BlocProvider.of<employeecomCubit>(context)
                                 .employeecomdata
                                 .length));
-          }))
+          })),
+          Divider(
+            color: Colors.black,
+          ),
+          BlocBuilder<employeecomCubit, employeecomState>(
+              builder: (context, state) {
+            return SizedBox(
+              height: 40,
+              child: Center(
+                  child: Text(
+                      "الاجمالى : ${BlocProvider.of<employeecomCubit>(context).total == null ? 0 : BlocProvider.of<employeecomCubit>(context).total}")),
+            );
+          })
         ]));
   }
 }

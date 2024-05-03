@@ -80,12 +80,11 @@ class tenantsearch extends StatelessWidget {
                                           "phone": phone.text,
                                           "card_number": cardnumber.text
                                         };
-                                       
 
                                         phone.clear();
                                         cardnumber.clear();
                                         Navigator.pop(context);
-                                         await BlocProvider.of<TenantCubit>(
+                                        await BlocProvider.of<TenantCubit>(
                                                 context)
                                             .getalltenants(
                                                 token: generaltoken, page: 1);

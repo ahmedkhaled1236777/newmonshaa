@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 showdialogerror({required String error, required BuildContext context}) {
   showGeneralDialog(
@@ -26,11 +27,23 @@ showdialogerror({required String error, required BuildContext context}) {
                         : MediaQuery.sizeOf(context).width > 650
                             ? MediaQuery.sizeOf(context).width * 0.55
                             : MediaQuery.sizeOf(context).width,
-                    height: 150,
+                    height: 190,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(
+                          height: 50,
+                        ),
+                        Text(
+                          "! تنبيــــه",
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
                         Text(
                           error,
                           style: const TextStyle(fontSize: 12),
@@ -70,15 +83,12 @@ showdialogerror({required String error, required BuildContext context}) {
                 ),
                 Positioned(
                   child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: Colors.white,
-                      child: Image.asset(
-                        fit: BoxFit.contain,
-                        "images/cross.png",
-                      ),
-                    ),
-                  
-                  top: (MediaQuery.sizeOf(context).height - 100) / 2 - 70,
+                    radius: 40,
+                    backgroundColor: Colors.white,
+                    child:
+                        Lottie.asset(width: 78, height: 78, "images/sasa.json"),
+                  ),
+                  top: (MediaQuery.sizeOf(context).height - 125) / 2 - 70,
                 )
               ],
             ),

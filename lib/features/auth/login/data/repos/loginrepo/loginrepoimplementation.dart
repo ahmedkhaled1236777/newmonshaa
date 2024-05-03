@@ -24,14 +24,10 @@ class login_repo_implementation extends loginrepo {
         print("hjbghghbghvghvghvghvghvghgvghvghvgh");
         print(response);
         return right(loginModel);
-      }  else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      else {
-                return left(requestfailure(error_message: response.data["message"]));
-
-      
+      } else {
+        return left(requestfailure(error_message: response.data["message"]));
       }
     } catch (e) {
       if (e is DioException) {

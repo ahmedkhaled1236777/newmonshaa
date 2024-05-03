@@ -2,6 +2,7 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -15,7 +16,6 @@ import 'package:ghhg/features/emoloyees/presentation/views/widgets/showemployeed
 import 'package:ghhg/features/emoloyees/presentation/views/widgets/show_employees.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtableemployees extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -108,64 +108,79 @@ class _customtableemployeeesState extends State<customtableemployees> {
                                       .jobTitle!,
                                   delet: IconButton(
                                       onPressed: () async {
-                                        awsomdialogerror(
-                                          mywidget: BlocConsumer<
-                                              showemployeescuibt,
-                                              showemployeesstates>(
-                                            listener: (context, state) {
-                                              if (state
-                                                  is deleteemployeesuccess) {
-                                                Navigator.pop(context);
+                                        if (cashhelper.getdata(key: "role") !=
+                                            "manager")
+                                          showsnack(
+                                              comment:
+                                                  "ليس لديك صلاحية الوصول للرابط",
+                                              context: context);
+                                        else
+                                          awsomdialogerror(
+                                            mywidget: BlocConsumer<
+                                                showemployeescuibt,
+                                                showemployeesstates>(
+                                              listener: (context, state) {
+                                                if (state
+                                                    is deleteemployeesuccess) {
+                                                  Navigator.pop(context);
 
-                                                showsnack(
-                                                    comment:
-                                                        state.succes_message,
-                                                    context: context);
-                                              }
-                                              if (state
-                                                  is deleteemployeefailure) {
-                                                Navigator.pop(context);
+                                                  showsnack(
+                                                      comment:
+                                                          state.succes_message,
+                                                      context: context);
+                                                }
+                                                if (state
+                                                    is deleteemployeefailure) {
+                                                  Navigator.pop(context);
 
-                                                showsnack(
-                                                    comment: state.errormessage,
-                                                    context: context);
-                                              }
-                                            },
-                                            builder: (context, state) {
-                                              return ElevatedButton(
-                                                  style: const ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStatePropertyAll(
-                                                            Color.fromARGB(255,
-                                                                37, 163, 42)),
-                                                  ),
-                                                  onPressed: () async {
-                                                    await await BlocProvider.of<
-                                                                showemployeescuibt>(
-                                                            context)
-                                                        .deleteemployee(
-                                                            token: generaltoken,
-                                                            employeenumber:
-                                                                BlocProvider.of<
-                                                                            showemployeescuibt>(
-                                                                        context)
-                                                                    .employeesdata[
-                                                                        index]
-                                                                    .id!
-                                                                    .toInt());
-                                                  },
-                                                  child: const Text(
-                                                    "تاكيد",
-                                                    style: TextStyle(
-                                                        fontSize: 12,
-                                                        color: Colors.white),
-                                                    textAlign: TextAlign.center,
-                                                  ));
-                                            },
-                                          ),
-                                          context: context,
-                                          tittle: "هل تريد حذف الموظف ؟",
-                                        );
+                                                  showsnack(
+                                                      comment:
+                                                          state.errormessage,
+                                                      context: context);
+                                                }
+                                              },
+                                              builder: (context, state) {
+                                                if (state
+                                                    is deleteemployeeloading)
+                                                  return deleteloading();
+                                                return ElevatedButton(
+                                                    style: const ButtonStyle(
+                                                      backgroundColor:
+                                                          MaterialStatePropertyAll(
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  37,
+                                                                  163,
+                                                                  42)),
+                                                    ),
+                                                    onPressed: () async {
+                                                      await await BlocProvider
+                                                              .of<showemployeescuibt>(
+                                                                  context)
+                                                          .deleteemployee(
+                                                              token:
+                                                                  generaltoken,
+                                                              employeenumber: BlocProvider
+                                                                      .of<showemployeescuibt>(
+                                                                          context)
+                                                                  .employeesdata[
+                                                                      index]
+                                                                  .id!
+                                                                  .toInt());
+                                                    },
+                                                    child: const Text(
+                                                      "تاكيد",
+                                                      style: TextStyle(
+                                                          fontSize: 12,
+                                                          color: Colors.white),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    ));
+                                              },
+                                            ),
+                                            context: context,
+                                            tittle: "هل تريد حذف الموظف ؟",
+                                          );
                                       },
                                       icon: const Icon(
                                         size: 24,

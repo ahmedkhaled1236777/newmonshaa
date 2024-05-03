@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ghhg/core/styles/style.dart';
 
 class customtableemployeecomitem extends StatelessWidget {
-
   final String amount;
   final String employeename;
   final String descrip;

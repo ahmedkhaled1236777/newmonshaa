@@ -1,8 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
@@ -26,12 +24,18 @@ class nointernet extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-     if(insplash==true)    IconButton(
-      icon:Icon(Icons.refresh),
-      onPressed: () async {
-       if(await Connectivity().checkConnectivity()!=ConnectivityResult.none)         {  await BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
-                  Navigator.pop(context);}}),
-             SizedBox(
+            if (insplash == true)
+              IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () async {
+                    if (await Connectivity().checkConnectivity() !=
+                        ConnectivityResult.none) {
+                      await BlocProvider.of<HomeCubit>(context)
+                          .gethome(token: generaltoken);
+                      Navigator.pop(context);
+                    }
+                  }),
+            SizedBox(
               height: 20,
             ),
           ],

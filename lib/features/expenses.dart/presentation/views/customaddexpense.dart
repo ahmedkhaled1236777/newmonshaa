@@ -67,11 +67,10 @@ class _addexpenseState extends State<addexpense> {
                   height: 15,
                 ),
                 custommytextform(
-                   inputFormatters: <TextInputFormatter>[
-      FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
-  ], 
-                                                      keyboardType: TextInputType.number,
-
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
+                  ],
+                  keyboardType: TextInputType.number,
                   controller: amount,
                   hintText: "المبلغ",
                   val: "برجاء ادخال المبلغ",

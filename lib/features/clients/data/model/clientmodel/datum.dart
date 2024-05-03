@@ -10,6 +10,7 @@ class Datum extends Equatable {
   final String? inspectionDate;
   final String? inspectionTime;
   final String? notes;
+  final String? clientType;
   final String? status;
 
   const Datum({
@@ -22,6 +23,7 @@ class Datum extends Equatable {
     this.inspectionDate,
     this.inspectionTime,
     this.notes,
+    this.clientType,
     this.status,
   });
 
@@ -35,6 +37,7 @@ class Datum extends Equatable {
         inspectionDate: json['inspection_date']?.toString(),
         inspectionTime: json['inspection_time']?.toString(),
         notes: json['notes']?.toString(),
+        clientType: json['client_type']?.toString(),
         status: json['status']?.toString(),
       );
 
@@ -48,6 +51,7 @@ class Datum extends Equatable {
         if (inspectionDate != null) 'inspection_date': inspectionDate,
         if (inspectionTime != null) 'inspection_time': inspectionTime,
         if (notes != null) 'notes': notes,
+        if (clientType != null) 'client_type': clientType,
         if (status != null) 'status': status,
       };
 
@@ -63,6 +67,7 @@ class Datum extends Equatable {
       inspectionDate,
       inspectionTime,
       notes,
+      clientType,
       status,
     ];
   }

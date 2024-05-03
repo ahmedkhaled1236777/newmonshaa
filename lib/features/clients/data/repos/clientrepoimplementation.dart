@@ -21,13 +21,10 @@ class clientsrepoimplementation extends clientsrepo {
       }
       if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
-      }  else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-      else {
-                return left(requestfailure(error_message: response.data["message"]));
-
+      } else {
+        return left(requestfailure(error_message: response.data["message"]));
       }
     } catch (e) {
       if (e is DioException) return left(requestfailure.fromdioexception(e));
@@ -49,14 +46,9 @@ class clientsrepoimplementation extends clientsrepo {
       if (response.statusCode == 200 && response.data["code"] == 200) {
         clientsmodel = Clientmodel.fromJson(response.data);
         return right(clientsmodel);
-
-      }  else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-      
-      else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["message"]));
@@ -78,13 +70,9 @@ class clientsrepoimplementation extends clientsrepo {
           path: "/clients/delete/${clientsid}", token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      } else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-    
-      
-       else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(
@@ -110,13 +98,9 @@ class clientsrepoimplementation extends clientsrepo {
           token: token);
       if (response.statusCode == 200 && response.data["code"] == 200) {
         return right(response.data["message"]);
-      }  else if(response.statusCode == 200 &&
-          response.data["code"] == 422){
+      } else if (response.statusCode == 200 && response.data["code"] == 422) {
         return left(requestfailure(error_message: response.data["data"][0]));
-      }
-     
-      
-      else if (response.statusCode == 200 && response.data["code"] == 409) {
+      } else if (response.statusCode == 200 && response.data["code"] == 409) {
         return left(requestfailure(error_message: response.data["message"]));
       } else
         return left(requestfailure(error_message: response.data["data"][0]));

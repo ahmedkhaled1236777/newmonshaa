@@ -99,7 +99,7 @@ class allfinancialsearch extends StatelessWidget {
                                           "owner_phone": ownerphone.text,
                                           "owner_card_number": ownercard.text
                                         };
-                                         ownercard.clear();
+                                        ownercard.clear();
                                         ownerphone.clear();
                                         tenantcard.clear();
                                         tenantphone.clear();
@@ -108,7 +108,6 @@ class allfinancialsearch extends StatelessWidget {
                                                 context)
                                             .getallfinancials(
                                                 token: generaltoken, page: 1);
-                                       
                                       },
                                       button_name: "بحث",
                                       buttonicon: Icons.search)

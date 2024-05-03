@@ -3,13 +3,13 @@ import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 
 import 'package:ghhg/core/styles/style.dart';
 
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/aqarat/presentation/views/widgets/editdialog.dart';
 
 import 'package:ghhg/features/lands/presentation/viewmodel/addlandcuibt/addlandcuibt.dart';
 import 'package:ghhg/features/lands/presentation/viewmodel/date/date_cubit.dart';
@@ -264,67 +264,79 @@ class _customtablelandState extends State<customtableland> {
                                           size: 24,
                                         ),
                                         onPressed: () {
-                                          awsomdialogerror(
-                                            mywidget: BlocConsumer<
-                                                ShowlandsCubit, ShowlandsState>(
-                                              listener: (context, state) {
-                                                if (state
-                                                    is deletelandssuccess) {
-                                                  Navigator.pop(context);
+                                          if (cashhelper.getdata(key: "role") !=
+                                              "manager")
+                                            showsnack(
+                                                comment:
+                                                    "ليس لديك صلاحية الوصول للرابط",
+                                                context: context);
+                                          else
+                                            awsomdialogerror(
+                                              mywidget: BlocConsumer<
+                                                  ShowlandsCubit,
+                                                  ShowlandsState>(
+                                                listener: (context, state) {
+                                                  if (state
+                                                      is deletelandssuccess) {
+                                                    Navigator.pop(context);
 
-                                                  showsnack(
-                                                      comment:
-                                                          state.successmessage,
-                                                      context: context);
-                                                }
-                                                if (state
-                                                    is deletelandsfailure) {
-                                                  Navigator.pop(context);
+                                                    showsnack(
+                                                        comment: state
+                                                            .successmessage,
+                                                        context: context);
+                                                  }
+                                                  if (state
+                                                      is deletelandsfailure) {
+                                                    Navigator.pop(context);
 
-                                                  showsnack(
-                                                      comment:
-                                                          state.error_message,
-                                                      context: context);
-                                                }
-                                              },
-                                              builder: (context, state) {
-                                                return ElevatedButton(
-                                                    style: const ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStatePropertyAll(
-                                                              Color.fromARGB(
-                                                                  255,
-                                                                  37,
-                                                                  163,
-                                                                  42)),
-                                                    ),
-                                                    onPressed: () async {
-                                                      await BlocProvider.of<
-                                                                  ShowlandsCubit>(
-                                                              context)
-                                                          .deleteland(
-                                                              token:
-                                                                  generaltoken,
-                                                              landnumber: BlocProvider
-                                                                      .of<ShowlandsCubit>(
-                                                                          context)
-                                                                  .data[index]
-                                                                  .id!
-                                                                  .toInt());
-                                                    },
-                                                    child: const Text(
-                                                      "تاكيد",
-                                                      style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.white),
-                                                      textAlign:
-                                                          TextAlign.center,
-                                                    ));
-                                              },
-                                            ),
-                                            context: context,
-                                            tittle: "هل تريد حذف هذه الارض ؟",
-                                          );
+                                                    showsnack(
+                                                        comment:
+                                                            state.error_message,
+                                                        context: context);
+                                                  }
+                                                },
+                                                builder: (context, state) {
+                                                  if (state
+                                                      is deletelandsloading)
+                                                    return deleteloading();
+                                                  return ElevatedButton(
+                                                      style: const ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStatePropertyAll(
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    37,
+                                                                    163,
+                                                                    42)),
+                                                      ),
+                                                      onPressed: () async {
+                                                        await BlocProvider.of<
+                                                                    ShowlandsCubit>(
+                                                                context)
+                                                            .deleteland(
+                                                                token:
+                                                                    generaltoken,
+                                                                landnumber: BlocProvider.of<
+                                                                            ShowlandsCubit>(
+                                                                        context)
+                                                                    .data[index]
+                                                                    .id!
+                                                                    .toInt());
+                                                      },
+                                                      child: const Text(
+                                                        "تاكيد",
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            color:
+                                                                Colors.white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ));
+                                                },
+                                              ),
+                                              context: context,
+                                              tittle: "هل تريد حذف هذه الارض ؟",
+                                            );
                                         },
                                       );
                                     }),

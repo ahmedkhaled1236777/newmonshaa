@@ -482,7 +482,7 @@ class showfinishedcontractdialog extends StatelessWidget {
                               Border.all(color: Color(0xff2BA4C8), width: 0.5),
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        'الايجار الي: ${BlocProvider.of<finishedcontractsCubit  >(context).myfinishedcontractss[index].contractDateTo}',
+                        'الايجار الي: ${BlocProvider.of<finishedcontractsCubit>(context).myfinishedcontractss[index].contractDateTo}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 12.5, color: Colors.black87),
                       ),

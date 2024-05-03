@@ -65,9 +65,8 @@ class addcontractwithscafold extends StatelessWidget {
         appBar: AppBar(
           leading: BackButton(
             onPressed: () {
-                 BlocProvider.of<contractCubit>(context)
-                                  .id=null;
-                                  Navigator.pop(context);
+              BlocProvider.of<contractCubit>(context).id = null;
+              Navigator.pop(context);
             },
             color: Colors.white,
           ),

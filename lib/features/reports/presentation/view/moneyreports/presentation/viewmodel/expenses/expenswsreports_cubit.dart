@@ -1,12 +1,12 @@
 import 'package:ghhg/features/reports/presentation/view/moneyreports/data/repos/moneyreportsrepoimplementation.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 
 import '../../../../../../../expenses.dart/data/models/expensemodel/datum.dart';
 
 part 'expenswsreports_state.dart';
 
 class moneyatreportsCubit extends Cubit<moneyatreportsState> {
+  num? total;
   final showmoneyrepoimplementationreports showmoneyrepo;
   moneyatreportsCubit(this.showmoneyrepo) : super(moneyatreportsInitial());
 
@@ -34,6 +34,7 @@ class moneyatreportsCubit extends Cubit<moneyatreportsState> {
     result.fold((failue) {
       emit(moneyatreportsfailure(error_message: failue.error_message));
     }, (success) {
+      total = success.total;
       if (success.data!.links?.next == null) {
         loading = false;
       }
