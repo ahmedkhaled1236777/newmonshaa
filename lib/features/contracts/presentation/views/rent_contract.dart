@@ -61,11 +61,11 @@ Future<Uint8List> generateEMSPDF(
               ),
               pw.SizedBox(height: 30),
               pw.Text(
-                  'إنه في يوم ........................ الموافق ${data.contractDate} ',
+                  'إنه في يوم ${data.day} الموافق ${data.contractDate} ',
                   style: pw.TextStyle(font: font, fontSize: 9),
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 12),
-              pw.Text('تحرر بين كل من :',
+              pw.Text('تحرر بين كل من :   ',
                   style: pw.TextStyle(font: font, fontSize: 9),
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 12),
@@ -92,7 +92,7 @@ Future<Uint8List> generateEMSPDF(
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 8),
               pw.Text(
-                  'بموجب هذا العقد قد أجر الطرف الأول للطرف الثاني ما هو ............................................ بقصد استعماله ....................................... الكائنة فى ${data.realStateAddress} - ${data.realStateAddressDetails} ',
+                  ' بموجب هذا العقد قد أجر الطرف الأول للطرف الثاني ما هو ............................................ بقصد استعماله ....................................... الكائنة فى ${data.realStateAddress} - ${data.realStateAddressDetails} تبع قسم  ${data.governorate}  ',
                   style:
                       pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
                   textDirection: pw.TextDirection.rtl),
@@ -229,7 +229,7 @@ Future<Uint8List> generateEMSPDF(
                       pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 12),
-              pw.Text('12- البند الرابع عشر ',
+              pw.Text('14- البند الرابع عشر ',
                   style: pw.TextStyle(
                       font: font, fontSize: 9, fontWeight: pw.FontWeight.bold),
                   textDirection: pw.TextDirection.rtl),
@@ -246,7 +246,7 @@ Future<Uint8List> generateEMSPDF(
                   textDirection: pw.TextDirection.rtl),
               pw.SizedBox(height: 8),
               pw.Text(
-                  'يقر أطراف هذا التعاقد بأن جميع العناوين الواردة قرين كل طرف هي عناوين صحيحة، وأنه في حالة توجيه ثمة مراسلات أو إخطارات أو إنذارات قانونية أو قضائية أو خطابات موصى عليها بعلم الوصول على تلك العناوين فهي صحيحة ونافذة ومقبولة من أطراف هذا التعاقد، وأنه في حالة تغيير أياً من العناوين الواردة فيلتزم من قام بتغيير عنوانه أن يخطر الطرف الآخر بالعنوان الجديد والصحيح، وإلا صارت الإخطارات والمكاتبات والمراسلات والإنذارات والإعلانات صحيحة ونافذة في حق من تم إعلانه بها وقانونية.',
+                  'يخضع هذا العقد لاحكام القانون رقم 4 لسنه 1996 بشأن سريان احكام القانون المدني علي الاماكن التي لم يسبق تأجيرها والاماكن التى انتهت او تنتهي عقود ايجارها.',
                   style:
                       pw.TextStyle(font: font, fontSize: 9, lineSpacing: 3.0),
                   textDirection: pw.TextDirection.rtl),

@@ -1,6 +1,7 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -106,7 +107,7 @@ class _customtableallmobileaqaratreportssState
                                   context: context);
                           },
                           builder: (context, state) {
-                            if (state is Aqaratreportsloading) return loading();
+                            if (state is Aqaratreportsloading) return loadingshimmer();
                             if (state is Aqaratreportsfailure)
                               return SizedBox();
                             return BlocProvider.of<AqaratreportsCubit>(context)

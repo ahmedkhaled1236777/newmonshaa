@@ -52,7 +52,10 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
     "العملاء": "clients",
     "العقود المنتهيه": "expired_contracts",
     "الارباح": "profits",
-    "عموله الموظفين": "employee_commission"
+    "عموله الموظفين": "employee_commission",
+   
+      "اخفاء ارقام هواتف الملاك من الوحدات العقاريه":"owner_phone_hidden",
+     "اخفاء ارقام هواتف العملاء":"client_phone_hidden",
   };
   Map showpermessions = {
     "states": "العقارات",
@@ -72,7 +75,9 @@ class AddemployeeCubit extends Cubit<AddemployeeState> {
     "notifications": "الاشعارات",
     "expired_contracts": "العقود المنتهيه",
     "profits": "الارباح",
-    "employee_commission": "عموله الموظفين"
+    "employee_commission": "عموله الموظفين",
+    "client_phone_hidden": "اخفاء ارقام هواتف العملاء",
+    "owner_phone_hidden":"اخفاء ارقام هواتف الملاك من الوحدات العقاريه"
   };
   List selecteditems = [];
   getselecteditems() {

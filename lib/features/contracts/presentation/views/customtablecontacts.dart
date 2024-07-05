@@ -4,6 +4,8 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -80,7 +82,7 @@ class _customtablecontractsState extends State<customtablecontracts> {
             if (state is deletecontractfailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showcontractloadin) return loading();
+            if (state is showcontractloadin) return loadingshimmer();
             if (state is showcontractfailure) return SizedBox();
             return BlocProvider.of<contractCubit>(context).contractdata.isEmpty
                 ? nodata()
@@ -133,10 +135,8 @@ class _customtablecontractsState extends State<customtablecontracts> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                        showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<

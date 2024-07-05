@@ -66,14 +66,20 @@ class expenseCubit extends Cubit<expenseState> {
     });
   }
 
-  deleteexpense({required String token, required int expenseid}) async {
+  deleteexpense({required String token, required int expenseid,required num expense}) async {
     emit(deleteexpenseloading());
     var result =
         await expenserepo.deleteexpense(token: token, expenseid: expenseid);
     result.fold((failure) {
       emit(deleteexpensefailure(errormessage: failure.error_message));
     }, (success) {
-      expensedata.removeWhere((element) => element.id == expenseid);
+              total=total!-expense;
+
+      expensedata.removeWhere((element) {
+return   element.id == expenseid;
+      }
+      
+     );
       emit(deleteexpensesuccess(success_message: success));
     });
   }

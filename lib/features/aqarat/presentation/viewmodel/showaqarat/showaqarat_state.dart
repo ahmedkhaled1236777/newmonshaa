@@ -3,6 +3,12 @@ part of 'showaqarat_cubit.dart';
 abstract class ShowaqaratState {}
 
 class ShowaqaratInitial extends ShowaqaratState {}
+class sharedimagesloading extends ShowaqaratState {}
+class sharedimagessuccess extends ShowaqaratState {}
+class sharedimagesfailure extends ShowaqaratState {}
+class imagesloading extends ShowaqaratState {}
+class imagessuccess extends ShowaqaratState {}
+class imagesfailure extends ShowaqaratState {}
 
 class getmore extends ShowaqaratState {}
 

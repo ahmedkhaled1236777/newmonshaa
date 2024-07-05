@@ -1,5 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
@@ -98,7 +99,7 @@ class _customtabledesktopprofitatreportsState
                           }
                         },
                         builder: (context, state) {
-                          if (state is profitatreportsloading) return loading();
+                          if (state is profitatreportsloading) return loadingshimmer();
                           if (state is profitatreportsfailure)
                             return SizedBox();
                           return SingleChildScrollView(
@@ -123,13 +124,8 @@ class _customtabledesktopprofitatreportsState
                                   itemCount: 1));
                         },
                       )),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: Center(child: Text("الاجمالى : 255055")),
-                      )
+                    
+                     
                     ]))));
   }
 }

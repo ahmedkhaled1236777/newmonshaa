@@ -18,9 +18,12 @@ class DateCubit extends Cubit<DateState> {
   TimeOfDay selectedtime1 = TimeOfDay.now();
   DateCubit() : super(DateInitial());
   changedate(BuildContext context) async {
+    
     selectedDate = DateTime.now();
     emit(newchangedatestate());
     DateTime? date = await showDatePicker(
+     
+      switchToCalendarEntryModeIcon: Icon(Icons.calendar_month),
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime(2000),
@@ -188,3 +191,75 @@ class DateCubit extends Cubit<DateState> {
     emit(changedatestate());
   }
 }
+/*  changedate(BuildContext context) async {
+    selectedDate = DateTime.now();
+    emit(newchangedatestate());
+    DateTime? date = await showRoundedDatePicker(
+    
+    height: 200
+    ,
+  imageHeader: AssetImage("images/logo.PNG"),
+      theme:  ThemeData(
+        
+        primaryColor: Colors.black.withOpacity(0.3),
+        primarySwatch: Colors.blue),
+        styleYearPicker: MaterialRoundedYearPickerStyle(
+          heightYearRow: 10
+        ),
+                        styleDatePicker: MaterialRoundedDatePickerStyle(
+                          textStyleDayButton: TextStyle(fontSize: 36, color: Colors.white),
+                          textStyleYearButton: TextStyle(
+                            fontSize: 52,
+                            color: Colors.white,
+                          ),
+                          textStyleDayHeader: TextStyle(
+                            fontSize: 24,
+                            color: Colors.blue,
+                          ),
+                          textStyleCurrentDayOnCalendar:
+                              TextStyle(fontSize: 15, color: Colors.blue, fontWeight: FontWeight.bold),
+                          textStyleDayOnCalendar: TextStyle(fontSize: 15, color: Colors.black),
+                          textStyleDayOnCalendarSelected:
+                              TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+                          textStyleDayOnCalendarDisabled: TextStyle(fontSize: 28, color: Colors.white.withOpacity(0.1)),
+                          textStyleMonthYearHeader:
+                              TextStyle(fontSize: 32, color: Colors.green, fontWeight: FontWeight.bold),
+                          paddingDatePicker: EdgeInsets.all(10),
+                          paddingMonthHeader: EdgeInsets.all(100),
+                          paddingActionBar: EdgeInsets.all(100),
+                          paddingDateYearHeader: EdgeInsets.symmetric(horizontal: 100),
+                          sizeArrow: 25,
+                          colorArrowNext: Colors.blue,
+                          colorArrowPrevious: Colors.blue,
+                          marginLeftArrowPrevious: 5,
+                          marginTopArrowPrevious: 16,
+                          marginTopArrowNext: 5,
+                          marginRightArrowNext: 5,
+                          textStyleButtonAction: TextStyle(fontSize: 28, color: Colors.white),
+                          textStyleButtonPositive:
+                              TextStyle(fontSize: 15, color: Colors.blue, fontWeight: FontWeight.bold),
+                          textStyleButtonNegative: TextStyle(fontSize: 15, color: Colors.blue),
+                          decorationDateSelected: BoxDecoration(color:Colors.black.withOpacity(0.3), shape: BoxShape.circle),
+                          backgroundPicker: Colors.white,
+                          backgroundActionBar: Colors.white,
+                        ),
+  context: context,
+  initialDate: DateTime.now(),
+  firstDate: DateTime(2020),
+  lastDate: DateTime(2100),
+  borderRadius: 16,
+
+   locale: Locale('ar'));
+
+    if (date != null) {
+      selectedDate = date;
+      String month = date.month > 9 ? '${date.month}' : '0${date.month}';
+      String day = date.day > 9 ? '${date.day}' : '0${date.day}';
+
+      date1 = '${date.year}-${month}-${day}';
+    }
+    ;
+    emit(changedatestate());
+
+    
+  }*/

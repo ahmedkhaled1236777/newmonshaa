@@ -211,7 +211,8 @@ class _editdialogState extends State<editdialog> {
                       const SizedBox(
                         height: Appsizes.size10,
                       ),
-                      custommytextform(
+                  if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )    custommytextform(
                           readonly: cashhelper.getdata(key: "role") != "manager"
                               ? true
                               : false,
@@ -226,7 +227,8 @@ class _editdialogState extends State<editdialog> {
                     ],
                   ),
                 ),
-                const SizedBox(
+      if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )      const SizedBox(
                   height: Appsizes.size10,
                 ),
                 custommytextform(
@@ -257,8 +259,8 @@ class _editdialogState extends State<editdialog> {
                     "شقه فارغه",
                     "شقه مفروشه",
                     "فيلا مفروشه",
-                    "مكتب اداري فارغ",
-                    "مكتب اداري مفروش",
+                    "مكتب ادارى فارغ",
+                    "مكتب ادارى مفروش",
                     "محل"
                   ],
                   hint: "نوع العقار",

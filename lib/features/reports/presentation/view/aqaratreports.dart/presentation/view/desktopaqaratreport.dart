@@ -1,11 +1,12 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/view/customtableaqaratreportitem.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/aqaratreports.dart/presentation/viewmodel/aqaratreports/aqaratreports_cubit.dart';
@@ -107,7 +108,7 @@ class _customtabledesktopaqaratreportsState
                                 comment: state.error_message, context: context);
                         },
                         builder: (context, state) {
-                          if (state is Aqaratreportsloading) return loading();
+                          if (state is Aqaratreportsloading) return loadingshimmer();
                           if (state is Aqaratreportsfailure) return SizedBox();
                           return BlocProvider.of<AqaratreportsCubit>(context)
                                   .data
@@ -146,7 +147,8 @@ class _customtabledesktopaqaratreportsState
                                                 area: prov
                                                     .data[index].realStateSpace!
                                                     .toString(),
-                                                phone: prov.data[index]
+                                                phone:  cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden")   ?"مخفي" : prov.data[index]
                                                     .advertisedPhoneNumber!,
                                                 adress: prov.data[index]
                                                     .realStateAddress!,

@@ -3,6 +3,8 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -66,7 +68,7 @@ class _customtableemployeeesState extends State<customtableemployees> {
             if (state is deleteemployeefailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showemployeesloading) return loading();
+            if (state is showemployeesloading) return loadingshimmer();
             if (state is showemployeesfailure) return SizedBox();
             return BlocProvider.of<showemployeescuibt>(context)
                     .employeesdata
@@ -110,10 +112,8 @@ class _customtableemployeeesState extends State<customtableemployees> {
                                       onPressed: () async {
                                         if (cashhelper.getdata(key: "role") !=
                                             "manager")
-                                          showsnack(
-                                              comment:
-                                                  "ليس لديك صلاحية الوصول للرابط",
-                                              context: context);
+                                         showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                         else
                                           awsomdialogerror(
                                             mywidget: BlocConsumer<

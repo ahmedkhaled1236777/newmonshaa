@@ -3,6 +3,7 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -130,10 +131,8 @@ class _customtableallfinancialsState extends State<customtableallfinancials> {
                                               if (cashhelper.getdata(
                                                       key: "role") !=
                                                   "manager")
-                                                showsnack(
-                                                    comment:
-                                                        "ليس لديك صلاحية الوصول للرابط",
-                                                    context: context);
+                                                                                        showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                               else
                                                 awsomdialogerror(
                                                   mywidget: BlocConsumer<

@@ -1,5 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -99,7 +100,7 @@ class _customtableallmobileprofitatreportssState
                           },
                           builder: (context, state) {
                             if (state is profitatreportsloading)
-                              return loading();
+                              return loadingshimmer();
                             if (state is profitatreportsfailure)
                               return SizedBox();
                             return SingleChildScrollView(
@@ -125,13 +126,8 @@ class _customtableallmobileprofitatreportssState
                           },
                         ),
                       ),
-                      Divider(
-                        color: Colors.black,
-                      ),
-                      SizedBox(
-                        height: 50,
-                        child: Center(child: Text("الاجمالى : 255055")),
-                      )
+                    
+                    
                     ]))));
   }
 }

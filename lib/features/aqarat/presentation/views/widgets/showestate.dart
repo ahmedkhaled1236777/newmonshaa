@@ -1,13 +1,27 @@
+import 'dart:io';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
+import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
 import 'package:ghhg/features/aqarat/data/models/showstate/datum.dart';
+import 'package:ghhg/features/aqarat/presentation/viewmodel/showaqarat/showaqarat_cubit.dart';
+import 'package:ghhg/features/aqarat/presentation/views/widgets/prinyaqar.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:flutter/material.dart';
-
+import 'package:image_picker/image_picker.dart';
+import 'package:printing/printing.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 class mShowEstate extends StatefulWidget {
   final Datum data;
-
-  const mShowEstate({super.key, required this.data});
+                                
+   mShowEstate({super.key, required this.data});
   @override
   State<StatefulWidget> createState() {
     return ShowEstateState();
@@ -57,11 +71,72 @@ class ShowEstateState extends State<mShowEstate> {
                                 child: ListView(
                               shrinkWrap: true,
                               children: [
-                                const Text(
-                                  'تفاصيل الاعلان',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: const Text(
+                                        'تفاصيل الاعلان',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                   BlocConsumer<ShowaqaratCubit, ShowaqaratState>(
+                                          listener: (context, state) {
+if(state is sharedimagessuccess)                  saveaqarPdfFile("تفاصيل العقار", widget.data,images: BlocProvider.of<ShowaqaratCubit>(context).sharedimages);
+                                          },
+                                          builder: (context, state) {
+                                            if(state is sharedimagesloading)return SizedBox(height: 25,width: 25,child: loading());
+                                            return  IconButton(
+                                              padding: EdgeInsets.all(0),
+                                              onPressed: () async {
+                              if(widget.data.realStateImages!=null){
+                                BlocProvider.of<ShowaqaratCubit>(context).getsharedimages(dataimages:widget.data.realStateImages!);
+
+                              } 
+                              else{
+ saveaqarPdfFile("تفاصيل العقار", widget.data,images:null);
+                              }               
+                                                                                         
+                                                                                    //   navigateto(navigationscreen: PdfViewaqar(data: widget.data,), context: context);
+                                            
+                                            }, icon: Icon(Icons.share,color: Appcolors.maincolor,));
+                                          }
+                                        ),
+                                         BlocConsumer<ShowaqaratCubit, ShowaqaratState>(
+                                          listener: (context, state) async {
+ if(state is imagessuccess){
+                                             await Share.shareXFiles(BlocProvider.of<ShowaqaratCubit>(context).images,text: "${ show[widget.data.realStateType!]} \n العنوان :  ${widget.data.realStateAddress}- ${widget.data.realStateAddressDetails} \n مساحة العقار : ${widget.data.realStateSpace} \n عدد الغرف : ${widget.data.numberOfRooms}\n عدد الحمامات : ${widget.data.numberOfBathrooms} \n التفاصيل : ${widget.data.advertiseDetails}",subject: "jgjh");
+
+                                            }                                          },
+                                          builder: (context, state) {
+                                            if(state is imagesloading)return SizedBox(height: 25,width: 25,child: loading());
+                                            return  IconButton(
+                                            padding: EdgeInsets.all(0),
+                                            onPressed: () async {
+                             
+                                  if(widget.data.realStateImages!.isNotEmpty)    {      BlocProvider.of<ShowaqaratCubit>(context).getimages(dataimages: widget.data.realStateImages!);}
+                                  else{
+                                    print("lllllllllllllllllllllllllllllllllllllllll");
+                  await Share.share(  "${ show[widget.data.realStateType!]} \n العنوان :  ${widget.data.realStateAddress}- ${widget.data.realStateAddressDetails} \n مساحة العقار : ${widget.data.realStateSpace} \n عدد الغرف : ${widget.data.numberOfRooms}\n عدد الحمامات : ${widget.data.numberOfBathrooms} \n التفاصيل : ${widget.data.advertiseDetails}",subject: "");
+
+                                  }
+                                                                             
+                                                                               
+                                                                                    /*   List images=[];
+                                              if(widget.data.realStateImages!=null){
+                                             for (var element in widget.data.realStateImages!) {
+                                               images.add( await networkImage(element)
+                                             );
+                                             }
+                                              }
+                                                                                //   navigateto(navigationscreen: PdfViewaqar(data: widget.data,), context: context);
+                                                                         saveaqarPdfFile("تفاصيل العقار", widget.data,images: images);*/
+                                             
+                                                                                 }, icon:  FaIcon(FontAwesomeIcons.facebook,color: Appcolors.maincolor,));
+                                           
+               } )
+                                  ],
                                 ),
                                 const SizedBox(
                                   height: 20,
@@ -319,7 +394,10 @@ class ShowEstateState extends State<mShowEstate> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Container(
+
+                                
+                   if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden")     )       Container(
                                   child: Row(
                                     children: [
                                       Text(
@@ -343,7 +421,8 @@ class ShowEstateState extends State<mShowEstate> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
+                                if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )  const SizedBox(
                                   height: 15,
                                 ),
                                 Container(
@@ -442,11 +521,71 @@ class ShowEstateState extends State<mShowEstate> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'تفاصيل الاعلان',
-                                      style: TextStyle(
-                                          fontSize: 12.5,
-                                          fontWeight: FontWeight.bold),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            'تفاصيل الاعلان',
+                                            style: TextStyle(
+                                                fontSize: 12.5,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                         
+                                        BlocConsumer<ShowaqaratCubit, ShowaqaratState>(
+                                          listener: (context, state) {
+if(state is sharedimagessuccess)                  saveaqarPdfFile("تفاصيل العقار", widget.data,images: BlocProvider.of<ShowaqaratCubit>(context).sharedimages);
+                                          },
+                                          builder: (context, state) {
+                                            return  IconButton(
+                                              padding: EdgeInsets.all(0),
+                                              onPressed: () async {
+                              if(widget.data.realStateImages!=null){
+                                BlocProvider.of<ShowaqaratCubit>(context).getsharedimages(dataimages:widget.data.realStateImages!);
+
+                              } 
+                              else{
+ saveaqarPdfFile("تفاصيل العقار", widget.data,images:null);
+                              }               
+                                                                                         
+                                                                                    //   navigateto(navigationscreen: PdfViewaqar(data: widget.data,), context: context);
+                                            
+                                            }, icon: Icon(Icons.share,color: Appcolors.maincolor,));
+                                          }
+                                        ),
+                                         BlocConsumer<ShowaqaratCubit, ShowaqaratState>(
+                                          listener: (context, state) async {
+ if(state is imagessuccess){
+                                             await Share.shareXFiles(BlocProvider.of<ShowaqaratCubit>(context).images,text: "${ show[widget.data.realStateType!]} \n العنوان :  ${widget.data.realStateAddress}- ${widget.data.realStateAddressDetails} \n مساحة العقار : ${widget.data.realStateSpace} \n عدد الغرف : ${widget.data.numberOfRooms}\n عدد الحمامات : ${widget.data.numberOfBathrooms} \n التفاصيل : ${widget.data.advertiseDetails}",subject: "jgjh");
+
+                                            }                                          },
+                                          builder: (context, state) {
+                                            if(state is imagesloading)return SizedBox(height: 25,width: 25,child: loading());
+                                            return  IconButton(
+                                            padding: EdgeInsets.all(0),
+                                            onPressed: () async {
+                             
+                                  if(widget.data.realStateImages!.isNotEmpty)    {      BlocProvider.of<ShowaqaratCubit>(context).getimages(dataimages: widget.data.realStateImages!);}
+                                  else{
+                  await Share.share(  "${ show[widget.data.realStateType!]} \n العنوان :  ${widget.data.realStateAddress}- ${widget.data.realStateAddressDetails} \n مساحة العقار : ${widget.data.realStateSpace} \n عدد الغرف : ${widget.data.numberOfRooms}\n عدد الحمامات : ${widget.data.numberOfBathrooms} \n التفاصيل : ${widget.data.advertiseDetails}",subject: "jgjh");
+
+                                  }
+                                                                             
+                                                                               
+                                                                                    /*   List images=[];
+                                              if(widget.data.realStateImages!=null){
+                                             for (var element in widget.data.realStateImages!) {
+                                               images.add( await networkImage(element)
+                                             );
+                                             }
+                                              }
+                                                                                //   navigateto(navigationscreen: PdfViewaqar(data: widget.data,), context: context);
+                                                                         saveaqarPdfFile("تفاصيل العقار", widget.data,images: images);*/
+                                             
+                                                                                 }, icon:  FaIcon(FontAwesomeIcons.facebook,color: Appcolors.maincolor,));
+                                           
+                                         })
+                                      ],
                                     ),
                                     SizedBox(
                                       height: 20,
@@ -712,7 +851,8 @@ class ShowEstateState extends State<mShowEstate> {
                                     SizedBox(
                                       height: 15,
                                     ),
-                                    Container(
+                                 if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden")     )    Container(
                                       child: Row(
                                         children: [
                                           Text(
@@ -736,7 +876,8 @@ class ShowEstateState extends State<mShowEstate> {
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(
+                               if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden")     )     const SizedBox(
                                       height: 15,
                                     ),
                                     Container(
@@ -812,3 +953,4 @@ class ShowEstateState extends State<mShowEstate> {
         ));
   }
 }
+

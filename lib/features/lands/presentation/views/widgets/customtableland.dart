@@ -4,6 +4,8 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 
@@ -82,7 +84,7 @@ class _customtablelandState extends State<customtableland> {
               showsnack(comment: state.error_message, context: context);
           }, builder: (context, state) {
             if (state is Showlandsloading) {
-              return loading();
+              return loadingshimmer();
               // ignore: curly_braces_in_flow_control_structures
             } else if (state is Showlandsfailure) return const SizedBox();
             return BlocProvider.of<ShowlandsCubit>(context).data.isEmpty
@@ -266,10 +268,8 @@ class _customtablelandState extends State<customtableland> {
                                         onPressed: () {
                                           if (cashhelper.getdata(key: "role") !=
                                               "manager")
-                                            showsnack(
-                                                comment:
-                                                    "ليس لديك صلاحية الوصول للرابط",
-                                                context: context);
+                                                                                     showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                           else
                                             awsomdialogerror(
                                               mywidget: BlocConsumer<

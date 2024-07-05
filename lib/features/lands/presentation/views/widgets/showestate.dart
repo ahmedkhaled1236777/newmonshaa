@@ -1,4 +1,5 @@
 import 'package:ghhg/core/commn/constants.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
 import 'package:ghhg/features/lands/data/models/showlands/datum.dart';
 
@@ -211,7 +212,8 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                 SizedBox(
                                   height: 15,
                                 ),
-                                Container(
+                        if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )          Container(
                                   child: Row(
                                     children: [
                                       Icon(Icons.phone_android_sharp,
@@ -230,7 +232,8 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                     ],
                                   ),
                                 ),
-                                const SizedBox(
+                             if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )     const SizedBox(
                                   height: 15,
                                 ),
                                 Container(
@@ -485,7 +488,8 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                   SizedBox(
                                     height: 15,
                                   ),
-                                  Container(
+                                 if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )   Container(
                                     child: Row(
                                       children: [
                                         Icon(Icons.phone_android_sharp,
@@ -504,7 +508,8 @@ class ShowlandEstateState extends State<mlandShowEstate> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(
+                                 if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )   const SizedBox(
                                     height: 15,
                                   ),
                                   Container(

@@ -4,6 +4,7 @@ import 'tenant.dart';
 
 class Datum extends Equatable {
   final num? id;
+  final String?day;
   final Tenant? tenant;
   final String? ownerName;
   final String? ownerPhone;
@@ -31,6 +32,7 @@ class Datum extends Equatable {
   const Datum({
     this.id,
     this.tenant,
+    this.day,
     this.ownerName,
     this.ownerPhone,
     this.ownerCardNumber,
@@ -65,6 +67,7 @@ class Datum extends Equatable {
         ownerCardNumber: json['owner_card_number']?.toString(),
         ownerCardAddress: json['owner_card_address']?.toString(),
         ownerJobTitle: json['owner_job_title']?.toString(),
+        day: json['day']?.toString(),
         ownerNationality: json['owner_nationality']?.toString(),
         realStateAddress: json['real_state_address']?.toString(),
         governorate: json['governorate']?.toString(),

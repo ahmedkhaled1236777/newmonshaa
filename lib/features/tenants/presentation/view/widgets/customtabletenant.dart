@@ -1,5 +1,7 @@
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/features/contracts/presentation/viewmodel/contract/contract_cubit.dart';
 import 'package:ghhg/features/contracts/presentation/views/addcontractwithscafold.dart';
@@ -75,7 +77,7 @@ class _customtabletenantsState extends State<customtabletenants> {
             if (state is deleteTenantfailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showTenantloadin) return loading();
+            if (state is showTenantloadin) return loadingshimmer();
             if (state is showTenantfailure) return SizedBox();
             return BlocProvider.of<TenantCubit>(context).tenantdata.isEmpty
                 ? nodata()
@@ -128,17 +130,7 @@ class _customtabletenantsState extends State<customtabletenants> {
                                                       .tenantdata[index]
                                                       .id!
                                                       .toInt();
-                                              print(
-                                                  "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
-                                              print(
-                                                  BlocProvider.of<TenantCubit>(
-                                                          context)
-                                                      .tenantdata[index]
-                                                      .id!
-                                                      .toInt());
-                                              print(BlocProvider.of<
-                                                      contractCubit>(context)
-                                                  .id);
+                                          
                                               navigateto(
                                                   navigationscreen:
                                                       addcontractwithscafold(
@@ -269,10 +261,8 @@ class _customtabletenantsState extends State<customtabletenants> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                                                                        showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<

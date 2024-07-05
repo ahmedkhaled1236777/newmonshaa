@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:io';
+
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/features/aqarat/data/models/showstate/datum.dart';
 import 'package:ghhg/features/aqarat/data/repos/showaqar/showaqarrepoimplementation.dart';
@@ -6,12 +9,18 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'package:printing/printing.dart';
 
 part 'showaqarat_state.dart';
 
 class ShowaqaratCubit extends Cubit<ShowaqaratState> {
   final showaqqarrepoimplementation showaqar;
   double offset = 0.0;
+    List<XFile>images=[];
+    List sharedimages=[];
 
   bool search = true;
   List<Datum> data = [];
@@ -69,4 +78,39 @@ class ShowaqaratCubit extends Cubit<ShowaqaratState> {
       emit(deleteaqarsuccess(successmessage: success));
     });
   }
-}
+  getimages({required List dataimages}){
+    images=[];
+    int i=0;
+    emit(imagesloading());
+    try{
+   dataimages.forEach((Element) async {
+var response =await http.get(Uri.parse(Element));
+  final bytes=response.bodyBytes;
+                    final temp=await getTemporaryDirectory();
+                    final path='${temp.path}/image${i}.jpg';
+                   File(path).writeAsBytesSync(bytes);
+                   images.add(XFile(path));
+                   i++;
+        if(dataimages.length==images.length)                    {       
+           emit(imagessuccess());}
+
+                                    }) ; 
+                                    }
+                                    catch(e){
+                                      emit(imagesfailure());
+                                    }
+  }
+  getsharedimages({required List dataimages}) async {
+    emit(sharedimagesloading());
+    try{
+         sharedimages =[];
+                                             for (var element in dataimages!) {
+                                               sharedimages.add( await networkImage(element)
+                                             );
+                                             }
+                                             emit(sharedimagessuccess());
+                                              
+  }catch(e){
+emit(sharedimagesfailure());
+  }
+}}

@@ -1,5 +1,6 @@
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/cashedimage.dart';
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
@@ -72,7 +73,7 @@ class _alernotificationsmobilenotificationslayoutState
                     }
                   },
                   builder: (context, state) {
-                    if (state is Notificationsloading) return loading();
+                    if (state is Notificationsloading) return loadingnotificationshimmer ();
                     if (state is Notificationsfailure) return SizedBox();
                     return Container(
                         width: double.infinity,

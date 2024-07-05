@@ -5,6 +5,7 @@ class Apiservice {
   static late Dio dio;
   static initdio() {
     dio = Dio(BaseOptions(baseUrl: urls.baseurl));
+   // dio.options.headers['Access-Control-Allow-Origin']='https://mymonshaa.web.app';
   }
 }
 
@@ -19,7 +20,9 @@ class Postdata {
         data: data,
         queryParameters: queryParameters,
         options: Options(
-            headers: {"Accept": "application/json", "Authorization": token}));
+            headers: {
+              
+              "Accept": "application/json", "Authorization": token}));
     return respnse;
   }
 }

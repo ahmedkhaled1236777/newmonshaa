@@ -279,8 +279,8 @@ class _addcontractState extends State<addcontract> {
                               ),
                               custommytextform(
                                 controller: widget.aqarmohafza,
-                                hintText: "المحافظه التابع لها العقار",
-                                val: "برجاء ادخال المحافظه التابع لها العقار",
+                                hintText: "القسم التابع له العقار",
+                                val: "برجاء ادخال القسم التابع له العقار",
                               ),
                               SizedBox(
                                 height: 10,
@@ -407,12 +407,19 @@ class _addcontractState extends State<addcontract> {
                                 builder: (context, state) {
                                   return dropdownbutton(
                                       onchanged: (val) {
-                                        if (cashhelper.getdata(key: "role") ==
-                                                "manager" &&
-                                            widget.is_edit == true)
-                                          BlocProvider.of<contractCubit>(
+                                       if(widget.is_edit==true){
+                                        if(cashhelper.getdata(key: "role")=="manager"){
+                                           BlocProvider.of<contractCubit>(
                                                   context)
                                               .changecommessiontype(val);
+                                        }
+
+                                       }else{
+                                         BlocProvider.of<contractCubit>(
+                                                  context)
+                                              .changecommessiontype(val);
+                                       }
+                                         
                                       },
                                       items: [
                                         "العموله بالمبلغ",

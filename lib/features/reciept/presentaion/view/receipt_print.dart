@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
@@ -66,7 +67,7 @@ Future<Uint8List> generateEMSPDF(
                       textDirection: pw.TextDirection.rtl),
                   pw.SizedBox(height: 15),
                   pw.Text(
-                      'تم صرف مبلغ وقدره ${data.totalAmount} جنيه مصرى للسيد ${data.ownerName} بدلا عن ايجار شقة سكنيه عنوانها  ${data.state!.addressDetails!} عمارة رقم ${data.state!.buildingNumber!} شقة رقم ${data.state!.apartmentNumber}  وللمدة الزمنية من  ${data.contractDateFrom} الي  ${data.contractDateTo} ',
+                      'تم صرف مبلغ وقدره ${data.totalAmount} ${cashhelper.getdata(key: "currency")} للسيد / ${data.ownerName} بدلا عن ايجار ............................................................ عنوانها  ${data.state!.addressDetails!} عمارة رقم ${data.state!.buildingNumber!} شقة رقم ${data.state!.apartmentNumber}  وللمدة الزمنية من  ${data.contractDateFrom} الي  ${data.contractDateTo} ',
                       style: pw.TextStyle(
                           font: font, lineSpacing: 5.0, fontSize: 9),
                       textDirection: pw.TextDirection.rtl),

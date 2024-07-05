@@ -10,8 +10,10 @@ class showemployeescuibt extends Cubit<showemployeesstates> {
       : super(showemployeesintial());
   List<Datum> employeesdata = [];
   List<Datum> filterdata = [];
+
   int page = 1;
   getallemployees({required String token, required int page}) async {
+    
     this.page = 1;
     emit(showemployeesloading());
     var result = await employeerepo.getemployees(token: token, page: page);

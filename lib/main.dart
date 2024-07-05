@@ -30,9 +30,7 @@ import 'package:ghhg/features/auth/register/presentation/viewsmodel/registercuib
 import 'package:ghhg/features/clients/data/repos/clientrepoimplementation.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:ghhg/features/employeecomission/data/repos/employeecomrepoimp.dart';
-import 'package:ghhg/features/employeecomission/presentation/view/employeecom.dart';
 import 'package:ghhg/features/employeecomission/presentation/viewmodel/employeecomcuibt/employeecocuibt.dart';
-import 'package:ghhg/features/pooo.dart';
 import 'package:ghhg/features/technical%20support/data/repo/connectrepoimp.dart';
 import 'package:ghhg/features/technical%20support/presentation/viewmodel/connect/connectcuibt.dart';
 import 'package:ghhg/features/contracts/data/repos/contractrepoimplementation.dart';
@@ -78,7 +76,6 @@ import 'package:ghhg/features/splash/splash.dart';
 import 'package:ghhg/features/tenants/data/repo/tenantrepoimplementation.dart';
 import 'package:ghhg/features/tenants/presentation/viewmodel/tenants/tenant_cubit.dart';
 import 'package:ghhg/firebase_options.dart';
-import 'package:month_year_picker/month_year_picker.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,7 +83,7 @@ void main() async {
 
 // Replace with actual values
 ///////////////////forweb
-/*  await Firebase.initializeApp(
+ /*await Firebase.initializeApp(
       options: FirebaseOptions(
     apiKey: "AIzaSyDRQB5lSBFcr_dlzCLNVKOCjtoYetp97k8",
     appId: "1:849173214576:web:15af575abc82c4b6874bb5",
@@ -114,9 +111,9 @@ void main() async {
       ]);
 
   }
-/*
 
- bitsdojo_window: ^0.1.6
+
+/* bitsdojo_window: ^0.1.6
   device_screen_size: ^0.0.2*/
 /*Size screenSize = WidgetsBinding.instance.window.physicalSize;
 double width = screenSize.width;
@@ -234,10 +231,12 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => GetMaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              primarySwatch: Colors.blue,
               appBarTheme: AppBarTheme(),
               scaffoldBackgroundColor: Colors.white,
               dialogBackgroundColor: Colors.white,
               datePickerTheme: DatePickerThemeData(
+                
                   inputDecorationTheme: InputDecorationTheme(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(0)))),
@@ -248,14 +247,13 @@ class MyApp extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(0)))),
               fontFamily: 'Alexandria',
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
               useMaterial3: true,
             ),
             localizationsDelegates: const [
               GlobalCupertinoLocalizations.delegate, // Here !
               GlobalWidgetsLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
-              MonthYearPickerLocalizations.delegate,
             ],
             supportedLocales: const [
               Locale('ar'), // Arabic

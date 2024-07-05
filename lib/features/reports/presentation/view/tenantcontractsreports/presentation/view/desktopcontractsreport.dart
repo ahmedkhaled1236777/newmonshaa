@@ -1,10 +1,10 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/tenantcontractsreports/presentation/view/customtablecontractreportitem.dart';
 import 'package:ghhg/features/reports/presentation/view/tenantcontractsreports/presentation/view/search.dart';
 import 'package:ghhg/features/reports/presentation/view/tenantcontractsreports/presentation/viewmodel/contracts/contractsreport_cubit.dart';
@@ -105,7 +105,7 @@ class _customtabledesktopcontractsatreportsState
                         },
                         builder: (context, state) {
                           if (state is contractsatreportsloading)
-                            return loading();
+                            return loadingshimmer();
                           if (state is contractsatreportsfailure)
                             return SizedBox();
                           return BlocProvider.of<contractsatreportsCubit>(

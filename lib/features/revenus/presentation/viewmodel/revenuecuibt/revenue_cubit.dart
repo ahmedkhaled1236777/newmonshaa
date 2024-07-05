@@ -77,13 +77,14 @@ class revenueCubit extends Cubit<revenueState> {
     });
   }
 
-  deleterevenue({required String token, required int revenueid}) async {
+  deleterevenue({required String token, required int revenueid,required num revenu}) async {
     emit(deleterevenueloading());
     var result =
         await revenuerepo.deleterevenue(token: token, revenueid: revenueid);
     result.fold((failure) {
       emit(deleterevenuefailure(errormessage: failure.error_message));
     }, (success) {
+      total=total!-revenu;
       revenuedata.removeWhere((element) => element.id == revenueid);
       emit(deleterevenuesuccess(succes_message: success));
     });

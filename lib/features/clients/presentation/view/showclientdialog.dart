@@ -1,4 +1,5 @@
 import 'package:ghhg/core/commn/constants.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/features/clients/presentation/viewmodel/clients/clients_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +66,8 @@ class showclientsdialog extends StatelessWidget {
                     SizedBox(
                       height: 10,
                     ),
-                    Container(
+                   if(! cashhelper.getdata(
+                        key: "permessions").contains("client_phone_hidden") )   Container(
                       width: MediaQuery.of(context).size.width * 1,
                       padding:
                           EdgeInsets.symmetric(vertical: 12, horizontal: 7),
@@ -79,7 +81,8 @@ class showclientsdialog extends StatelessWidget {
                         style: TextStyle(fontSize: 12.5, color: Colors.black87),
                       ),
                     ),
-                    SizedBox(
+              if(! cashhelper.getdata(
+                        key: "permessions").contains("client_phone_hidden") )        SizedBox(
                       height: 10,
                     ),
                     Container(

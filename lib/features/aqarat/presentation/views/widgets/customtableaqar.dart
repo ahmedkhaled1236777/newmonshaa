@@ -4,6 +4,8 @@ import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -81,7 +83,7 @@ class _customtableaqarState extends State<customtableaqar> {
               showsnack(comment: state.error_message, context: context);
           }, builder: (context, state) {
             if (state is Showaqaratloading) {
-              return loading();
+              return loadingshimmer();
               // ignore: curly_braces_in_flow_control_structures
             } else if (state is Showaqaratfailure) return const SizedBox();
             return BlocProvider.of<ShowaqaratCubit>(context).data.isEmpty
@@ -326,10 +328,7 @@ class _customtableaqarState extends State<customtableaqar> {
                                         onPressed: () {
                                           if (cashhelper.getdata(key: "role") !=
                                               "manager")
-                                            showsnack(
-                                                comment:
-                                                    "ليس لديك صلاحية الوصول للرابط",
-                                                context: context);
+                                           showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
                                           else
                                             awsomdialogerror(
                                               mywidget: BlocConsumer<

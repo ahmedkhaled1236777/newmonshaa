@@ -1,11 +1,12 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
-import 'package:ghhg/features/home/presentation/views/widgets/dashbord.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/viewmodel/landsreports/landsreports_cubit.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/views/customtablelandsreports.dart';
 import 'package:ghhg/features/reports/presentation/view/landsreports.dart/presentation/views/search.dart';
@@ -106,7 +107,7 @@ class _customtabledesktoplandatreportsState
                                 comment: state.error_message, context: context);
                         },
                         builder: (context, state) {
-                          if (state is landatreportsloading) return loading();
+                          if (state is landatreportsloading) return loadingshimmer();
                           if (state is landatreportsfailure) return SizedBox();
                           return BlocProvider.of<landatreportsCubit>(context)
                                   .data
@@ -141,7 +142,8 @@ class _customtabledesktoplandatreportsState
                                                 area: prov
                                                     .data[index].sizeInMetres!
                                                     .toString(),
-                                                phone: prov.data[index]
+                                                phone:  cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden")    ?"مخفي" : prov.data[index]
                                                     .sellerPhoneNumber!,
                                                 adress:
                                                     prov.data[index].address!,

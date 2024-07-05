@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
 import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -94,14 +95,16 @@ class _editclientdialogState extends State<editclientdialog> {
                     const SizedBox(
                       height: 10,
                     ),
-                    custommytextform(
+                   if(! cashhelper.getdata(
+                        key: "permessions").contains("client_phone_hidden") )    custommytextform(
                         inputFormatters: <TextInputFormatter>[
                           FilteringTextInputFormatter.allow(RegExp("[0-9-.]")),
                         ],
                         keyboardType: TextInputType.number,
                         controller: clientphone,
                         hintText: "رقم هاتف العميل"),
-                    const SizedBox(
+                    if(! cashhelper.getdata(
+                        key: "permessions").contains("client_phone_hidden") )   const SizedBox(
                       height: 10,
                     ),
                      dropdownbutton(

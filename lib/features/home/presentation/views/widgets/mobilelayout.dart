@@ -4,6 +4,7 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
 import 'package:ghhg/features/technical%20support/presentation/view/connect.dart';
@@ -44,8 +45,7 @@ class _mobilelayoutState extends State<mobilelayout> {
           _firebaseMessagingBackgroundHandler);
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
         if (inhome && this.mounted) {
-           print(
-          "hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
+         
 
           BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
         }
@@ -55,14 +55,8 @@ class _mobilelayoutState extends State<mobilelayout> {
                     id: Random().nextInt(1000),
                     channelKey: "newas",
                     body: message.notification!.body,
-                    title: message.notification!.title))
-            .then((value) {})
-            .onError((error, stackTrace) {
-          print(error);
-          showsnack(comment: error.toString(), context: context);
-        }).catchError((e) {
-          showsnack(comment: e.toString(), context: context);
-        });
+                    title: message.notification!.title));
+            
       });
       BlocProvider.of<HomeCubit>(context).firstfirebasenotifications = false;
     }
@@ -113,7 +107,7 @@ class _mobilelayoutState extends State<mobilelayout> {
           },
           builder: (context, state) {
             if (state is Homeloading)
-              return loading();
+              return loadingmohomeshimmer();
             else if (state is Homefailure) return SizedBox();
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),

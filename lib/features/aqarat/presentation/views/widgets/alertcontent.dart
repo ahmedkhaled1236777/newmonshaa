@@ -166,8 +166,8 @@ class _alertcontentState extends State<alertcontent> {
                                 "شقه فارغه",
                                 "شقه مفروشه",
                                 "فيلا مفروشه",
-                                "مكتب اداري فارغ",
-                                "مكتب اداري مفروش",
+                                "مكتب ادارى فارغ",
+                                "مكتب ادارى مفروش",
                                 "محل"
                               ],
                               name: BlocProvider.of<addaqarcuibt>(context)

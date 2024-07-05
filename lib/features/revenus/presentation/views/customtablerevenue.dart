@@ -2,6 +2,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -72,7 +74,7 @@ class _customtablerevenuesState extends State<customtablerevenues> {
             if (state is deleterevenuefailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showrevenueloadin) return loading();
+            if (state is showrevenueloadin) return loadingshimmer();
             if (state is showrevenuefailure) return SizedBox();
             return BlocProvider.of<revenueCubit>(context).revenuedata.isEmpty
                 ? nodata()
@@ -110,10 +112,8 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                                                                       showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<
@@ -159,6 +159,11 @@ class _customtablerevenuesState extends State<customtablerevenues> {
                                                                       revenueCubit>(
                                                                   context)
                                                               .deleterevenue(
+                                                                revenu: BlocProvider.of<
+                                                                              revenueCubit>(
+                                                                          context)
+                                                                      .revenuedata[
+                                                                          index].totalMoney!,
                                                                   token:
                                                                       generaltoken,
                                                                   revenueid: BlocProvider.of<

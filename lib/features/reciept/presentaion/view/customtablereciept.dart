@@ -1,5 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -72,7 +73,7 @@ class _customtablerecieptsState extends State<customtablereciepts> {
               showsnack(comment: state.errorr_message, context: context);
             }
           }, builder: (context, state) {
-            if (state is showrecieptloadin) return loading();
+            if (state is showrecieptloadin) return loadingshimmer();
             if (state is showrecieptfailure) return SizedBox();
             return BlocProvider.of<recieptCubit>(context).myreciepts.isEmpty
                 ? nodata()

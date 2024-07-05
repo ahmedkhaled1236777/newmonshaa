@@ -2,6 +2,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -104,7 +106,7 @@ class _customtableallfinishedcontractsState
                               .myfinishedcontractss
                               .length);
                           if (state is showfinishedcontractsloadin)
-                            return loading();
+                            return loadingshimmer();
                           if (state is showfinishedcontractsfailure)
                             return SizedBox();
                           return BlocProvider.of<finishedcontractsCubit>(
@@ -134,10 +136,8 @@ class _customtableallfinishedcontractsState
                                                         if (cashhelper.getdata(
                                                                 key: "role") !=
                                                             "manager")
-                                                          showsnack(
-                                                              comment:
-                                                                  "ليس لديك صلاحية الوصول للرابط",
-                                                              context: context);
+                                                                                                    showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                                         else
                                                           awsomdialogerror(
                                                             mywidget: BlocConsumer<

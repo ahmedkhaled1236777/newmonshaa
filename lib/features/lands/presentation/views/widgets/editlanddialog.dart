@@ -166,7 +166,8 @@ class _editlanddialogState extends State<editlanddialog> {
                       const SizedBox(
                         height: Appsizes.size10,
                       ),
-                      custommytextform(
+                   if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )     custommytextform(
                           readonly: cashhelper.getdata(key: "role") != "manager"
                               ? true
                               : false,
@@ -181,7 +182,8 @@ class _editlanddialogState extends State<editlanddialog> {
                     ],
                   ),
                 ),
-                const SizedBox(
+              if(! cashhelper.getdata(
+                        key: "permessions").contains("owner_phone_hidden") )    const SizedBox(
                   height: Appsizes.size10,
                 ),
                 dropdownbutton(

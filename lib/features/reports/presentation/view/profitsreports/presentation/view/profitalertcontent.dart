@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -5,7 +6,7 @@ import 'package:ghhg/core/commn/widgets/custommaterialbutton.dart';
 import 'package:ghhg/features/reports/presentation/view/profitsreports/presentation/viewmodel/cubit/profit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:month_year_picker/month_year_picker.dart';
+import 'package:mat_month_picker_dialog/mat_month_picker_dialog.dart';
 
 class profitatalertcontent extends StatefulWidget {
   @override
@@ -47,24 +48,21 @@ class _profitatalertcontentState extends State<profitatalertcontent> {
                             ),
                             InkWell(
                               onTap: () async {
-                                String? locale;
+                                     final selected = await showMonthPicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(1970),
+    lastDate: DateTime(2050),
+  
+            locale: Locale('ar')
 
-                                DateTime? _selected;
-                                final localeObj =
-                                    locale != null ? Locale(locale) : null;
-                                final selected = await showMonthYearPicker(
-                                    context: context,
-                                    initialDate: _selected ?? DateTime.now(),
-                                    firstDate: DateTime(2024),
-                                    lastDate: DateTime(2200),
-                                    locale: Locale('ar'));
-
-                                if (selected != null) {
-                                  setState(() {
-                                    month = selected.month;
-                                    year = selected.year;
-                                  });
-                                }
+);
+       if(selected!=null)      {
+        month=selected.month;
+        year=selected.year;
+        setState(() {
+          
+        });       }   
                               },
                               child: Container(
                                 height: 50,

@@ -78,13 +78,14 @@ class employeecomCubit extends Cubit<employeecomState> {
     });
   }
 
-  deleteemployeecom({required String token, required int employeecomid}) async {
+  deleteemployeecom({required String token, required int employeecomid,required num employeecom}) async {
     emit(deleteemployeecomloading());
     var result = await employeecomrepo.deleteemployeecom(
         token: token, employeecomid: employeecomid);
     result.fold((failure) {
       emit(deleteemployeecomfailure(errormessage: failure.error_message));
     }, (success) {
+      total=total!-employeecom;
       employeecomdata.removeWhere((element) => element.id == employeecomid);
       emit(deleteemployeecomsuccess(succes_message: success));
     });

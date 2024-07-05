@@ -22,11 +22,18 @@ class customitem extends StatelessWidget {
                 fontSize:
                     MediaQuery.of(context).size.width > 950 ? 12.5 : 12.5),
           ),
-          Text(
-            value,
-            style: TextStyle(
-                fontSize:
-                    MediaQuery.of(context).size.width > 950 ? 12.5 : 12.5),
+          SizedBox(width: 5,),
+          Expanded(
+            child: Text(
+              textAlign: TextAlign.end,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+            
+              value,
+              style: TextStyle(
+                  fontSize:
+                      MediaQuery.of(context).size.width > 950 ? 12.5 : 12.5),
+            ),
           ),
         ],
       ),

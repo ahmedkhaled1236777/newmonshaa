@@ -4,6 +4,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/customheadertable.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
@@ -74,7 +76,7 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
             if (state is deleteemployeecomfailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showemployeecomloadin) return loading();
+            if (state is showemployeecomloadin) return loadingshimmer();
             if (state is showemployeecomfailure) return SizedBox();
             return BlocProvider.of<employeecomCubit>(context)
                     .employeecomdata
@@ -122,10 +124,8 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                                                                       showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<
@@ -172,6 +172,11 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                                                       employeecomCubit>(
                                                                   context)
                                                               .deleteemployeecom(
+                                                                employeecom: BlocProvider.of<
+                                                                              employeecomCubit>(
+                                                                          context)
+                                                                      .employeecomdata[
+                                                                          index].totalMoney!,
                                                                   token:
                                                                       generaltoken,
                                                                   employeecomid: BlocProvider.of<
@@ -194,7 +199,7 @@ class _customtableemployeecomsState extends State<customtableemployeecoms> {
                                                   },
                                                 ),
                                                 context: context,
-                                                tittle: "هل تريد حذف الايراد ؟",
+                                                tittle: "هل تريد حذف عمولة الموظف ؟",
                                               );
                                           },
                                           icon: const Icon(

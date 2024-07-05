@@ -10,8 +10,8 @@ Map show = {
   "sale": "بيع",
   "real_state_owner": "صاحب عقار",
   "real_state_company": "شركة عقارات",
-  "empty_office": "مكتب اداري فارغ",
-  "furnished_office": "مكتب اداري مفروش"
+  "empty_office": "مكتب ادارى فارغ",
+  "furnished_office": "مكتب ادارى مفروش"
 };
 Map request = {
   "شقه مفروشه": "furnished_apartment",
@@ -24,8 +24,8 @@ Map request = {
   "صاحب عقار": "real_state_owner",
   "شركة عقارات": "real_state_company",
   "صاحب الارض": "real_state_owner",
-  "مكتب اداري فارغ": "empty_office",
-  "مكتب اداري مفروش": "furnished_office"
+  "مكتب ادارى فارغ": "empty_office",
+  "مكتب ادارى مفروش": "furnished_office"
 };
 Map requestland = {
   "شركة عقارات": "real_state_company",

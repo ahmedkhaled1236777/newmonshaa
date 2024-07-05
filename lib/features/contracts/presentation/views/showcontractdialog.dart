@@ -312,7 +312,7 @@ class showcontractdialog extends StatelessWidget {
                               Border.all(color: Color(0xff2BA4C8), width: 0.5),
                           borderRadius: BorderRadius.circular(5)),
                       child: Text(
-                        'المحافظه التابع لها العقار : ${BlocProvider.of<contractCubit>(context).contractdata[index].governorate}',
+                        'القسم التابع له العقار : ${BlocProvider.of<contractCubit>(context).contractdata[index].governorate}',
                         textAlign: TextAlign.right,
                         style: TextStyle(fontSize: 12.5, color: Colors.black87),
                       ),

@@ -1,15 +1,12 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:ghhg/core/color/appcolors.dart';
-import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
-import 'package:ghhg/features/technical%20support/presentation/view/connect.dart';
 import 'package:ghhg/features/home/presentation/viewmodel/cubit/home_cubit.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/appbartittle.dart';
 import 'package:ghhg/features/home/presentation/views/widgets/customappbaractions.dart';
@@ -90,9 +87,9 @@ class _desktoplayoutState extends State<desktoplayout> {
           backgroundColor: Appcolors.maincolor,
           actions: [
             customappbaractions(
-              onTapmessage: (() {
-                navigateto(navigationscreen: Connect(), context: context);
-              }),
+             onrefresh: ()async {
+               await BlocProvider.of<HomeCubit>(context).gethome(token: generaltoken);
+             },
               onTapnotific: (() {
                 showDialog(
                     context: context,
@@ -127,7 +124,7 @@ class _desktoplayoutState extends State<desktoplayout> {
           },
           builder: (context, state) {
             if (state is Homeloading)
-              return loading();
+              return loadingdehomeshimmer();
             else if (state is Homefailure) return SizedBox();
 
             return ListView(
@@ -137,36 +134,43 @@ class _desktoplayoutState extends State<desktoplayout> {
                   width: MediaQuery.of(context).size.width * 0.15,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   color: Appcolors.maincolor,
-                  child: ListView(
-                      children: BlocProvider.of<HomeCubit>(context)
-                          .sidebarpermessions
-                          .map((e) => e["name"] == "الاشعارات" ||
-                                  e["name"] == "الصفحه الرئيسيه"
-                              ? SizedBox()
-                              : Column(
-                                  children: [
-                                    customdraweritem(
-                                        mykey: widget.scafoldstate,
-                                        count: e["count"],
-                                        sizedboxwidth: 3.w,
-                                        textstyle: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w300,
-                                            color: Colors.white),
-                                        iconsize: 21,
-                                        iconData: e["icon"],
-                                        text: e["name"],
-                                        onTap: () {
-                                          navigateto(
-                                              navigationscreen: e["page"],
-                                              context: context);
-                                        }),
-                                    SizedBox(
-                                      height: 22,
-                                    )
-                                  ],
-                                ))
-                          .toList()),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15,),
+                      Expanded(
+                        child: ListView(
+                            children: BlocProvider.of<HomeCubit>(context)
+                                .sidebarpermessions
+                                .map((e) => e["name"] == "الاشعارات" ||
+                                        e["name"] == "الصفحه الرئيسيه"
+                                    ? SizedBox()
+                                    : Column(
+                                        children: [
+                                          customdraweritem(
+                                              mykey: widget.scafoldstate,
+                                              count: e["count"],
+                                              sizedboxwidth: 3.w,
+                                              textstyle: TextStyle(
+                                                  fontSize: 13,
+                                                  fontWeight: FontWeight.w300,
+                                                  color: Colors.white),
+                                              iconsize: 21,
+                                              iconData: e["icon"],
+                                              text: e["name"],
+                                              onTap: () {
+                                                navigateto(
+                                                    navigationscreen: e["page"],
+                                                    context: context);
+                                              }),
+                                          SizedBox(
+                                            height: 22,
+                                          )
+                                        ],
+                                      ))
+                                .toList()),
+                      ),
+                    ],
+                  ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.85,

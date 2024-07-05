@@ -2,6 +2,8 @@ import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -72,7 +74,7 @@ class _customtableexpensesState extends State<customtableexpenses> {
             if (state is deleteexpensefailure)
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
-            if (state is showexpenseloadin) return loading();
+            if (state is showexpenseloadin) return loadingshimmer();
             if (state is showexpensefailure) return SizedBox();
             return BlocProvider.of<expenseCubit>(context).expensedata.isEmpty
                 ? nodata()
@@ -110,10 +112,8 @@ class _customtableexpensesState extends State<customtableexpenses> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                                                                       showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<
@@ -159,6 +159,11 @@ class _customtableexpensesState extends State<customtableexpenses> {
                                                                   .of<expenseCubit>(
                                                                       context)
                                                               .deleteexpense(
+                                                                expense:BlocProvider.of<
+                                                                              expenseCubit>(
+                                                                          context)
+                                                                      .expensedata[
+                                                                          index].totalMoney! ,
                                                                   token:
                                                                       generaltoken,
                                                                   expenseid: BlocProvider.of<

@@ -3,6 +3,8 @@ import 'package:ghhg/core/commn/constants.dart';
 import 'package:ghhg/core/commn/dialogerror.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/sharedpref/cashhelper.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
+import 'package:ghhg/core/commn/showdialogerror.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -74,7 +76,7 @@ class _customtableclientssState extends State<customtableclientss> {
               showsnack(comment: state.errormessage, context: context);
           }, builder: (context, state) {
             print(BlocProvider.of<clientsCubit>(context).clientsdata.length);
-            if (state is showclientsloadin) return loading();
+            if (state is showclientsloadin) return loadingshimmer();
             if (state is showclientsfailure) return SizedBox();
             return BlocProvider.of<clientsCubit>(context).clientsdata.isEmpty
                 ? nodata()
@@ -99,7 +101,8 @@ class _customtableclientssState extends State<customtableclientss> {
                                               .clientsdata[index]
                                               .name
                                               .toString()!,
-                                      clientphone:
+                                      clientphone:    cashhelper.getdata(
+                        key: "permessions").contains("client_phone_hidden")?"مخفي":
                                           BlocProvider.of<clientsCubit>(context)
                                               .clientsdata[index]
                                               .phone!,
@@ -112,10 +115,8 @@ class _customtableclientssState extends State<customtableclientss> {
                                             if (cashhelper.getdata(
                                                     key: "role") !=
                                                 "manager")
-                                              showsnack(
-                                                  comment:
-                                                      "ليس لديك صلاحية الوصول للرابط",
-                                                  context: context);
+                                                                                        showdialogerror(error: "! ليس لديك صلاحية الحذف لهذا البيان", context: context);
+
                                             else
                                               awsomdialogerror(
                                                 mywidget: BlocConsumer<

@@ -7,15 +7,27 @@ import 'package:badges/badges.dart' as badges;
 
 class customappbaractions extends StatelessWidget {
   final void Function() onTapnotific;
-  final void Function() onTapmessage;
+  final void Function() ?onTapmessage;
+  final void Function()? onrefresh;
 
   const customappbaractions(
-      {super.key, required this.onTapnotific, required this.onTapmessage});
+      {super.key, required this.onTapnotific,  this.onTapmessage, this.onrefresh});
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return Row(children: [
+        if(onrefresh!=null)      InkWell(
+            onTap:  onrefresh,
+            child: const Icon(
+              Icons.refresh,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+        if(onrefresh!=null)    SizedBox(
+            width: 5.w,
+          ),
           InkWell(
             onTap:
                 BlocProvider.of<HomeCubit>(context).shownotifications == false
@@ -42,7 +54,7 @@ class customappbaractions extends StatelessWidget {
           SizedBox(
             width: 4.w,
           ),
-          InkWell(
+   if(onTapmessage!=null)       InkWell(
             onTap: BlocProvider.of<HomeCubit>(context).showtechnicalsupport ==
                     false
                 ? () {
@@ -57,7 +69,7 @@ class customappbaractions extends StatelessWidget {
               size: 24,
             ),
           ),
-          SizedBox(
+      if(onTapmessage!=null)      SizedBox(
             width: 5.w,
           ),
         ]);

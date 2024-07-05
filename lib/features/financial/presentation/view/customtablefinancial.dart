@@ -1,6 +1,7 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
 import 'package:ghhg/core/commn/navigation.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/styles/style.dart';
@@ -12,7 +13,6 @@ import 'package:ghhg/features/financial/presentation/viewmodel/financial/financi
 import 'package:ghhg/features/financial/presentation/viewmodel/financial/financial_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class customtablefinancials extends StatefulWidget {
   ScrollController scrollController = ScrollController();
@@ -70,7 +70,7 @@ class _customtablefinancialsState extends State<customtablefinancials> {
               showsnack(comment: state.errorr_message, context: context);
             }
           }, builder: (context, state) {
-            if (state is showfinancialloadin) return loading();
+            if (state is showfinancialloadin) return loadingshimmer();
             if (state is showfinancialfailure) return SizedBox();
             return BlocProvider.of<financialCubit>(context).myfinancials.isEmpty
                 ? nodata()

@@ -1,5 +1,6 @@
 import 'package:ghhg/core/color/appcolors.dart';
 import 'package:ghhg/core/commn/loading.dart';
+import 'package:ghhg/core/commn/shimmer/shimmer.dart';
 import 'package:ghhg/core/commn/toast.dart';
 import 'package:ghhg/core/commn/widgets/nodata.dart';
 import 'package:ghhg/core/sizes/appsizes.dart';
@@ -106,7 +107,7 @@ class _customtableallmobilerevenusatreportssState
                           },
                           builder: (context, state) {
                             if (state is revenusatreportsloading)
-                              return loading();
+                              return loadingshimmer();
                             if (state is revenusatreportsfailure)
                               return SizedBox();
                             return BlocProvider.of<revenusatreportsCubit>(
